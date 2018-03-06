@@ -1,0 +1,4 @@
+WebBrowser=chromium
+TerminalEmulator=custom-TerminalEmulator
+MailReader=evolution
+

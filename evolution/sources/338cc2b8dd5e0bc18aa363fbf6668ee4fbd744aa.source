@@ -1,0 +1,41 @@
+[Data Source]
+DisplayName=mark64@berkeley.edu
+Enabled=true
+Parent=
+
+[GNOME Online Accounts]
+AccountId=account_1515271024_1
+CalendarUrl=https://apidata.googleusercontent.com/caldav/v2/mark64@berkeley.edu/user
+ContactsUrl=https://www.googleapis.com/.well-known/carddav
+Name=
+Address=mark64@berkeley.edu
+
+[Collection]
+BackendName=google
+CalendarEnabled=false
+ContactsEnabled=false
+Identity=mark64@berkeley.edu
+MailEnabled=true
+CalendarUrl=
+ContactsUrl=
+
+[WebDAV Backend]
+AvoidIfmatch=false
+CalendarAutoSchedule=false
+DisplayName=
+EmailAddress=
+ResourcePath=
+ResourceQuery=
+SslTrust=
+
+[Authentication]
+Host=
+Method=OAuth2
+Port=0
+ProxyUid=system-proxy
+RememberPassword=true
+User=
+CredentialName=
+
+[Security]
+Method=none

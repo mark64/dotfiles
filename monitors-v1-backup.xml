@@ -1,0 +1,107 @@
+<monitors version="1">
+  <configuration>
+    <clone>no</clone>
+    <output name="DP-1">
+      <vendor>unknown</vendor>
+      <product>unknown</product>
+      <serial>unknown</serial>
+      <width>3840</width>
+      <height>2160</height>
+      <rate>59.996623992919922</rate>
+      <x>1920</x>
+      <y>0</y>
+      <rotation>normal</rotation>
+      <reflect_x>no</reflect_x>
+      <reflect_y>no</reflect_y>
+      <primary>no</primary>
+      <presentation>no</presentation>
+      <underscanning>no</underscanning>
+    </output>
+    <output name="HDMI-2">
+      <vendor>LEN</vendor>
+      <product>LEN LI2364d</product>
+      <serial>0x01010101</serial>
+      <width>1920</width>
+      <height>1080</height>
+      <rate>60</rate>
+      <x>0</x>
+      <y>0</y>
+      <rotation>normal</rotation>
+      <reflect_x>no</reflect_x>
+      <reflect_y>no</reflect_y>
+      <primary>yes</primary>
+      <presentation>no</presentation>
+      <underscanning>no</underscanning>
+    </output>
+  </configuration>
+  <configuration>
+    <clone>no</clone>
+    <output name="DP-1">
+      <vendor>AOC</vendor>
+      <product>U2879G6</product>
+      <serial>0x00000990</serial>
+      <width>3840</width>
+      <height>2160</height>
+      <rate>59.996623992919922</rate>
+      <x>1920</x>
+      <y>0</y>
+      <rotation>normal</rotation>
+      <reflect_x>no</reflect_x>
+      <reflect_y>no</reflect_y>
+      <primary>no</primary>
+      <presentation>no</presentation>
+      <underscanning>no</underscanning>
+    </output>
+    <output name="HDMI-2">
+      <vendor>LEN</vendor>
+      <product>LEN LI2364d</product>
+      <serial>0x01010101</serial>
+      <width>1920</width>
+      <height>1080</height>
+      <rate>60</rate>
+      <x>0</x>
+      <y>0</y>
+      <rotation>normal</rotation>
+      <reflect_x>no</reflect_x>
+      <reflect_y>no</reflect_y>
+      <primary>yes</primary>
+      <presentation>no</presentation>
+      <underscanning>no</underscanning>
+    </output>
+  </configuration>
+  <configuration>
+    <clone>no</clone>
+    <output name="DP-2">
+      <vendor>AOC</vendor>
+      <product>U2879G6</product>
+      <serial>0x00000990</serial>
+      <width>3840</width>
+      <height>2160</height>
+      <rate>59.996623992919922</rate>
+      <x>0</x>
+      <y>0</y>
+      <rotation>normal</rotation>
+      <reflect_x>no</reflect_x>
+      <reflect_y>no</reflect_y>
+      <primary>no</primary>
+      <presentation>no</presentation>
+      <underscanning>no</underscanning>
+    </output>
+    <output name="HDMI-2">
+      <vendor>LEN</vendor>
+      <product>LEN LI2364d</product>
+      <serial>0x01010101</serial>
+      <width>1920</width>
+      <height>1080</height>
+      <rate>60</rate>
+      <x>3840</x>
+      <y>515</y>
+      <rotation>normal</rotation>
+      <reflect_x>no</reflect_x>
+      <reflect_y>no</reflect_y>
+      <primary>yes</primary>
+      <presentation>no</presentation>
+      <underscanning>no</underscanning>
+    </output>
+  </configuration>
+</monitors>

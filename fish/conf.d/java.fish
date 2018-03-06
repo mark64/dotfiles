@@ -1,0 +1,1 @@
+set -gx CLASSPATH ".:/usr/share/java/junit4-4.12.jar:/usr/share/java/hamcrest-core-1.3.jar:/home/mark/berkeley/b61cs/sp18-aac/library-sp18/javalib/stdlib.jar:/home/mark/berkeley/b61cs/sp18-aac/library-sp18/javalib/stdlib-package.jar:/home/mark/berkeley/b61cs/sp18-aac/library-sp18/javalib/jh61b.jar:/home/mark/berkeley/b61cs/proj2/proj2:$CLASSPATH"

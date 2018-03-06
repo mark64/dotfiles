@@ -1,0 +1,17 @@
+[user]
+	name = Mark Hill
+	email = markleehill@gmail.com
+[core]
+	editor = nvim
+[color]
+	ui = auto
+[alias]
+	lg1 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+	lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
+	lg = ~"git lg1"
+	files = !git diff --name-only $(git merge-base HEAD \"$REVIEW_BASE\")
+	stat = !git diff --stat $(git merge-base HEAD \"$REVIEW_BASE\")
+	review = !vim -p $(git files) +\"tabdo Gdiff $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
+	reviewone = !vim -p +\"tabdo Gdiff $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
+[credential]
+	helper = /usr/local/bin/pass-git-helper
