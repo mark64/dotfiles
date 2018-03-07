@@ -1,3 +1,5 @@
 /nvim/bundle
 /vpn
-/ssh/config
+/ssh
+/firefox/firefox
+/google_authenticator/secret

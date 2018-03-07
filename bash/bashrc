@@ -21,7 +21,7 @@ HISTCONTROL=ignoreboth
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTFILE=${XDG_DATA_HOME}/bash/bash_history
+HISTFILE=${XDG_DATA_HOME}/bash/history
 HISTSIZE=1000000
 HISTFILESIZE=2000000
 
@@ -176,13 +176,5 @@ export CLASSPATH=".:/usr/share/java/junit4-4.12.jar:/usr/share/java/hamcrest-cor
 # Pandoc
 eval "$(pandoc --bash-completion)"
 
-
-## XDG_CONFIG_HOME Section
-# to set tmux config correctly
-alias tmux="tmux -f $XDG_CONFIG_HOME/tmux/tmux.conf"
-# ICEauthority
-export ICEAUTHORITY=${XDG_CACHE_HOME}/ICEauthority
-#  less
-export LESSHISTFILE="${XDG_DATA_HOME}/less/history"
-export LESSKEY="${XDG_DATA_HOME}/less/keys"
-
+# add firefox to path
+PATH="/opt/firefox:$PATH"
