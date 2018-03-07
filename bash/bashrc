@@ -166,7 +166,7 @@ alias ifconfig='ip -s -c a'
 # gnugp-agent ssh config
 export GPG_TTY=$(tty)
 gpg-connect-agent UPDATESTARTUPTTY /bye > /dev/null
-export SSH_AUTH_SOCK=/run/user/1000/ssh-agent.socket
+export SSH_AUTH_SOCK=${XDG_RUNTIME_DIR}/ssh-agent.socket
 
 # fzf plugin
 [ -f $XDG_CONFIG_HOME/fzf/fzf.bash ] && source $XDG_CONFIG_HOME/fzf/fzf.bash
@@ -178,3 +178,9 @@ eval "$(pandoc --bash-completion)"
 
 # add firefox to path
 PATH="/opt/firefox:$PATH"
+
+# XDG support
+export PYLINTHOME=${XDG_DATA_HOME}/pylint
+export LESSHISTFILE="${XDG_DATA_HOME}/less/history"
+export LESSKEY="${XDG_DATA_HOME}/less/keys"
+alias tmux="tmux -f $XDG_CONFIG_HOME/tmux/tmux.conf"

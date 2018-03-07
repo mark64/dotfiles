@@ -3,3 +3,5 @@
 /ssh
 /firefox/firefox
 /google_authenticator/secret
+/gnupg
+!/gnupg/*.conf
