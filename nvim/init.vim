@@ -24,6 +24,7 @@ Plugin 'kballard/vim-swift'
 "Plugin 'maralla/completor-swift'
 Plugin 'maralla/completor.vim'
 Plugin 'vim-syntastic/syntastic'
+Plugin 'davidhalter/jedi-vim'
 Plugin 'junegunn/fzf'
 Plugin 'moll/vim-bbye'
 Plugin 'leafgarland/typescript-vim'
@@ -42,6 +43,31 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-rhubarb'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-surround'
+"Plugin 'neomake/neomake'
+"Plugin 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
+"Plugin 'zchee/deoplete-clang'
+Plugin 'Shougo/neco-syntax'
+"Plugin 'zchee/deoplete-jedi'
+"Plugin 'sebastianmarkow/deoplete-rust'
+Plugin 'Shougo/neco-vim'
+"Plugin 'fszymanski/deoplete-abook'
+"Plugin 'landaire/deoplete-swift'
+"Plugin 'SevereOverfl0w/deoplete-github'
+Plugin 'khzaw/vim-conceal'
+Plugin 'KeitaNakamura/tex-conceal.vim'
+"Plugin 'Shougo/neoinclude.vim'
+
+" vim-markdown-composer plugin
+function! VimMarkdownBuild(info)
+  if a:info.status != 'unchanged' || a:info.force
+    if has('nvim')
+      !cargo build --release
+    else
+      !cargo build --release --no-default-features --features json-rpc
+    endif
+  endif
+endfunction
+Plugin 'euclio/vim-markdown-composer', {'do': function('VimMarkdownBuild')}
 "Plugin 'emgram769/vim-multiuser'
 call vundle#end()            " required
 
@@ -104,7 +130,7 @@ set breakindent
 set backspace=2
 set laststatus=2
 set ruler
-set ignorecase
+set smartcase
 set infercase
 set wildignorecase
 set smartcase
@@ -170,8 +196,8 @@ let g:tmuxline_powerline_separators = 0
 let g:grammarous#use_vim_spelllang = 1
 
 " vim-racer plugin
-let g:racer_cmd = "~/.cargo/bin/racer"
-let g:racer_experimental_completer = 1
+"let g:racer_cmd = "~/.cargo/bin/racer"
+"let g:racer_experimental_completer = 1
 
 " rust.vim plugin
 let g:rustfmt_autosave = 1
@@ -190,7 +216,7 @@ set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
 
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
+let g:syntastic_auto_loc_list = 0
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
@@ -207,7 +233,7 @@ function! SyntasticCheckHook(errors)
 endfunction
 
 " javacomplete2 plugin
-autocmd FileType java setlocal omnifunc=javacomplete#Complete
+"autocmd FileType java setlocal omnifunc=javacomplete#Complete
 nmap <F4> <Plug>(JavaComplete-Imports-AddSmart)
 imap <F4> <Plug>(JavaComplete-Imports-AddSmart)
 nmap <F5> <Plug>(JavaComplete-Imports-Add)
@@ -246,7 +272,7 @@ autocmd! User GoyoEnter call <SID>goyo_enter()
 autocmd! User GoyoLeave call <SID>goyo_leave()
 
 " vim better whitespace plugin
-let g:better_whitespace_filetypes_blacklist=['diff', 'markdown', 'pandoc']
+let g:better_whitespace_filetypes_blacklist=['diff']
 autocmd FileType * EnableStripWhitespaceOnSave
 autocmd! FileType diff,markdown,pandoc DisableStripWhitespaceOnSave
 
@@ -258,23 +284,57 @@ let g:delimitMate_jump_expansion = 1
 let g:delimitMate_balance_matchpairs = 1
 let g:delimitMate_excluded_ft = ""
 let g:delimitMate_insert_eol_marker = 0
-inoremap <C-Tab> delimitMate#JumpAny()
+inoremap <expr> gg delimitMate#JumpAny()
 autocmd FileType python let b:delimitMate_nesting_quotes = ['"']
 autocmd FileType c,java,cpp let b:delimitMate_insert_eol_marker = 2
 autocmd FileType c,java,cpp let b:delimitMate_eol_marker = ";"
+
+" vim-markdown-compose plugin
+"let g:markdown_composer_autostart=0
+"let g:markdown_composer_external_renderer='pandoc -f markdown -t html --mathjax'
+"let g:markdown_composer_refresh_rate=400
+
+" neomake plugin
+"call neomake#configure#automake('nrw')
+autocmd FileType c,cpp let b:neomake_enabled_makers = ['make', 'clangchec']
+"let g:neomake_enabled_makers = ['clangcheck', 'gcc', 'jedi', 'racer']
+let g:neomake_cpp_enabled_makers = ['clangcheck']
+let g:neomake_c_enabled_makers = ['clangcheck']
+
+" deoplete plugin
+let g:deoplete#enable_at_startup = 1
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+if has("patch-7.4.314")
+	set shortmess+=c
+endif
+
+" deoplete-clang plugin
+let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-6.0/lib/libclang.so.1'
+let g:deoplete#sources#clang#clang_header = '/usr/lib/clang'
+
+" deoplete-rust plugin
+let g:deoplete#sources#rust#racer_binary = $HOME.'/.cargo/bin/racer'
+let g:deoplete#sources#rust#rust_source_path=$HOME.'/.local/share/rust/rust/src'
+let g:deoplete#sources#rust#show_duplicates = 1
+let g:deoplete#sources#rust#disable_keymap = 1
+let g:deoplete#sources#rust#documentation_max_height = 20
+
+" deoplete-github plugin
+"let g:deoplete#sources#gitcommit=['github']
+"let g:deoplete#keyword_patterns = {}
+"let g:deoplete#keyword_patterns.gitcommit = '.+'
+"call deoplete#util#set_pattern(
+"  \ g:deoplete#omni#input_patterns,
+"  \ 'gitcommit', [g:deoplete#keyword_patterns.gitcommit])
 
 " writing function
 autocmd Filetype gitcommit,text,markdown,help,tex call WriterMode()
 function! WriterMode()
 	setlocal spell spelllang=en_us
-	"setlocal textwidth=80
-	"setlocal formatoptions+=t
-	"setlocal formatoptions-=l
 	setlocal formatprg=par
 	setlocal complete+=s
 	setlocal complete+=k
 	setlocal wrap
-	"setlocal wrap linebreak nolist
-	"setlocal linebreak
 endfunction
 com! WM call WriterMode()

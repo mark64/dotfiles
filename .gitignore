@@ -5,3 +5,9 @@
 /google_authenticator/secret
 /gnupg
 !/gnupg/*.conf
+/chromium
+/dconf
+/user-dirs.*
+/pulse
+/monitors.xml*
+/gtk-*
