@@ -2,7 +2,7 @@
 	name = Mark Hill
 	email = mark@drfcx.com
 [core]
-	editor = nvim
+	editor = vim
 [color]
 	ui = auto
 [alias]
@@ -13,5 +13,5 @@
 	stat = !git diff --stat $(git merge-base HEAD \"$REVIEW_BASE\")
 	review = !vim -p $(git files) +\"tabdo Gdiff $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
 	reviewone = !vim -p +\"tabdo Gdiff $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
-[credential]
-	helper = /usr/local/bin/pass-git-helper
+#[credential]
+#	helper = /usr/local/bin/pass-git-helper

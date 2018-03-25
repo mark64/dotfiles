@@ -1,77 +1,92 @@
-set nocompatible              " be iMproved, required
-filetype off                  " required
+set nocompatible
+filetype off
 set encoding=utf-8
 
-" set the runtime path to include Vundle and initialize
+" initialize Vundle
 set rtp+=~/.config/nvim/bundle/Vundle.vim
 call vundle#begin('~/.config/nvim/bundle')
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'Valloric/ListToggle'
-Plugin 'majutsushi/tagbar'
+
+" appearance
+Plugin 'flazz/vim-colorschemes'
+Plugin 'szorfein/darkest-space'
 Plugin 'vim-airline/vim-airline'
+Plugin 'edkolev/tmuxline.vim'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'vim-latex/vim-latex'
+Plugin 'khzaw/vim-conceal'
+Plugin 'KeitaNakamura/tex-conceal.vim'
+Plugin 'vim-pandoc/vim-pandoc'
+
+" file management
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
-Plugin 'flazz/vim-colorschemes'
+Plugin 'majutsushi/tagbar'
+Plugin 'junegunn/fzf'
 Plugin 'jreybert/vimagit'
-Plugin 'edkolev/tmuxline.vim'
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'moll/vim-bbye'
+
+" writing
 Plugin 'rhysd/vim-grammarous'
 Plugin 'beloglazov/vim-online-thesaurus'
-Plugin 'racer-rust/vim-racer'
+Plugin 'junegunn/goyo.vim'
+
+" syntax
+Plugin 'vim-latex/vim-latex'
 Plugin 'rust-lang/rust.vim'
 Plugin 'kballard/vim-swift'
-"Plugin 'maralla/completor-swift'
+Plugin 'Shougo/neco-syntax'
+Plugin 'dag/vim-fish'
+
+" completion
 Plugin 'maralla/completor.vim'
-Plugin 'vim-syntastic/syntastic'
-Plugin 'davidhalter/jedi-vim'
-Plugin 'junegunn/fzf'
-Plugin 'moll/vim-bbye'
-Plugin 'leafgarland/typescript-vim'
-Plugin 'szorfein/darkest-space'
+Plugin 'Shougo/neco-vim'
 Plugin 'artur-shaik/vim-javacomplete2'
 Plugin 'vim-pandoc/vim-pandoc-syntax'
-Plugin 'vim-pandoc/vim-pandoc'
-Plugin 'junegunn/goyo.vim'
-Plugin 'dag/vim-fish'
-Plugin 'vim-scripts/HTML-AutoCloseTag'
-Plugin 'ntpeters/vim-better-whitespace'
-Plugin 'nathanaelkane/vim-indent-guides'
-Plugin 'Raimondi/delimitMate'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-rhubarb'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'tpope/vim-surround'
-"Plugin 'neomake/neomake'
+"Plugin 'maralla/completor-swift'
 "Plugin 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
 "Plugin 'zchee/deoplete-clang'
-Plugin 'Shougo/neco-syntax'
 "Plugin 'zchee/deoplete-jedi'
 "Plugin 'sebastianmarkow/deoplete-rust'
-Plugin 'Shougo/neco-vim'
 "Plugin 'fszymanski/deoplete-abook'
 "Plugin 'landaire/deoplete-swift'
 "Plugin 'SevereOverfl0w/deoplete-github'
-Plugin 'khzaw/vim-conceal'
-Plugin 'KeitaNakamura/tex-conceal.vim'
+
+" makers and syntax checkers
+Plugin 'vim-syntastic/syntastic'
+Plugin 'Valloric/ListToggle'
+Plugin 'davidhalter/jedi-vim'
+Plugin 'racer-rust/vim-racer'
+"Plugin 'neomake/neomake'
 "Plugin 'Shougo/neoinclude.vim'
 
+" deliminator and spacing helpers
+Plugin 'vim-scripts/HTML-AutoCloseTag'
+Plugin 'ntpeters/vim-better-whitespace'
+Plugin 'Raimondi/delimitMate'
+Plugin 'tpope/vim-surround'
+
+" git
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-rhubarb'
+Plugin 'airblade/vim-gitgutter'
+
+" cool real-time markdown rendering
 " vim-markdown-composer plugin
 function! VimMarkdownBuild(info)
-  if a:info.status != 'unchanged' || a:info.force
-    if has('nvim')
-      !cargo build --release
-    else
-      !cargo build --release --no-default-features --features json-rpc
-    endif
-  endif
+	if a:info.status != 'unchanged' || a:info.force
+		if has('nvim')
+			!cargo build --release
+		else
+			!cargo build --release --no-default-features --features json-rpc
+		endif
+	endif
 endfunction
 Plugin 'euclio/vim-markdown-composer', {'do': function('VimMarkdownBuild')}
 "Plugin 'emgram769/vim-multiuser'
-call vundle#end()            " required
+call vundle#end()
 
-filetype plugin indent on    " required
+filetype plugin indent on
 set nu
 
 nnoremap ; :
@@ -151,15 +166,15 @@ nnoremap <CR> :noh<CR>:<BS>
 " stupid autograder style checking
 autocmd FileType java call CS61BMode()
 function! CS61BMode()
-  set expandtab
+	set expandtab
 endfunction
 
 " restore cursor position
 autocmd BufReadPost * if @% !~# '\.git[\/\\]COMMIT_EDITMSG$' && line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 
 if !exists(":DiffOrig")
-  command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-		  \ | wincmd p | diffthis
+	command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+				\ | wincmd p | diffthis
 endif
 
 " cscope config
@@ -196,8 +211,8 @@ let g:tmuxline_powerline_separators = 0
 let g:grammarous#use_vim_spelllang = 1
 
 " vim-racer plugin
-"let g:racer_cmd = "~/.cargo/bin/racer"
-"let g:racer_experimental_completer = 1
+let g:racer_cmd = "~/.cargo/bin/racer"
+let g:racer_experimental_completer = 1
 
 " rust.vim plugin
 let g:rustfmt_autosave = 1
@@ -227,13 +242,13 @@ let g:syntastic_cpp_clang_check_post_args = ""
 
 " see :h syntastic-loclist-callback
 function! SyntasticCheckHook(errors)
-    if !empty(a:errors)
-        let g:syntastic_loc_list_height = min([len(a:errors), 10])
-    endif
+	if !empty(a:errors)
+		let g:syntastic_loc_list_height = min([len(a:errors), 10])
+	endif
 endfunction
 
 " javacomplete2 plugin
-"autocmd FileType java setlocal omnifunc=javacomplete#Complete
+autocmd FileType java setlocal omnifunc=javacomplete#Complete
 nmap <F4> <Plug>(JavaComplete-Imports-AddSmart)
 imap <F4> <Plug>(JavaComplete-Imports-AddSmart)
 nmap <F5> <Plug>(JavaComplete-Imports-Add)
@@ -251,21 +266,21 @@ let g:pandoc#formatting#smart_autoformat_on_cursormoved = 1
 
 " Goyo.vim plugin
 function! s:goyo_enter()
-  let b:quitting = 0
-  let b:quitting_bang = 0
-  autocmd QuitPre <buffer> let b:quitting = 1
-  cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
+	let b:quitting = 0
+	let b:quitting_bang = 0
+	autocmd QuitPre <buffer> let b:quitting = 1
+	cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
 endfunction
 
 function! s:goyo_leave()
-  " Quit Vim if this is the only remaining buffer
-  if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
-    if b:quitting_bang
-      qa!
-    else
-      qa
-    endif
-  endif
+	" Quit Vim if this is the only remaining buffer
+	if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
+		if b:quitting_bang
+			qa!
+		else
+			qa
+		endif
+	endif
 endfunction
 
 autocmd! User GoyoEnter call <SID>goyo_enter()
