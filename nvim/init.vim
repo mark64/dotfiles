@@ -136,7 +136,7 @@ set visualbell
 "set noerrorbells
 set pastetoggle=<F2>
 set switchbuf=newtab
-set smarttab
+set expandtab
 set tabstop=4
 set shiftwidth=4
 set softtabstop=0
@@ -162,12 +162,6 @@ let c_comment_strings=1
 set hlsearch
 set incsearch
 nnoremap <CR> :noh<CR>:<BS>
-
-" stupid autograder style checking
-autocmd FileType java call CS61BMode()
-function! CS61BMode()
-	set expandtab
-endfunction
 
 " restore cursor position
 autocmd BufReadPost * if @% !~# '\.git[\/\\]COMMIT_EDITMSG$' && line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
