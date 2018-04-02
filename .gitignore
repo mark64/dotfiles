@@ -11,3 +11,4 @@
 /pulse
 /monitors.xml*
 /gtk-*
+/gnupg/dirmngr.conf
