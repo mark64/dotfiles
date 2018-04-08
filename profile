@@ -1,5 +1,5 @@
 export XDG_CONFIG_HOME=${HOME}/.config
-export XDG_CACHE_HOME=${HOME}/.cache
+export XDG_CACHE_HOME=${HOME}/.local/tmp
 export XDG_DATA_HOME=${HOME}/.local/share
 export XDG_BIN_HOME=${XDG_DATA_HOME}/../bin
 export XDG_LIB_HOME=${XDG_DATA_HOME}/../lib

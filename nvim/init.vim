@@ -98,9 +98,6 @@ imap fd <C-y>
 inoremap jk <Esc>
 nnoremap Q :Bdelete<CR>
 
-tnoremap `` <C-\><C-n>
-autocmd BufWinEnter,WinEnter term://* startinsert
-
 inoremap <M-h> <Esc><C-w>h
 inoremap <M-j> <Esc><C-w>j
 inoremap <M-k> <Esc><C-w>k
@@ -109,10 +106,14 @@ noremap <M-h> <C-w>h
 noremap <M-j> <C-w>j
 noremap <M-k> <C-w>k
 noremap <M-l> <C-w>l
-tnoremap <M-h> <C-\><C-n><C-w>h
-tnoremap <M-j> <C-\><C-n><C-w>j
-tnoremap <M-k> <C-\><C-n><C-w>k
-tnoremap <M-l> <C-\><C-n><C-w>l
+if has('nvim')
+    tnoremap <M-h> <C-\><C-n><C-w>h
+    tnoremap <M-j> <C-\><C-n><C-w>j
+    tnoremap <M-k> <C-\><C-n><C-w>k
+    tnoremap <M-l> <C-\><C-n><C-w>l
+    tnoremap `` <C-\><C-n>
+    autocmd BufWinEnter,WinEnter term://* startinsert
+endif
 
 set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
 set termguicolors
@@ -195,28 +196,24 @@ nnoremap <F8> :NERDTreeFocus<CR>
 let g:tmuxline_powerline_separators = 0
 
 " vim-grammarous plugin
-" let g:grammarous#default_comments_only_filetypes = {
-"	\'*' : 1, 'help' : 0, 'markdown' : 0, 'text' : 0, 'tex' : 0,
-"	\ }
-" let g:grammarous#disabled_rules = {
-"	\ '*' : ['WHITESPACE_RULE', 'EN_QUOTES'],
-"	\ 'help' : ['WHITESPACE_RULE', 'EN_QUOTES', 'SENTENCE_WHITESPACE', 'UPPERCASE_SENTENCE_START'],
-"	\ }
 let g:grammarous#use_vim_spelllang = 1
 
 " vim-racer plugin
-let g:racer_cmd = "~/.cargo/bin/racer"
+let g:racer_cmd = $XDG_DATA_HOME.'/cargo/bin/racer'
 let g:racer_experimental_completer = 1
 
 " rust.vim plugin
 let g:rustfmt_autosave = 1
+
+" jedi-vim plugin
+let g:jedi#use_splits_not_buffers = "right"
 
 " completer.vim plugin
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
 let g:completor_python_binary = '/usr/bin/python3'
-let g:completor_racer_binary = '~/.cargo/bin/racer'
+"let g:completor_racer_binary = $XDG_DATA_HOME.'/cargo/bin/racer'
 let g:completer_clang_binary = '/usr/bin/clang'
 
 " syntastic plugin
@@ -243,18 +240,10 @@ endfunction
 
 " javacomplete2 plugin
 autocmd FileType java setlocal omnifunc=javacomplete#Complete
-nmap <F4> <Plug>(JavaComplete-Imports-AddSmart)
-imap <F4> <Plug>(JavaComplete-Imports-AddSmart)
-nmap <F5> <Plug>(JavaComplete-Imports-Add)
-imap <F5> <Plug>(JavaComplete-Imports-Add)
-nmap <F6> <Plug>(JavaComplete-Imports-AddMissing)
-imap <F6> <Plug>(JavaComplete-Imports-AddMissing)
-nmap <F7> <Plug>(JavaComplete-Imports-RemoveUnused)
-imap <F7> <Plug>(JavaComplete-Imports-RemoveUnused)
 
 " vim-pandoc plugin
 let g:pandoc#modules#disabled = ["folding"]
-let g:pandoc#formatting#textwidth = 80
+let g:pandoc#formatting#textwidth = 100
 let g:pandoc#formatting#mode = "hA"
 let g:pandoc#formatting#smart_autoformat_on_cursormoved = 1
 
@@ -265,7 +254,6 @@ function! s:goyo_enter()
 	autocmd QuitPre <buffer> let b:quitting = 1
 	cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
 endfunction
-
 function! s:goyo_leave()
 	" Quit Vim if this is the only remaining buffer
 	if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
@@ -276,7 +264,6 @@ function! s:goyo_leave()
 		endif
 	endif
 endfunction
-
 autocmd! User GoyoEnter call <SID>goyo_enter()
 autocmd! User GoyoLeave call <SID>goyo_leave()
 
@@ -299,43 +286,9 @@ autocmd FileType c,java,cpp let b:delimitMate_insert_eol_marker = 2
 autocmd FileType c,java,cpp let b:delimitMate_eol_marker = ";"
 
 " vim-markdown-compose plugin
-"let g:markdown_composer_autostart=0
+let g:markdown_composer_autostart=0
 "let g:markdown_composer_external_renderer='pandoc -f markdown -t html --mathjax'
 "let g:markdown_composer_refresh_rate=400
-
-" neomake plugin
-"call neomake#configure#automake('nrw')
-autocmd FileType c,cpp let b:neomake_enabled_makers = ['make', 'clangchec']
-"let g:neomake_enabled_makers = ['clangcheck', 'gcc', 'jedi', 'racer']
-let g:neomake_cpp_enabled_makers = ['clangcheck']
-let g:neomake_c_enabled_makers = ['clangcheck']
-
-" deoplete plugin
-let g:deoplete#enable_at_startup = 1
-inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-if has("patch-7.4.314")
-	set shortmess+=c
-endif
-
-" deoplete-clang plugin
-let g:deoplete#sources#clang#libclang_path = '/usr/lib/llvm-6.0/lib/libclang.so.1'
-let g:deoplete#sources#clang#clang_header = '/usr/lib/clang'
-
-" deoplete-rust plugin
-let g:deoplete#sources#rust#racer_binary = $HOME.'/.cargo/bin/racer'
-let g:deoplete#sources#rust#rust_source_path=$HOME.'/.local/share/rust/rust/src'
-let g:deoplete#sources#rust#show_duplicates = 1
-let g:deoplete#sources#rust#disable_keymap = 1
-let g:deoplete#sources#rust#documentation_max_height = 20
-
-" deoplete-github plugin
-"let g:deoplete#sources#gitcommit=['github']
-"let g:deoplete#keyword_patterns = {}
-"let g:deoplete#keyword_patterns.gitcommit = '.+'
-"call deoplete#util#set_pattern(
-"  \ g:deoplete#omni#input_patterns,
-"  \ 'gitcommit', [g:deoplete#keyword_patterns.gitcommit])
 
 " writing function
 autocmd Filetype gitcommit,text,markdown,help,tex call WriterMode()
