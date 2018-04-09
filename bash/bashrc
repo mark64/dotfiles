@@ -164,4 +164,4 @@ if [ -d $CARGO_HOME ]; then
     PATH="${CARGO_HOME}/bin:$PATH"
 fi
 DIR="$PWD"
-command -v git 2>&1 > /dev/null && cd $XDG_CONFIG_HOME && git pull > /dev/null && git submodule update --init && ./symlinks.sh && cd $DIR
+command -v git 2>&1 > /dev/null && cd $XDG_CONFIG_HOME && git pull > /dev/null && git submodule update --init && ./setup.sh && cd $DIR
