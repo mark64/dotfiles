@@ -204,3 +204,4 @@ if [ -d $CARGO_HOME ]; then
     export RUSTUP_HOME="${XDG_DATA_HOME}/cargo"
     PATH="${CARGO_HOME}/bin:$PATH"
 fi
+command -v git 2>&1 > /dev/null && cd $XDG_CONFIG_HOME && git pull > /dev/null && cd $PWD
