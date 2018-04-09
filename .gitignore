@@ -12,3 +12,5 @@
 /monitors.xml*
 /gtk-*
 /gnupg/dirmngr.conf
+!/nvim/bundle/Vundle.vim
+/eog/accels
