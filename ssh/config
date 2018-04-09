@@ -1,5 +1,4 @@
 AddKeysToAgent=yes
-IdentityFile /home/mark/.ssh/strong_id_ed25519
 
 Host soda
 	HostName soda.berkeley.edu
