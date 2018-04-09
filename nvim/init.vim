@@ -3,8 +3,8 @@ filetype off
 set encoding=utf-8
 
 " initialize Vundle
-set rtp+=~/.config/nvim/bundle/Vundle.vim
-call vundle#begin('~/.config/nvim/bundle')
+set rtp+=$XDG_CONFIG_HOME/nvim/bundle/Vundle.vim
+call vundle#begin($XDG_CONFIG_HOME . '/nvim/bundle')
 Plugin 'VundleVim/Vundle.vim'
 
 " appearance

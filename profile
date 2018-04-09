@@ -4,7 +4,7 @@ export XDG_DATA_HOME=${HOME}/.local/share
 export XDG_BIN_HOME=${XDG_DATA_HOME}/../bin
 export XDG_LIB_HOME=${XDG_DATA_HOME}/../lib
 
-export PASSWORD_STORE_DIR=${XDG_DATA_HOME}/password-store
+export PASSWORD_STORE_DIR=${HOME}/.private/password-store
 
 # if running bash
 if [ -n "$BASH_VERSION" ]; then

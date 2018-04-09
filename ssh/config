@@ -1,0 +1,27 @@
+AddKeysToAgent=yes
+IdentityFile /home/mark/.ssh/strong_id_ed25519
+
+Host soda
+	HostName soda.berkeley.edu
+	User mark64
+
+Host services
+	HostName services.csua.berkeley.edu
+	User mark64
+
+Host maersk
+	HostName maersk.csua.berkeley.edu
+	User pnunez
+	Port 2222
+
+Host inst
+	HostName hive16.cs.berkeley.edu
+	User cs61c-aab
+
+Host sodaroot
+	HostName soda.berkeley.edu
+	User pnunez
+
+Host calsat
+	HostName 10.0.2.56
+	User root

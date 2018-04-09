@@ -1,12 +1,10 @@
-/ssh
-/google_authenticator/secret
 /gnupg
+/gnupg/dirmngr.conf
 !/gnupg/*.conf
+
 /chromium
-/dconf
 /pulse
 /monitors.xml*
-/gnupg/dirmngr.conf
 /nvim/bundle
 !/nvim/bundle/Vundle.vim
-/eog/accels
+/dconf
