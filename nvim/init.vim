@@ -39,7 +39,9 @@ Plugin 'Shougo/neco-syntax'
 Plugin 'dag/vim-fish'
 
 " completion
+if has('nvim') || has('python3')
 Plugin 'maralla/completor.vim'
+endif
 Plugin 'Shougo/neco-vim'
 Plugin 'artur-shaik/vim-javacomplete2'
 Plugin 'vim-pandoc/vim-pandoc-syntax'
@@ -116,7 +118,9 @@ if has('nvim')
 endif
 
 set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
-set termguicolors
+if has('nvim') || v:version > 800
+    set termguicolors
+endif
 colorscheme CandyPaper
 "colorscheme desert
 set background=dark
@@ -132,6 +136,10 @@ set background=dark
 :hi! link Conceal Operator
 ":hi! link Conceal Operator
 
+if has('nvim') || v:version > 800
+    set breakindent
+    set display=truncate
+endif
 syntax enable
 set visualbell
 "set noerrorbells
@@ -142,7 +150,6 @@ set tabstop=4
 set shiftwidth=4
 set softtabstop=0
 set copyindent
-set breakindent
 set backspace=2
 set laststatus=2
 set ruler
@@ -153,7 +160,6 @@ set smartcase
 set showcmd
 "set showmatch
 set hidden
-set display=truncate
 set splitright
 set splitbelow
 set history=300
