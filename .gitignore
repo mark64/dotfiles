@@ -1,7 +1,7 @@
 /gnupg
 /gnupg/dirmngr.conf
 !/gnupg/*.conf
-
+/evolution
 /chromium
 /pulse
 /monitors.xml*

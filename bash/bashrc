@@ -129,7 +129,7 @@ export BASH_IT="$XDG_CONFIG_HOME/bash/bash_it/"
 
 # Lock and Load a custom theme file
 # location /.bash_it/themes/
-export BASH_IT_THEME='clean'
+export BASH_IT_THEME='powerline-plain'
 
 # (Advanced): Change this to the name of your remote repo if you
 # cloned bash-it with a remote other than origin such as `bash-it`.
@@ -204,4 +204,5 @@ if [ -d $CARGO_HOME ]; then
     export RUSTUP_HOME="${XDG_DATA_HOME}/cargo"
     PATH="${CARGO_HOME}/bin:$PATH"
 fi
-command -v git 2>&1 > /dev/null && cd $XDG_CONFIG_HOME && git pull > /dev/null && cd $PWD
+DIR="$PWD"
+command -v git 2>&1 > /dev/null && cd $XDG_CONFIG_HOME && git pull > /dev/null && cd $DIR
