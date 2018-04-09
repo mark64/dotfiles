@@ -1,5 +1,9 @@
 AddKeysToAgent=yes
 
+Host drfcx
+    HostName drfcx.com
+    User mark
+
 Host soda
 	HostName soda.berkeley.edu
 	User mark64
