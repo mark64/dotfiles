@@ -129,7 +129,7 @@ export BASH_IT="$XDG_CONFIG_HOME/bash/bash_it/"
 
 # Lock and Load a custom theme file
 # location /.bash_it/themes/
-export BASH_IT_THEME='simple'
+export BASH_IT_THEME='clean'
 
 # (Advanced): Change this to the name of your remote repo if you
 # cloned bash-it with a remote other than origin such as `bash-it`.
