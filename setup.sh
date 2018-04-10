@@ -21,8 +21,13 @@ command -v gpg 2>&1 > /dev/null \
 command -v minicom 2>&1 > /dev/null && ln -sf "$PWD/minicom/config" ~/.minirc.dfl
 
 VIM=''
-(command -v vim 2>&1 > /dev/null && VIM=vim) \
-    || (command -v nvim 2>&1 > /dev/null && VIM=nvim)
-command -v $VIM 2>&1 > /dev/null && $VIM -i NONE -c PluginInstall -c quitall
+HASNVIM=$(command -v nvim 2> /dev/null)
+HASVIM=$(command -v vim 2> /dev/null)
+if [ "$HASNVIM" ]; then
+    VIM=nvim
+elif [ "$HASVIM" ]; then
+    VIM=vim
+fi
+[ "$VIM" ] && $VIM -i NONE -c PluginInstall -c quitall
 #command -v vim 2>&1 > /dev/null && vim -i NONE -c PluginUpdate -c quitall 2>&1 > /dev/null &
-command -v $VIM 2>&1 > /dev/null && $VIM -i NONE -c PluginClean -c quitall
+[ "$VIM" ] && $VIM -i NONE -c PluginClean -c quitall
