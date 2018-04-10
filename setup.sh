@@ -9,7 +9,7 @@ command -v git 2>&1 > /dev/null && git pull && git submodule update --init
 sed "s,XDG_CONFIG_HOME=\${HOME}/.config,XDG_CONFIG_HOME=$PWD," "$PWD/profile" >~/.profile
 ln -sf "$PWD/pam/pam_environment" ~/.pam_environment
 command -v bash 2>&1 > /dev/null && ln -sf "$PWD/bash/bashrc" ~/.bashrc
-command -v nvim 2>&1 > /dev/null || command -v vim 2>&1 > /dev/null && ln -sf "$PWD/nvim/init.vim" ~/.vimrc
+command -v nvim 2>&1 > /dev/null || (command -v vim 2>&1 > /dev/null && ln -sf "$PWD/nvim/init.vim" ~/.vimrc)
 command -v ssh 2>&1 > /dev/null && mkdir -p ~/.ssh \
     && (for FILE in $(find "$PWD/ssh" -name authorized_keys -o -name '*.pub' -o -name 'config'); \
         do ln -sf "$FILE" ~/.ssh/; done)
