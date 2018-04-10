@@ -22,4 +22,4 @@ command -v minicom 2>&1 > /dev/null && ln -sf "$PWD/minicom/config" ~/.minirc.df
 
 command -v vim 2>&1 > /dev/null && vim -i NONE -c PluginInstall -c quitall
 #command -v vim 2>&1 > /dev/null && vim -i NONE -c PluginUpdate -c quitall 2>&1 > /dev/null &
-command -v vim 2>&1 > /dev/null && vim -i NONE -c PluginClean -c quitall 2>&1 > /dev/null &
+command -v vim 2>&1 > /dev/null && vim -i NONE -c PluginClean -c quitall
