@@ -135,7 +135,7 @@ export GPG_TTY=$(tty)
 command -v gpg-connect-agent 2>&1 > /dev/null \
     && export GPG_TTY=$(tty) \
     && gpg-connect-agent UPDATESTARTUPTTY /bye > /dev/null \
-    && export SSH_AUTH_SOCK=${XDG_RUNTIME_DIR}/ssh-agent.socket
+    && export SSH_AUTH_SOCK=${XDG_RUNTIME_DIR}/gnupg/S.gpg-agent.ssh
 
 # fzf plugin
 [ -f $XDG_CONFIG_HOME/fzf/fzf.bash ] && [ -f $XDG_CONFIG_HOME/nvim/bundle/fzf/install ] \
