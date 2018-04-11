@@ -4,7 +4,7 @@ if [ ! -f "$PWD/$0" ]; then
     exit 1
 fi
 
-command -v git 2>&1 > /dev/null && git pull && git submodule update --init
+command -v git 2>&1 > /dev/null && (git pull | tail -n +2)
 
 sed "s,XDG_CONFIG_HOME=\${HOME}/.config,XDG_CONFIG_HOME=$PWD," "$PWD/profile" >~/.profile
 ln -sf "$PWD/pam/pam_environment" ~/.pam_environment
@@ -19,6 +19,7 @@ command -v gpg 2>&1 > /dev/null \
     && (for FILE in $(find "$PWD/gnupg" -name '*.conf'); \
         do ln -sf "$FILE" ~/.gnupg/; done)
 command -v minicom 2>&1 > /dev/null && ln -sf "$PWD/minicom/config" ~/.minirc.dfl
+command -v pass 2>&1 > /dev/null && pass git pull | tail -n +2 && pass git push 2>&1 | tail -n +2
 
 VIM=''
 HASNVIM=$(command -v nvim 2> /dev/null)
