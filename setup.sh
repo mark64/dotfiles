@@ -1,8 +1,5 @@
 #!/usr/bin/env sh
-if [ ! -f "$PWD/$0" ]; then
-    printf "error: this script must be run from the config repo subdirectory or else this script won't work\n"
-    exit 1
-fi
+cd "$PWD/$(dirname $0)"
 
 command -v git 2>&1 > /dev/null && (git pull | tail -n +2)
 
@@ -15,7 +12,8 @@ command -v ssh 2>&1 > /dev/null && mkdir -p ~/.ssh \
     && (for FILE in $(find "$PWD/ssh" -name authorized_keys -o -name '*.pub' -o -name 'config'); \
         do ln -sf "$FILE" ~/.ssh/; done)
 command -v gpg 2>&1 > /dev/null \
-    && [ -d ~/.gnupg ] \
+    && mkdir -p ~/.gnupg \
+    && chmod 700 ~/.gnupg \
     && (for FILE in $(find "$PWD/gnupg" -name '*.conf'); \
         do ln -sf "$FILE" ~/.gnupg/; done)
 command -v minicom 2>&1 > /dev/null && ln -sf "$PWD/minicom/config" ~/.minirc.dfl
