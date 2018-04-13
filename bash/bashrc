@@ -166,5 +166,5 @@ if [ -d $CARGO_HOME ]; then
 fi
 
 DIR="$PWD"
-command -v git 2>&1 > /dev/null && cd $XDG_CONFIG_HOME && ./setup.sh
+cd $XDG_CONFIG_HOME && ./setup.sh
 cd $DIR

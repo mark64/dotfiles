@@ -27,5 +27,5 @@ if [ "$HASNVIM" ]; then
 elif [ "$HASVIM" ]; then
     VIM=vim
 fi
-[ "$VIM" ] && ( command -v git 2>&1 > /dev/null && [ -d $XDG_CONFIG_HOME/nvim/bundle/Vundle.vim ] && cd $XDG_CONFIG_HOME/nvim/bundle/Vundle.vim && git pull | tail -n +2 || git clone https://github.com/VundleVim/Vundle.vim $XDG_CONFIG_HOME/nvim/bundle/Vundle.vim ) \
+[ "$VIM" ] && [ "$XDG_CONFIG_HOME" ] && ( command -v git 2>&1 > /dev/null && [ -d $XDG_CONFIG_HOME/nvim/bundle/Vundle.vim ] && cd $XDG_CONFIG_HOME/nvim/bundle/Vundle.vim && git pull | tail -n +2 || git clone https://github.com/VundleVim/Vundle.vim $XDG_CONFIG_HOME/nvim/bundle/Vundle.vim ) \
     && $VIM -i NONE -c PluginInstall -c PluginClean -c quitall
