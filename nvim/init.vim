@@ -24,7 +24,7 @@ Plug 'edkolev/tmuxline.vim'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'khzaw/vim-conceal'
 Plug 'KeitaNakamura/tex-conceal.vim', {'for': 'tex'}
-Plug 'vim-pandoc/vim-pandoc', {'for': 'pandoc'}
+Plug 'vim-pandoc/vim-pandoc'
 
 " file management
 Plug 'scrooloose/nerdtree', {'on':  'NERDTreeToggle' }
@@ -41,9 +41,9 @@ Plug 'beloglazov/vim-online-thesaurus'
 Plug 'junegunn/goyo.vim'
 
 " syntax
-Plug 'vim-latex/vim-latex', {'for': 'tex'}
-Plug 'rust-lang/rust.vim', {'for': 'rust'}
-Plug 'kballard/vim-swift', {'for': 'swift'}
+Plug 'vim-latex/vim-latex'
+Plug 'rust-lang/rust.vim'
+Plug 'kballard/vim-swift'
 Plug 'Shougo/neco-syntax'
 Plug 'dag/vim-fish'
 
