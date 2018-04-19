@@ -2,10 +2,16 @@ set nocompatible
 filetype off
 set encoding=utf-8
 
-if empty(glob($XDG_DATA_HOME . '/nvim/site/autoload/plug.vim'))
-  silent !curl -fLo $XDG_DATA_HOME'/nvim/site/autoload/plug.vim' --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $XDG_CONFIG_HOME.'/nvim/init.vim'
+if has('nvim') && empty(glob($XDG_DATA_HOME . '/nvim/site/autoload/plug.vim'))
+    silent !curl -fLo $XDG_DATA_HOME'/nvim/site/autoload/plug.vim' --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd VimEnter * PlugInstall --sync | source $XDG_CONFIG_HOME.'/nvim/init.vim'
+else
+    if !has('nvim') && empty(glob($HOME.'/.vim/site/autoload/plug.vim'))
+        silent !curl -fLo '~/.vim/autoload/plug.vim' --create-dirs
+            \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        autocmd VimEnter * PlugInstall --sync | source '~/.vimrc'
+    endif
 endif
 
 " initialize Vundle
@@ -79,13 +85,13 @@ Plug 'airblade/vim-gitgutter'
 " cool real-time markdown rendering
 " vim-markdown-composer plugin
 function! VimMarkdownBuild(info)
-	if a:info.status != 'unchanged' || a:info.force
-		if has('nvim')
-			!cargo build --release
-		else
-			!cargo build --release --no-default-features --features json-rpc
-		endif
-	endif
+    if a:info.status != 'unchanged' || a:info.force
+        if has('nvim')
+            !cargo build --release
+        else
+            !cargo build --release --no-default-features --features json-rpc
+        endif
+    endif
 endfunction
 Plug 'euclio/vim-markdown-composer', {'do': function('VimMarkdownBuild')}
 "Plugin 'emgram769/vim-multiuser'
@@ -177,8 +183,8 @@ nnoremap <CR> :noh<CR>:<BS>
 autocmd BufReadPost * if @% !~# '\.git[\/\\]COMMIT_EDITMSG$' && line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 
 if !exists(":DiffOrig")
-	command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-				\ | wincmd p | diffthis
+    command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+                \ | wincmd p | diffthis
 endif
 
 " cscope config
@@ -242,9 +248,9 @@ let g:syntastic_cpp_clang_check_post_args = ""
 
 " see :h syntastic-loclist-callback
 function! SyntasticCheckHook(errors)
-	if !empty(a:errors)
-		let g:syntastic_loc_list_height = min([len(a:errors), 10])
-	endif
+    if !empty(a:errors)
+        let g:syntastic_loc_list_height = min([len(a:errors), 10])
+    endif
 endfunction
 
 " javacomplete2 plugin
@@ -258,20 +264,20 @@ let g:pandoc#formatting#smart_autoformat_on_cursormoved = 1
 
 " Goyo.vim plugin
 function! s:goyo_enter()
-	let b:quitting = 0
-	let b:quitting_bang = 0
-	autocmd QuitPre <buffer> let b:quitting = 1
-	cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
+    let b:quitting = 0
+    let b:quitting_bang = 0
+    autocmd QuitPre <buffer> let b:quitting = 1
+    cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
 endfunction
 function! s:goyo_leave()
-	" Quit Vim if this is the only remaining buffer
-	if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
-		if b:quitting_bang
-			qa!
-		else
-			qa
-		endif
-	endif
+    " Quit Vim if this is the only remaining buffer
+    if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
+        if b:quitting_bang
+            qa!
+        else
+            qa
+        endif
+    endif
 endfunction
 autocmd! User GoyoEnter call <SID>goyo_enter()
 autocmd! User GoyoLeave call <SID>goyo_leave()
@@ -302,10 +308,10 @@ let g:markdown_composer_autostart=0
 " writing function
 autocmd Filetype gitcommit,text,markdown,help,tex call WriterMode()
 function! WriterMode()
-	setlocal spell spelllang=en_us
-	setlocal formatprg=par
-	setlocal complete+=s
-	setlocal complete+=k
-	setlocal wrap
+    setlocal spell spelllang=en_us
+    setlocal formatprg=par
+    setlocal complete+=s
+    setlocal complete+=k
+    setlocal wrap
 endfunction
 com! WM call WriterMode()
