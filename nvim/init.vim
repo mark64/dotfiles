@@ -2,49 +2,53 @@ set nocompatible
 filetype off
 set encoding=utf-8
 
-" initialize Vundle
-set rtp+=$XDG_CONFIG_HOME/nvim/bundle/Vundle.vim
-call vundle#begin($XDG_CONFIG_HOME . '/nvim/bundle')
-Plugin 'VundleVim/Vundle.vim'
+if empty(glob($XDG_DATA_HOME . '/nvim/site/autoload/plug.vim'))
+  silent !curl -fLo $XDG_DATA_HOME'/nvim/site/autoload/plug.vim' --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $XDG_CONFIG_HOME.'/nvim/init.vim'
+endif
 
+" initialize Vundle
+call plug#begin($XDG_DATA_HOME . '/nvim/plugged')
 " appearance
-Plugin 'flazz/vim-colorschemes'
-Plugin 'szorfein/darkest-space'
-Plugin 'vim-airline/vim-airline'
-Plugin 'edkolev/tmuxline.vim'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'khzaw/vim-conceal'
-Plugin 'KeitaNakamura/tex-conceal.vim'
-Plugin 'vim-pandoc/vim-pandoc'
+Plug 'flazz/vim-colorschemes'
+Plug 'szorfein/darkest-space'
+Plug 'vim-airline/vim-airline'
+Plug 'edkolev/tmuxline.vim'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'khzaw/vim-conceal'
+Plug 'KeitaNakamura/tex-conceal.vim', {'for': 'tex'}
+Plug 'vim-pandoc/vim-pandoc', {'for': 'pandoc'}
 
 " file management
-Plugin 'scrooloose/nerdtree'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
-Plugin 'majutsushi/tagbar'
-Plugin 'junegunn/fzf'
-Plugin 'jreybert/vimagit'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'moll/vim-bbye'
+Plug 'scrooloose/nerdtree', {'on':  'NERDTreeToggle' }
+Plug 'Xuyuanp/nerdtree-git-plugin', {'on': 'NERDTreeToggle'}
+Plug 'majutsushi/tagbar'
+Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --all'}
+Plug 'jreybert/vimagit'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'moll/vim-bbye'
 
 " writing
-Plugin 'rhysd/vim-grammarous'
-Plugin 'beloglazov/vim-online-thesaurus'
-Plugin 'junegunn/goyo.vim'
+Plug 'rhysd/vim-grammarous'
+Plug 'beloglazov/vim-online-thesaurus'
+Plug 'junegunn/goyo.vim'
 
 " syntax
-Plugin 'vim-latex/vim-latex'
-Plugin 'rust-lang/rust.vim'
-Plugin 'kballard/vim-swift'
-Plugin 'Shougo/neco-syntax'
-Plugin 'dag/vim-fish'
+Plug 'vim-latex/vim-latex', {'for': 'tex'}
+Plug 'rust-lang/rust.vim', {'for': 'rust'}
+Plug 'kballard/vim-swift', {'for': 'swift'}
+Plug 'Shougo/neco-syntax'
+Plug 'dag/vim-fish'
 
 " completion
 if has('nvim') || has('python3')
-Plugin 'maralla/completor.vim'
+Plug 'maralla/completor.vim'
+Plug 'artur-shaik/vim-javacomplete2', {'for': 'java'}
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' , 'for': 'go'}
 endif
-Plugin 'Shougo/neco-vim'
-Plugin 'artur-shaik/vim-javacomplete2'
-Plugin 'vim-pandoc/vim-pandoc-syntax'
+Plug 'Shougo/neco-vim'
+Plug 'vim-pandoc/vim-pandoc-syntax', {'for': 'pandoc'}
 "Plugin 'maralla/completor-swift'
 "Plugin 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
 "Plugin 'zchee/deoplete-clang'
@@ -55,22 +59,22 @@ Plugin 'vim-pandoc/vim-pandoc-syntax'
 "Plugin 'SevereOverfl0w/deoplete-github'
 
 " makers and syntax checkers
-Plugin 'vim-syntastic/syntastic'
-Plugin 'Valloric/ListToggle'
-Plugin 'davidhalter/jedi-vim'
-Plugin 'racer-rust/vim-racer'
+Plug 'vim-syntastic/syntastic'
+Plug 'Valloric/ListToggle'
+Plug 'davidhalter/jedi-vim', {'for': 'python'}
+Plug 'racer-rust/vim-racer', {'for': 'rust'}
 "Plugin 'neomake/neomake'
 "Plugin 'Shougo/neoinclude.vim'
 
 " deliminator and spacing helpers
-Plugin 'ntpeters/vim-better-whitespace'
-Plugin 'Raimondi/delimitMate'
-Plugin 'tpope/vim-surround'
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'Raimondi/delimitMate'
+Plug 'tpope/vim-surround'
 
 " git
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-rhubarb'
-Plugin 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
+Plug 'airblade/vim-gitgutter'
 
 " cool real-time markdown rendering
 " vim-markdown-composer plugin
@@ -83,9 +87,9 @@ function! VimMarkdownBuild(info)
 		endif
 	endif
 endfunction
-Plugin 'euclio/vim-markdown-composer', {'do': function('VimMarkdownBuild')}
+Plug 'euclio/vim-markdown-composer', {'do': function('VimMarkdownBuild')}
 "Plugin 'emgram769/vim-multiuser'
-call vundle#end()
+call plug#end()
 
 filetype plugin indent on
 set nu
