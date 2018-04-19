@@ -7,10 +7,10 @@ if has('nvim') && empty(glob($XDG_DATA_HOME . '/nvim/site/autoload/plug.vim'))
         \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     autocmd VimEnter * PlugInstall --sync | source $XDG_CONFIG_HOME.'/nvim/init.vim'
 else
-    if !has('nvim') && empty(glob($HOME.'/.vim/site/autoload/plug.vim'))
-        silent !curl -fLo $HOME'/.vim/autoload/plug.vim' --create-dirs
+    if !has('nvim') && empty(glob($HOME.'/.vim/autoload/plug.vim'))
+        silent !curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs
             \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-        autocmd VimEnter * PlugInstall --sync | source $HOME.'/.vimrc'
+        autocmd VimEnter * PlugInstall --sync | source $HOME/.vimrc
     endif
 endif
 
