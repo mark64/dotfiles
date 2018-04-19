@@ -63,7 +63,6 @@ Plugin 'racer-rust/vim-racer'
 "Plugin 'Shougo/neoinclude.vim'
 
 " deliminator and spacing helpers
-Plugin 'vim-scripts/HTML-AutoCloseTag'
 Plugin 'ntpeters/vim-better-whitespace'
 Plugin 'Raimondi/delimitMate'
 Plugin 'tpope/vim-surround'

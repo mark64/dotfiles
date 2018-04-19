@@ -161,6 +161,7 @@ export LESSKEY="${XDG_DATA_HOME}/less/keys"
 alias tmux="tmux -f ${XDG_CONFIG_HOME}/tmux/tmux.conf"
 export CARGO_HOME="${XDG_DATA_HOME}/cargo"
 export RUSTUP_HOME="${XDG_DATA_HOME}/cargo"
+export GOPATH=${HOME}/repos/go
 if [ -d $CARGO_HOME ]; then
     export PATH="${CARGO_HOME}/bin:$PATH"
 fi
