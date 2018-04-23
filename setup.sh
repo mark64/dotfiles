@@ -29,3 +29,5 @@ elif [ "$HASVIM" ]; then
 fi
 [ "$VIM" ] && [ "$XDG_CONFIG_HOME" ] && command -v git 2>&1 > /dev/null \
     && $VIM -i NONE -c PlugUpdate -c quitall
+
+command -v ranger 2>&1 > /dev/null && ranger --copy-config=scope 2>/dev/null

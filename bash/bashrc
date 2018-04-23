@@ -163,6 +163,9 @@ export GOPATH=${HOME}/repos/go
 if [ -d $CARGO_HOME ]; then
     export PATH="${CARGO_HOME}/bin:$PATH"
 fi
+if [ -d $GOPATH ]; then
+    export PATH="${GOPATH}/bin:${PATH}"
+fi
 
 DIR="$PWD"
 cd $XDG_CONFIG_HOME && ./setup.sh

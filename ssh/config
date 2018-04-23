@@ -12,10 +12,14 @@ Host services
 	HostName services.csua.berkeley.edu
 	User mark64
 
-Host maersk
+Host maersk smoothie tesla
 	HostName maersk.csua.berkeley.edu
 	User pnunez
 	Port 2222
+
+Host latte
+	HostName maersk.csua.berkeley.edu
+	User mark64
 
 Host inst
 	HostName hive16.cs.berkeley.edu
