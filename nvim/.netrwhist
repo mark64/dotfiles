@@ -1,10 +1,3 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =8
-let g:netrw_dirhist_1='/home/mark/repos/b61cs-main/proj3/src/main'
-let g:netrw_dirhist_2='/home/mark/repos/b61cs-main/proj3/src/main/java'
-let g:netrw_dirhist_3='/home/mark/repos/b61cs-main/hw5'
-let g:netrw_dirhist_4='/home/mark/repos/b61cs-main'
-let g:netrw_dirhist_5='/home/mark/repos/b61cs-main/proj3'
-let g:netrw_dirhist_6='/home/mark/repos/b61cs-main/proj3/src'
-let g:netrw_dirhist_7='/home/mark/repos/b61cs-main/proj3/src/main'
-let g:netrw_dirhist_8='/home/mark/repos/b61cs-main/proj3/src/main/java'
+let g:netrw_dirhist_cnt =1
+let g:netrw_dirhist_1='/home/mark/repos/go/src/github.com/61c-teach/sp18-proj5'

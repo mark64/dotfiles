@@ -15,7 +15,7 @@ Host services
 Host maersk smoothie tesla
 	HostName maersk.csua.berkeley.edu
 	User pnunez
-	Port 2222
+	Port 22
 
 Host latte
 	HostName maersk.csua.berkeley.edu
