@@ -8,14 +8,13 @@ Host soda
 	HostName soda.berkeley.edu
 	User mark64
 
-Host services
+Host services tap
 	HostName services.csua.berkeley.edu
 	User mark64
 
 Host maersk smoothie tesla
 	HostName maersk.csua.berkeley.edu
 	User pnunez
-	Port 22
 
 Host latte
 	HostName maersk.csua.berkeley.edu
