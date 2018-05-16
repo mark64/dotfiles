@@ -30,7 +30,7 @@ Plug 'vim-pandoc/vim-pandoc'
 Plug 'scrooloose/nerdtree', {'on':  'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin', {'on': 'NERDTreeToggle'}
 Plug 'majutsushi/tagbar'
-Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': './install --all'}
+Plug 'junegunn/fzf', {'do': './install --all'}
 Plug 'jreybert/vimagit'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'moll/vim-bbye'
@@ -178,6 +178,10 @@ let c_comment_strings=1
 set hlsearch
 set incsearch
 nnoremap <CR> :noh<CR>:<BS>
+
+" undo file
+set undodir=$XDG_DATA_HOME.'nvim/undo'
+set undofile
 
 " restore cursor position
 autocmd BufReadPost * if @% !~# '\.git[\/\\]COMMIT_EDITMSG$' && line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif

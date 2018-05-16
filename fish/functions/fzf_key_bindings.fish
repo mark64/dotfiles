@@ -1,1 +1,1 @@
-/home/mark/.config/nvim/bundle/fzf/shell/key-bindings.fish
+/home/mark/repos/fzf/shell/key-bindings.fish
