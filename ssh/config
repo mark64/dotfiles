@@ -28,6 +28,10 @@ Host sodaroot
 	HostName soda.berkeley.edu
 	User pnunez
 
+Host minifridge
+    HostName 128.32.112.234
+    User root
+
 Host calsat
 	HostName 10.0.2.56
 	User root
