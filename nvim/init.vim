@@ -30,7 +30,7 @@ Plug 'vim-pandoc/vim-pandoc'
 Plug 'scrooloose/nerdtree', {'on':  'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin', {'on': 'NERDTreeToggle'}
 Plug 'majutsushi/tagbar'
-Plug 'junegunn/fzf', {'do': './install --all'}
+Plug 'junegunn/fzf', {'do': './install --all --xdg'}
 Plug 'jreybert/vimagit'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'moll/vim-bbye'

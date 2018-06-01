@@ -135,7 +135,6 @@ command -v gpg-connect-agent 2>&1 > /dev/null \
     && export SSH_AUTH_SOCK=${XDG_RUNTIME_DIR}/gnupg/S.gpg-agent.ssh
 
 # fzf plugin
-[ -f $XDG_CONFIG_HOME/fzf/fzf.bash ] && source $XDG_CONFIG_HOME/fzf/fzf.bash
 
 export CLASSPATH=".:/usr/share/java/junit4-4.12.jar:/usr/share/java/hamcrest-core-1.3.jar:/home/mark/repos/b61cs-main/library-sp18/javalib/algs4.jar:/home/mark/repos/b61cs-main/library-sp18/javalib/stdlib.jar:/home/mark/repos/b61cs-main/library-sp18/javalib/stdlib-package.jar:/home/mark/repos/b61cs-main/library-sp18/javalib/jh61b.jar:/home/mark/repos/b61cs-main/proj2:/home/mark/berkeley/b61cs/proj2:/home/mark/repos/b61cs-main/hw2:/home/mark/repos/b61cs-main/lab9:/home/mark/repos/b61cs-main/hw3:/home/mark/repos/b61cs-main/hw4:/home/mark/repos/b61cs-main/lab11"
 
@@ -168,4 +167,8 @@ DIR="$PWD"
 cd $XDG_CONFIG_HOME && ./setup.sh
 cd $DIR
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+
+[ -f "${XDG_CONFIG_HOME:-~/.config}"/fzf/fzf.bash ] && source "${XDG_CONFIG_HOME:-~/.config}"/fzf/fzf.bash
+
+[ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash
