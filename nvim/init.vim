@@ -180,7 +180,7 @@ set incsearch
 nnoremap <CR> :noh<CR>:<BS>
 
 " undo file
-set undodir=$XDG_DATA_HOME.'nvim/undo'
+set undodir=$XDG_DATA_HOME.nvim/undo
 set undofile
 
 " restore cursor position
@@ -219,10 +219,10 @@ let g:grammarous#use_vim_spelllang = 1
 
 " vim-racer plugin
 let g:racer_cmd = $XDG_DATA_HOME.'/cargo/bin/racer'
-let g:racer_experimental_completer = 1
 
 " rust.vim plugin
 let g:rustfmt_autosave = 1
+let g:rust_recommended_style = 1
 
 " jedi-vim plugin
 let g:jedi#use_splits_not_buffers = "right"
@@ -249,6 +249,7 @@ let g:syntastic_c_checkers = [ "clang_check" ]
 let g:syntastic_cpp_checkers = [ "clang_check" ]
 let g:syntastic_c_clang_check_post_args = ""
 let g:syntastic_cpp_clang_check_post_args = ""
+let g:syntastic_rust_checkers = ["cargo"]
 
 " see :h syntastic-loclist-callback
 function! SyntasticCheckHook(errors)
