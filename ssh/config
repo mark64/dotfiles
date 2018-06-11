@@ -35,3 +35,16 @@ Host minifridge
 Host calsat
 	HostName 10.0.2.56
 	User root
+
+Host sat
+    HostName 10.2.0.8
+    User mark
+
+Host git
+    HostName github.com
+    User git
+
+Host astgit
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/astranis
