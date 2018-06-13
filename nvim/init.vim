@@ -252,7 +252,7 @@ let g:syntastic_c_checkers = [ "clang_check" ]
 let g:syntastic_cpp_checkers = [ "clang_check" ]
 let g:syntastic_c_clang_check_post_args = ""
 let g:syntastic_cpp_clang_check_post_args = ""
-let g:syntastic_rust_checkers = ["cargo"]
+"let g:syntastic_rust_checkers = ["cargo"]
 
 " see :h syntastic-loclist-callback
 function! SyntasticCheckHook(errors)
