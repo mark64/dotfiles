@@ -18,32 +18,32 @@ endif
 call plug#begin($XDG_DATA_HOME . '/nvim/plugged')
 " appearance
 Plug 'flazz/vim-colorschemes'
-Plug 'szorfein/darkest-space'
+"Plug 'szorfein/darkest-space'
 Plug 'vim-airline/vim-airline'
 Plug 'edkolev/tmuxline.vim'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'khzaw/vim-conceal'
+"Plug 'khzaw/vim-conceal'
 Plug 'KeitaNakamura/tex-conceal.vim', {'for': 'tex'}
 Plug 'vim-pandoc/vim-pandoc'
 
 " file management
 Plug 'scrooloose/nerdtree', {'on':  'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin', {'on': 'NERDTreeToggle'}
-Plug 'majutsushi/tagbar'
+"Plug 'majutsushi/tagbar'
 Plug 'junegunn/fzf', {'do': './install --all --xdg'}
 Plug 'jreybert/vimagit'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'moll/vim-bbye'
+"Plug 'ctrlpvim/ctrlp.vim'
+"Plug 'moll/vim-bbye'
 
 " writing
 Plug 'rhysd/vim-grammarous'
-Plug 'beloglazov/vim-online-thesaurus'
+"Plug 'beloglazov/vim-online-thesaurus'
 Plug 'junegunn/goyo.vim'
 
 " syntax
 Plug 'vim-latex/vim-latex'
 Plug 'rust-lang/rust.vim'
-Plug 'kballard/vim-swift'
+"Plug 'kballard/vim-swift'
 Plug 'Shougo/neco-syntax'
 Plug 'dag/vim-fish'
 
@@ -55,26 +55,15 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' , 'for': 'go'}
 endif
 Plug 'Shougo/neco-vim'
 Plug 'vim-pandoc/vim-pandoc-syntax', {'for': 'pandoc'}
-"Plugin 'maralla/completor-swift'
-"Plugin 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
-"Plugin 'zchee/deoplete-clang'
-"Plugin 'zchee/deoplete-jedi'
-"Plugin 'sebastianmarkow/deoplete-rust'
-"Plugin 'fszymanski/deoplete-abook'
-"Plugin 'landaire/deoplete-swift'
-"Plugin 'SevereOverfl0w/deoplete-github'
 
 " makers and syntax checkers
 Plug 'vim-syntastic/syntastic'
 Plug 'Valloric/ListToggle'
 Plug 'davidhalter/jedi-vim', {'for': 'python'}
 Plug 'racer-rust/vim-racer', {'for': 'rust'}
-"Plugin 'neomake/neomake'
-"Plugin 'Shougo/neoinclude.vim'
 
 " deliminator and spacing helpers
 Plug 'ntpeters/vim-better-whitespace'
-Plug 'Raimondi/delimitMate'
 Plug 'tpope/vim-surround'
 
 " git
@@ -209,7 +198,7 @@ let g:Imap_UsePlaceHolders = 0
 let g:linuxsty_patterns = ["/linux", "/usr/src/"]
 
 " tagbar plugin
-nnoremap <F9> :TagbarToggle<CR>
+"nnoremap <F9> :TagbarToggle<CR>
 
 " nerdtree plugin
 nnoremap <F8> :NERDTreeFocus<CR>
@@ -294,19 +283,6 @@ autocmd! User GoyoLeave call <SID>goyo_leave()
 let g:better_whitespace_filetypes_blacklist=['diff']
 autocmd FileType * EnableStripWhitespaceOnSave
 autocmd! FileType diff,markdown,pandoc DisableStripWhitespaceOnSave
-
-" delimitMate plugin
-let g:delimitMate_expand_cr = 2
-let g:delimitMate_expand_space = 1
-let g:delimitMate_expand_inside_quotes = 1
-let g:delimitMate_jump_expansion = 1
-let g:delimitMate_balance_matchpairs = 1
-let g:delimitMate_excluded_ft = ""
-let g:delimitMate_insert_eol_marker = 0
-inoremap <expr> gg delimitMate#JumpAny()
-autocmd FileType python let b:delimitMate_nesting_quotes = ['"']
-autocmd FileType c,java,cpp let b:delimitMate_insert_eol_marker = 2
-autocmd FileType c,java,cpp let b:delimitMate_eol_marker = ";"
 
 " vim-markdown-compose plugin
 let g:markdown_composer_autostart=0
