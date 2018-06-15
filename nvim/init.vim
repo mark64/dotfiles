@@ -48,7 +48,7 @@ Plug 'Shougo/neco-syntax'
 Plug 'dag/vim-fish'
 
 " completion
-if has('nvim') || has('python3')
+if has('nvim') || (has('python3') && has('lambda') && has('timers') && has('job'))
 Plug 'maralla/completor.vim'
 Plug 'artur-shaik/vim-javacomplete2', {'for': 'java'}
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' , 'for': 'go'}
