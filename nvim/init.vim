@@ -172,7 +172,7 @@ set incsearch
 nnoremap <CR> :noh<CR>:<BS>
 
 " undo file
-set undodir=$XDG_DATA_HOME.nvim/undo
+set undodir=$XDG_DATA_HOME/nvim/undo
 set undofile
 
 " restore cursor position
