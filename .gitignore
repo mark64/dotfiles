@@ -1,6 +1,7 @@
-/evolution
 /chromium
-/pulse
-/monitors.xml*
 /dconf
+/evolution
+/libvirt
+/monitors.xml*
+/pulse
 .netrwhist

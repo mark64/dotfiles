@@ -119,10 +119,9 @@ set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr
 if has('nvim') || v:version > 800
     set termguicolors
 endif
-"colorscheme CandyPaper
+colorscheme CandyPaper
 "colorscheme desert
-" I know the background stuff is incorrect now, but maybe I'll revert the
-" colorscheme
+"colorscheme osx_like
 set background=dark
 :hi Normal guibg=Black
 :hi Title gui=Bold
@@ -134,8 +133,6 @@ set background=dark
 :hi Folded guifg=Gray
 :hi Folded ctermfg=Gray
 :hi! link Conceal Operator
-":hi! link Conceal Operator
-colorscheme osx_like
 
 if has('nvim') || v:version > 800
     set breakindent
