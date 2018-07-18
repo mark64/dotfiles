@@ -134,8 +134,8 @@ set visualbell
 set pastetoggle=<F2>
 set switchbuf=newtab
 set expandtab
-set tabstop=2
-set shiftwidth=2
+set tabstop=4
+set shiftwidth=4
 set softtabstop=0
 set copyindent
 set backspace=2
@@ -170,6 +170,9 @@ if !exists(":DiffOrig")
     command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
                 \ | wincmd p | diffthis
 endif
+
+" set shiftwidth for C-style files
+autocmd FileType c,cpp setlocal tabstop=2 shiftwidth=2
 
 " cscope config
 cs add $CSCOPE_DB
