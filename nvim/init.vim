@@ -22,43 +22,33 @@ Plug 'flazz/vim-colorschemes'
 Plug 'vim-airline/vim-airline'
 Plug 'edkolev/tmuxline.vim'
 Plug 'vim-airline/vim-airline-themes'
-"Plug 'khzaw/vim-conceal'
 Plug 'KeitaNakamura/tex-conceal.vim', {'for': 'tex'}
 Plug 'vim-pandoc/vim-pandoc'
 
 " file management
-Plug 'scrooloose/nerdtree', {'on':  'NERDTreeToggle' }
-Plug 'Xuyuanp/nerdtree-git-plugin', {'on': 'NERDTreeToggle'}
-"Plug 'majutsushi/tagbar'
+Plug 'scrooloose/nerdtree', {'on':  'NERDTreeFocus' }
+Plug 'Xuyuanp/nerdtree-git-plugin', {'on': 'NERDTreeFocus'}
+Plug 'majutsushi/tagbar'
 Plug 'junegunn/fzf', {'do': './install --all --xdg'}
-Plug 'jreybert/vimagit'
-"Plug 'ctrlpvim/ctrlp.vim'
-"Plug 'moll/vim-bbye'
+Plug 'moll/vim-bbye'
 
 " writing
-Plug 'rhysd/vim-grammarous'
-"Plug 'beloglazov/vim-online-thesaurus'
 Plug 'junegunn/goyo.vim'
 
 " syntax
 Plug 'vim-latex/vim-latex'
 Plug 'rust-lang/rust.vim'
-"Plug 'kballard/vim-swift'
 Plug 'Shougo/neco-syntax'
-Plug 'dag/vim-fish'
 
 " completion
 if has('nvim') || (has('python3') && has('lambda') && has('timers') && has('job'))
-Plug 'maralla/completor.vim'
-Plug 'artur-shaik/vim-javacomplete2', {'for': 'java'}
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' , 'for': 'go'}
+Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer --rust-completer --java-completer --go-completer'}
+Plug 'Valloric/ListToggle'
 endif
 Plug 'Shougo/neco-vim'
 Plug 'vim-pandoc/vim-pandoc-syntax', {'for': 'pandoc'}
 
 " makers and syntax checkers
-Plug 'vim-syntastic/syntastic'
-Plug 'Valloric/ListToggle'
 Plug 'davidhalter/jedi-vim', {'for': 'python'}
 Plug 'racer-rust/vim-racer', {'for': 'rust'}
 
@@ -70,6 +60,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'airblade/vim-gitgutter'
+Plug 'jreybert/vimagit'
 
 " cool real-time markdown rendering
 " vim-markdown-composer plugin
@@ -83,7 +74,6 @@ function! VimMarkdownBuild(info)
     endif
 endfunction
 Plug 'euclio/vim-markdown-composer', {'do': function('VimMarkdownBuild')}
-"Plugin 'emgram769/vim-multiuser'
 call plug#end()
 
 filetype plugin indent on
@@ -144,8 +134,8 @@ set visualbell
 set pastetoggle=<F2>
 set switchbuf=newtab
 set expandtab
-set tabstop=4
-set shiftwidth=4
+set tabstop=2
+set shiftwidth=2
 set softtabstop=0
 set copyindent
 set backspace=2
@@ -166,6 +156,7 @@ set scrolloff=10
 let c_comment_strings=1
 set hlsearch
 set incsearch
+set noequalalways
 nnoremap <CR> :noh<CR>:<BS>
 
 " undo file
@@ -191,20 +182,14 @@ set t_Co=256
 let g:tex_flavor='latex'
 let g:Imap_UsePlaceHolders = 0
 
-" linuxsty plugin
-let g:linuxsty_patterns = ["/linux", "/usr/src/"]
-
 " tagbar plugin
-"nnoremap <F9> :TagbarToggle<CR>
+nnoremap <F9> :TagbarToggle<CR>
 
 " nerdtree plugin
 nnoremap <F8> :NERDTreeFocus<CR>
 
 " tmuxline plugin
 let g:tmuxline_powerline_separators = 0
-
-" vim-grammarous plugin
-let g:grammarous#use_vim_spelllang = 1
 
 " vim-racer plugin
 let g:racer_cmd = $XDG_DATA_HOME.'/cargo/bin/racer'
@@ -216,39 +201,16 @@ let g:rust_recommended_style = 1
 " jedi-vim plugin
 let g:jedi#use_splits_not_buffers = "right"
 
-" completer.vim plugin
+" YouCompleteMe plugin
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
-let g:completor_python_binary = '/usr/bin/python3'
-"let g:completor_racer_binary = $XDG_DATA_HOME.'/cargo/bin/racer'
-let g:completer_clang_binary = '/usr/bin/clang'
+let g:ycm_autoclose_preview_window_after_insertion = 1
 
 " syntastic plugin
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
-let g:syntastic_c_checkers = [ "clang_check" ]
-let g:syntastic_cpp_checkers = [ "clang_check" ]
-let g:syntastic_c_clang_check_post_args = ""
-let g:syntastic_cpp_clang_check_post_args = ""
-"let g:syntastic_rust_checkers = ["cargo"]
-
-" see :h syntastic-loclist-callback
-function! SyntasticCheckHook(errors)
-    if !empty(a:errors)
-        let g:syntastic_loc_list_height = min([len(a:errors), 10])
-    endif
-endfunction
-
-" javacomplete2 plugin
-autocmd FileType java setlocal omnifunc=javacomplete#Complete
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
 
 " vim-pandoc plugin
 let g:pandoc#modules#disabled = ["folding"]
