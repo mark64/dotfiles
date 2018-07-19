@@ -174,6 +174,9 @@ endif
 " set shiftwidth for C-style files
 autocmd FileType c,cpp setlocal tabstop=2 shiftwidth=2
 
+" set tabs for Makefiles
+autocmd FileType make setlocal tabstop=4 shiftwidth=4 noexpandtab
+
 " cscope config
 cs add $CSCOPE_DB
 
