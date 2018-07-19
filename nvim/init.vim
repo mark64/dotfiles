@@ -39,6 +39,7 @@ Plug 'junegunn/goyo.vim'
 Plug 'vim-latex/vim-latex'
 Plug 'rust-lang/rust.vim'
 Plug 'Shougo/neco-syntax'
+Plug 'rhysd/vim-clang-format'
 
 " completion
 if has('nvim') || (has('python3') && has('lambda') && has('timers') && has('job'))
@@ -253,6 +254,9 @@ autocmd! FileType diff,markdown,pandoc DisableStripWhitespaceOnSave
 let g:markdown_composer_autostart=0
 "let g:markdown_composer_external_renderer='pandoc -f markdown -t html --mathjax'
 "let g:markdown_composer_refresh_rate=400
+
+" vim-clang-format plugin
+autocmd FileType c,cpp let g:clang_format#auto_format = 1
 
 " writing function
 autocmd Filetype gitcommit,text,markdown,help,tex call WriterMode()
