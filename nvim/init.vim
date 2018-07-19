@@ -42,7 +42,7 @@ Plug 'Shougo/neco-syntax'
 
 " completion
 if has('nvim') || (has('python3') && has('lambda') && has('timers') && has('job'))
-Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer --rust-completer --java-completer --go-completer'}
+Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer --clang-tidy --rust-completer --java-completer --go-completer'}
 Plug 'Valloric/ListToggle'
 endif
 Plug 'Shougo/neco-vim'
