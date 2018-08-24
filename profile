@@ -9,14 +9,12 @@ export LESSKEY="${XDG_DATA_HOME}/less/keys"
 export CARGO_HOME="${XDG_DATA_HOME}/cargo"
 export RUSTUP_HOME="${XDG_DATA_HOME}/cargo"
 export GOPATH="${HOME}/repos/go"
-for path in "$GOPATH" "$HOME/repos/astranis/tools/arcanist/arcanist" "$CARGO_HOME" "$XDG_BIN_HOME/../"
-do
+for path in "$GOPATH" "$HOME/repos/astranis/tools/arcanist/arcanist" "$CARGO_HOME" "$XDG_BIN_HOME/../"; do
     if [ -d "$path" ]; then
         export PATH="$PATH:$path"
     fi
-do
-for editor in nvim vim vi nano
-do
+done
+for editor in nvim vim vi nano; do
     if command -v "$editor" > /dev/null 2>&1; then
         export EDITOR="$editor"
         break
