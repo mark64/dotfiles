@@ -33,7 +33,8 @@ fi
 
 command -v ranger 2>&1 > /dev/null && ranger --copy-config=scope 2>/dev/null
 
-SETUP_CRON_LINE="0 */6 * * * '$STARTING_PWD/$0'"
+SETUP_FILE_PATH=$(realpath "$STARTING_PWD/$0")
+SETUP_CRON_LINE="0 */6 * * * '$SETUP_FILE_PATH'"
 command -v crontab 2>&1 > /dev/null \
-    && ( [ "$(crontab -l | grep "$STARTING_PWD/$0" | wc -l)" -ne 0 ] \
+    && ( [ "$(crontab -l | grep "$SETUP_FILE_PATH" | wc -l)" -ne 0 ] \
         || cat <(crontab -l) <(echo "$SETUP_CRON_LINE") | crontab -)
