@@ -8,12 +8,8 @@ case $- in
 	*) return;;
 esac
 
-# set PATH so it includes user's private bin if it exists
-if [ -d "$HOME/.local/bin" ] ; then
-	PATH="$HOME/.local/bin:$PATH"
-fi
 export SOURCING_PROFILE="true"
-source ~/.profile
+source "$HOME/.profile"
 unset SOURCING_PROFILE
 
 # don't put duplicate lines or lines starting with space in the history.
@@ -24,9 +20,9 @@ HISTCONTROL=ignoreboth
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTFILE=${XDG_DATA_HOME}/bash/history
-HISTSIZE=1000000
-HISTFILESIZE=2000000
+HISTFILE="${XDG_DATA_HOME:-$HOME/.local/share}/bash/history"
+HISTSIZE=1000000000
+HISTFILESIZE=2000000000
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -93,6 +89,8 @@ if [ -x /usr/bin/dircolors ]; then
 	alias grep='grep --color=auto'
 	alias fgrep='fgrep --color=auto'
 	alias egrep='egrep --color=auto'
+
+    alias ip='ip -c'
 fi
 
 # colored GCC warnings and errors
@@ -105,6 +103,9 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 if [ -f ~/.bash_aliases ]; then
 	. ~/.bash_aliases
 fi
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*altert$//'\'')"'
+alias l='ls -CF'
+alias ll='ls -lAh'
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
@@ -117,18 +118,7 @@ if ! shopt -oq posix; then
 	fi
 fi
 
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*altert$//'\'')"'
-
-export EDITOR='nvim'
-
-# some more ls aliases
-alias la='ls -A'
-alias l='ls -CF'
-alias ll='ls -lAh'
-alias ifconfig='ip -s -c a'
-
 # gnugp-agent ssh config
-export GPG_TTY=$(tty)
 command -v gpg-connect-agent 2>&1 > /dev/null \
     && export GPG_TTY=$(tty) \
     && gpg-connect-agent UPDATESTARTUPTTY /bye > /dev/null \
@@ -147,20 +137,5 @@ command -v hub > /dev/null 2>&1 \
 	GITHUB_TOKEN=`pass tech/github/access_token | head -n1`\
 	hub'
 
-# XDG support
-export PYLINTHOME=${XDG_DATA_HOME}/pylint
-export LESSHISTFILE="${XDG_DATA_HOME}/less/history"
-export LESSKEY="${XDG_DATA_HOME}/less/keys"
-alias tmux="tmux -f ${XDG_CONFIG_HOME}/tmux/tmux.conf"
-export CARGO_HOME="${XDG_DATA_HOME}/cargo"
-export RUSTUP_HOME="${XDG_DATA_HOME}/cargo"
-export GOPATH=${HOME}/repos/go
-if [ -d $CARGO_HOME ]; then
-    export PATH="${CARGO_HOME}/bin:$PATH"
-fi
-if [ -d $GOPATH ]; then
-    export PATH="${GOPATH}/bin:${PATH}"
-fi
-
-# Added by build_setup.sh:
-export PATH=$PATH:/home/mark/repos/astranis/tools/arcanist/arcanist/bin
+# tmux
+[ -f "${XDG_CONFIG_HOME}/tmux/tmux.conf" ] && alias tmux="tmux -f ${XDG_CONFIG_HOME}/tmux/tmux.conf"
