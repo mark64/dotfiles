@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-STARTING_PWD=$(pwd)
-cd "$PWD/$(dirname $0)"
+SETUP_FILE_PATH=$(realpath "$STARTING_PWD/$0")
+cd "$(dirname \"$SETUP_FILE_PATH\")"
 
 command -v git 2>&1 > /dev/null && (git pull | tail -n +2)
 
