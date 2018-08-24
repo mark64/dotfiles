@@ -37,7 +37,7 @@ Host calsat
 	User root
 
 Host sat
-    HostName 10.2.0.8
+    HostName 10.65.115.79
     User mark
 
 Host git

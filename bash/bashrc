@@ -162,8 +162,5 @@ if [ -d $GOPATH ]; then
     export PATH="${GOPATH}/bin:${PATH}"
 fi
 
-DIR="$PWD"
-cd $XDG_CONFIG_HOME && ./setup.sh
-cd $DIR
 # Added by build_setup.sh:
 export PATH=$PATH:/home/mark/repos/astranis/tools/arcanist/arcanist/bin

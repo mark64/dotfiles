@@ -1,4 +1,5 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
+STARTING_PWD=$(pwd)
 cd "$PWD/$(dirname $0)"
 
 command -v git 2>&1 > /dev/null && (git pull | tail -n +2)
@@ -31,3 +32,8 @@ fi
     && $VIM -i NONE -c PlugUpdate -c quitall
 
 command -v ranger 2>&1 > /dev/null && ranger --copy-config=scope 2>/dev/null
+
+SETUP_CRON_LINE="0 */6 * * * '$STARTING_PWD/$0'"
+command -v crontab 2>&1 > /dev/null \
+    && ( [ "$(crontab -l | grep "$STARTING_PWD/$0" | wc -l)" -ne 0 ] \
+        || cat <(crontab -l) <(echo "$SETUP_CRON_LINE") | crontab -)
