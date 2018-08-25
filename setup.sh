@@ -18,7 +18,6 @@ command -v gpg 2>&1 > /dev/null \
     && (for FILE in $(find "$PWD/gnupg" -name '*.conf'); \
         do ln -sf "$FILE" ~/.gnupg/; done)
 command -v minicom 2>&1 > /dev/null && ln -sf "$PWD/minicom/config" ~/.minirc.dfl
-command -v pass 2>&1 > /dev/null && pass git pull | tail -n +2 && pass git push 2>&1 | tail -n +2
 
 VIM=''
 HASNVIM=$(command -v nvim 2> /dev/null)

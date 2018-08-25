@@ -139,3 +139,6 @@ command -v hub > /dev/null 2>&1 \
 
 # tmux
 [ -f "${XDG_CONFIG_HOME}/tmux/tmux.conf" ] && alias tmux="tmux -f ${XDG_CONFIG_HOME}/tmux/tmux.conf"
+
+# Pass - update passwords
+command -v pass 2>&1 > /dev/null && pass git pull | tail -n +2 && pass git push 2>&1 | tail -n +2
