@@ -122,7 +122,7 @@ fi
 command -v gpg-connect-agent 2>&1 > /dev/null \
     && export GPG_TTY=$(tty) \
     && gpg-connect-agent UPDATESTARTUPTTY /bye > /dev/null \
-    && export SSH_AUTH_SOCK=${XDG_RUNTIME_DIR}/gnupg/S.gpg-agent.ssh
+    && export SSH_AUTH_SOCK=${SSH_AUTH_SOCK:-${XDG_RUNTIME_DIR}/gnupg/S.gpg-agent.ssh}
 
 # fzf plugin
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash
