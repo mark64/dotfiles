@@ -94,6 +94,9 @@ def setup_rust(env: Dict[str, str]):
     p.wait()
     if p.returncode:
         raise SetupFailure(f'Failed to setup rustup and cargo')
+    p = subprocess.Popen('rustup toolchain add nightly', shell=True)
+    p.wait()
+    # don't care if it fails
 
 
 def generate_profile(env: Dict[str, str]):
@@ -243,6 +246,43 @@ def setup_user_systemd():
     pass
 
 
+def install_cargo_packages(packages: List[str], env: Dict[str, str]):
+    if not shutil.which('cargo'):
+        raise SetupError(
+            'Cannot install cargo packages because cargo is not installed')
+    for package in packages:
+        wrapper = ''
+        if shutil.which('sccache'):
+            wrapper = 'RUSTC_WRAPPER=sccache'
+            env['RUSTC_WRAPPER'] = 'sccache'
+        p = subprocess.Popen(
+            f'{wrapper} cargo install --force "{package}"',
+            shell=True)
+        p.wait()
+        if p.returncode:
+            raise SetupError(f'Could not install cargo package {package}')
+
+
+def install_rustup_components(components: List[str]):
+    if not shutil.which('rustup'):
+        raise SetupError(
+            'Cannot install rustup components because rustup is not installed')
+    for component in components:
+        p = subprocess.Popen(f'rustup component add "{component}"', shell=True)
+        p.wait()
+        if p.returncode:
+            raise SetupError(f'Could not add rustup component {component}')
+        p = subprocess.Popen(
+            f'rustup component add "{component}" --toolchain nightly',
+            shell=True)
+        # don't care if it fails
+        p.wait()
+    p = subprocess.Popen(f'rustup update', shell=True)
+    p.wait()
+    if p.returncode:
+        raise SetupError(f'Could not install rustup components')
+
+
 def checkout_repos():
     pass
 
@@ -333,6 +373,8 @@ def main():
         setup_user_systemd()
         setup_u2f()
         setup_pass()
+        install_cargo_packages(['ripgrep', 'sccache'], pam_env_vars)
+        install_rustup_components(['rustfmt-preview'])
         checkout_repos()
         generate_profile(pam_env_vars)
         generate_bashrc()
