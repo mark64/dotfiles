@@ -4,12 +4,12 @@ set encoding=utf-8
 
 if has('nvim') && empty(glob($XDG_DATA_HOME . '/nvim/site/autoload/plug.vim'))
     silent !curl -fLo $XDG_DATA_HOME'/nvim/site/autoload/plug.vim' --create-dirs
-        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     autocmd VimEnter * PlugInstall --sync | source $XDG_CONFIG_HOME.'/nvim/init.vim'
 else
     if !has('nvim') && empty(glob($HOME.'/.vim/autoload/plug.vim'))
         silent !curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs
-            \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+                    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
         autocmd VimEnter * PlugInstall --sync | source $HOME/.vimrc
     endif
 endif
@@ -39,12 +39,12 @@ Plug 'junegunn/goyo.vim'
 Plug 'vim-latex/vim-latex'
 Plug 'rust-lang/rust.vim'
 Plug 'Shougo/neco-syntax'
-Plug 'rhysd/vim-clang-format'
+Plug 'Chiel92/vim-autoformat'
 
 " completion
 if has('nvim') || (has('python3') && has('lambda') && has('timers') && has('job'))
-Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer --clang-tidy --rust-completer --java-completer --go-completer'}
-Plug 'Valloric/ListToggle'
+    Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer --clang-tidy --rust-completer --java-completer --go-completer'}
+    Plug 'Valloric/ListToggle'
 endif
 Plug 'Shougo/neco-vim'
 Plug 'vim-pandoc/vim-pandoc-syntax', {'for': 'pandoc'}
@@ -256,8 +256,9 @@ let g:markdown_composer_autostart=0
 "let g:markdown_composer_external_renderer='pandoc -f markdown -t html --mathjax'
 "let g:markdown_composer_refresh_rate=400
 
-" vim-clang-format plugin
-autocmd FileType c,cpp let g:clang_format#auto_format = 1
+" vim-autoformat plugin
+let g:formatdef_autopep8 = "'autopep8 - -a -a --range '.a:firstline.' '.a:lastline"
+au BufWrite <buffer> :Autoformat
 
 " writing function
 autocmd Filetype gitcommit,text,markdown,help,tex call WriterMode()
