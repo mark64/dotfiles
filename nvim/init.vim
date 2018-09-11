@@ -18,29 +18,25 @@ endif
 call plug#begin($XDG_DATA_HOME . '/nvim/plugged')
 " appearance
 Plug 'flazz/vim-colorschemes'
-"Plug 'szorfein/darkest-space'
 Plug 'vim-airline/vim-airline'
 Plug 'edkolev/tmuxline.vim'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'KeitaNakamura/tex-conceal.vim', {'for': 'tex'}
+Plug 'KeitaNakamura/tex-conceal.vim', {'for': ['tex', 'pandoc']}
 Plug 'vim-pandoc/vim-pandoc'
 
 " file management
-Plug 'scrooloose/nerdtree', {'on':  'NERDTreeFocus' }
-Plug 'Xuyuanp/nerdtree-git-plugin', {'on': 'NERDTreeFocus'}
 Plug 'majutsushi/tagbar'
 Plug 'junegunn/fzf', {'do': './install --all --xdg'}
-Plug 'moll/vim-bbye'
-
-" writing
-Plug 'junegunn/goyo.vim'
 
 " syntax
 Plug 'vim-latex/vim-latex'
 Plug 'rust-lang/rust.vim'
 Plug 'Shougo/neco-syntax'
-Plug 'Chiel92/vim-autoformat'
 Plug 'dag/vim-fish'
+
+" autoformat
+Plug 'rhysd/vim-clang-format'
+Plug 'tell-k/vim-autopep8'
 
 " completion
 if has('nvim') || (has('python3') && has('lambda') && has('timers') && has('job'))
@@ -88,6 +84,7 @@ vnoremap j gj
 vnoremap k gk
 imap fd <C-y>
 inoremap jk <Esc>
+
 nnoremap Q :Bdelete<CR>
 
 inoremap <M-h> <Esc><C-w>h
@@ -193,9 +190,6 @@ let g:Imap_UsePlaceHolders = 0
 " tagbar plugin
 nnoremap <F9> :TagbarToggle<CR>
 
-" nerdtree plugin
-nnoremap <F8> :NERDTreeFocus<CR>
-
 " tmuxline plugin
 let g:tmuxline_powerline_separators = 0
 
@@ -215,6 +209,10 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_extra_conf_globlist = ['~/repos/berkeley/*']
+
+" fzf plugin
+inoremap <C-f> :FZF
+nnoremap <C-f> :FZF
 
 " syntastic plugin
 "set statusline+=%#warningmsg#
@@ -257,11 +255,13 @@ let g:markdown_composer_autostart=0
 "let g:markdown_composer_external_renderer='pandoc -f markdown -t html --mathjax'
 "let g:markdown_composer_refresh_rate=400
 
-" vim-autoformat plugin
-autocmd FileType markdown,pandoc let g:autoformat_autoindent = 0
-autocmd FileType markdown,pandoc let g:autoformat_remove_trailing_spaces = 0
-let g:formatdef_autopep8 = "'autopep8 - -a -a --range '.a:firstline.' '.a:lastline"
-autocmd BufWritePre * :Autoformat
+" vim-clang-format plugin
+autocmd FileType c,cpp let g:clang_format#auto_format = 1
+
+" vim-autopep8 plugin
+let g:autopep8_aggressive = 2
+let g:autopep8_disable_show_diff=1
+let g:autopep8_on_save = 1
 
 " writing function
 autocmd Filetype gitcommit,text,markdown,help,tex call WriterMode()
