@@ -257,8 +257,10 @@ let g:markdown_composer_autostart=0
 "let g:markdown_composer_refresh_rate=400
 
 " vim-autoformat plugin
+autocmd FileType markdown,pandoc let g:autoformat_autoindent = 0
+autocmd FileType markdown,pandoc let g:autoformat_remove_trailing_spaces = 0
 let g:formatdef_autopep8 = "'autopep8 - -a -a --range '.a:firstline.' '.a:lastline"
-au BufWrite <buffer> :Autoformat
+autocmd BufWritePre * :Autoformat
 
 " writing function
 autocmd Filetype gitcommit,text,markdown,help,tex call WriterMode()
