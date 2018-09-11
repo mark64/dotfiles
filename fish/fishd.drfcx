@@ -2,11 +2,6 @@
 # Do NOT edit it directly, your changes will be overwritten.
 SET_EXPORT CLASSPATH:
 SET_EXPORT REVIEW_BASE:HEAD\x5e
-SET_EXPORT XDG_CACHE_HOME:/home/mark/\x2ecache
-SET_EXPORT XDG_CONFIG_DIRS:/etc/xdg
-SET_EXPORT XDG_CONFIG_HOME:/home/mark/\x2econfig
-SET_EXPORT XDG_DATA_DIRS:/usr/local/share\x3a/usr/share
-SET_EXPORT XDG_DATA_HOME:/home/mark/\x2elocal/share
 SET __fish_git_prompt_describe_style:default
 SET __fish_git_prompt_showcolorhints:1
 SET __fish_git_prompt_showdirtystate:1
@@ -43,4 +38,3 @@ SET fish_pager_color_completion:\x1d
 SET fish_pager_color_description:B3A06D\x1eyellow
 SET fish_pager_color_prefix:white\x1e\x2d\x2dbold\x1e\x2d\x2dunderline
 SET fish_pager_color_progress:brwhite\x1e\x2d\x2dbackground\x3dcyan
-SET fish_user_paths:/home/mark/\x2econfig/nvim/bundle/fzf/bin\x1e/home/mark/\x2efzf/bin\x1e/home/mark/repos/fzf/bin\x1e/home/mark/\x2elocal/share/nvim/plugged/fzf/bin

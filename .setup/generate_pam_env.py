@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 import grp
+import logging
 import os
+import shlex
 import shutil
 import subprocess
 import sys
-from typing import List, Dict
 
 HOME_DIR = os.environ.get('HOME', '/home/mark')
 REPO_ROOT = '{HOME_DIR}/repos'.format(HOME_DIR=HOME_DIR)
@@ -26,6 +27,10 @@ pam_env_vars['LESSHISTFILE'] = '{}/less/history'.format(
     pam_env_vars["XDG_DATA_HOME"])
 pam_env_vars['LESSKEY'] = '{}/less/keys'.format(
     pam_env_vars["XDG_DATA_HOME"])
+os.environ['XDG_CONFIG_HOME'] = CONFIG_ROOT
+os.environ['XDG_DATA_HOME'] = pam_env_vars['XDG_DATA_HOME']
+os.environ['PATH'] += ':{XDG_BIN_HOME}:{GOPATH}'.format(
+    XDG_BIN_HOME=pam_env_vars['XDG_BIN_HOME'], GOPATH=pam_env_vars['GOPATH'])
 
 
 class SetupError(Exception):
@@ -36,7 +41,7 @@ class SetupFailure(Exception):
     pass
 
 
-def install_apt_packages(packages: List[str], should_install: bool):
+def install_apt_packages(packages, should_install: bool):
     installed_packages = subprocess.Popen(
         'apt list --installed 2>/dev/null | sed s,/.*$,,',
         shell=True,
@@ -50,7 +55,7 @@ def install_apt_packages(packages: List[str], should_install: bool):
             'Need to install the following packages: {to_install_packages}'.format(
                 to_install_packages=to_install_packages))
     else:
-        print('Installing packages: {to_install_packages}'.format(
+        logging.error('Installing packages: {to_install_packages}'.format(
             to_install_packages=to_install_packages))
         p = subprocess.Popen(
             'sudo apt-get install {packages}'.format(packages=" ".join(to_install_packages)),
@@ -64,7 +69,7 @@ def install_apt_packages(packages: List[str], should_install: bool):
                 install_apt_packages(package, should_install)
 
 
-def install_pip_packages(packages: List[str]):
+def install_pip_packages(packages):
     dependencies = ['pip3']
     for dependency in dependencies:
         if not shutil.which(dependency):
@@ -82,7 +87,7 @@ def install_pip_packages(packages: List[str]):
                     package=package))
 
 
-def setup_rust(env: Dict[str, str]):
+def setup_rust(env):
     dependencies = ['curl']
     for dependency in dependencies:
         if not shutil.which(dependency):
@@ -93,6 +98,7 @@ def setup_rust(env: Dict[str, str]):
     for var in ['RUSTUP_HOME', 'CARGO_HOME']:
         env[var] = cargo_path
         os.environ[var] = cargo_path
+        os.environ['PATH'] += ':{cargo_path}/bin'.format(cargo_path=cargo_path)
     p = None
     if shutil.which('cargo') and shutil.which('rustup'):
         p = subprocess.Popen('rustup update', shell=True)
@@ -108,7 +114,7 @@ def setup_rust(env: Dict[str, str]):
     # don't care if it fails
 
 
-def generate_profile(env: Dict[str, str]):
+def generate_profile(env):
     with open('{HOME_DIR}/.profile'.format(HOME_DIR=HOME_DIR), 'w') as profile_file:
         for var, value in env.items():
             profile_file.write(
@@ -140,6 +146,11 @@ def generate_bashrc():
     pass
 
 
+def setup_fish_plugins():
+    'https://github.com/oh-my-fish/plugin-foreign-env'
+    pass
+
+
 def generate_fish_conf():
     pass
 
@@ -152,7 +163,7 @@ def generate_inputrc():
     raise SetupFailure('Could not create ~/.inputrc file')
 
 
-def setup_vim(env: Dict[str, str]):
+def setup_vim(env):
     install_plugins = False
     for editor in ['nvim', 'vim']:
         if shutil.which(editor):
@@ -169,9 +180,11 @@ def setup_vim(env: Dict[str, str]):
                         "Failed to symlink init.vim to ~/.vimrc")
     if install_plugins:
         p = subprocess.Popen(
-            env["EDITOR"] +
-            ' -i NONE -c PlugUpdate -c quitall',
+            env['EDITOR'] +
+            ' -i NONE -u "{XDG_CONFIG_HOME}/nvim/init.vim" -c PlugUpdate -c quitall'.format(
+                XDG_CONFIG_HOME=env['XDG_CONFIG_HOME']),
             shell=True)
+        logging.error(env['EDITOR'] + ' -i NONE -c PlugUpdate -c quitall')
         p.wait()
         if p.returncode:
             raise SetupFailure('Failed to install vim plugins')
@@ -204,7 +217,7 @@ def setup_ranger():
         if not shutil.which(dependency):
             raise SetupError(
                 'Cannot install ranger: {dependency} not installed'.format(
-                    **locals()))
+                    dependency=dependency))
     p = subprocess.Popen('ranger --copy-config=scope', shell=True)
     p.wait()
     if p.returncode:
@@ -259,7 +272,7 @@ def setup_user_systemd():
     pass
 
 
-def install_cargo_packages(packages: List[str], env: Dict[str, str]):
+def install_cargo_packages(packages, env):
     if not shutil.which('cargo'):
         raise SetupError(
             'Cannot install cargo packages because cargo is not installed')
@@ -268,16 +281,16 @@ def install_cargo_packages(packages: List[str], env: Dict[str, str]):
             env['RUSTC_WRAPPER'] = 'sccache'
         # cargo install for some reason can't use sccache
         p = subprocess.Popen(
-            'RUSTC_WRAPPER="" cargo install --force "{package}"'.format(**locals()),
+            'RUSTC_WRAPPER="" cargo install --force "{package}"'.format(package=package),
             shell=True)
         p.wait()
         if p.returncode:
             raise SetupError(
                 'Could not install cargo package {package}'.format(
-                    **locals()))
+                    package=package))
 
 
-def install_rustup_components(components: List[str]):
+def install_rustup_components(components):
     if not shutil.which('rustup'):
         raise SetupError(
             'Cannot install rustup components because rustup is not installed')
@@ -285,37 +298,35 @@ def install_rustup_components(components: List[str]):
         # cargo install for some reason can't use sccache
         p = subprocess.Popen(
             'RUSTC_WRAPPER="" rustup component add "{component}"'.format(
-                **locals()), shell=True)
+                component=component), shell=True)
         p.wait()
         if p.returncode:
             raise SetupError(
                 'Could not add rustup component {component}'.format(
-                    **locals()))
+                    component=component))
         p = subprocess.Popen(
-            'RUSTC_WRAPPER="" rustup component add "{component}" --toolchain nightly'.format(**locals()),
-            shell=True)
+            'RUSTC_WRAPPER="" rustup component add "{component}" --toolchain nightly'.format(
+                component=component), shell=True)
         # don't care if it fails
         p.wait()
     p = subprocess.Popen('rustup update', shell=True)
     p.wait()
     if p.returncode:
-        raise SetupError(
-            'Could not install rustup components'.format(
-                **locals()))
+        raise SetupError('Could not install rustup components')
 
 
-def install_go_packages(packages: List[str]):
+def install_go_packages(packages):
     if not shutil.which('go'):
         raise SetupError(
             'Cannot install go packages because go is not installed')
     for package in packages:
         p = subprocess.Popen(
-            'go get -u "{package}"'.format(**locals()), shell=True)
+            'go get -u "{package}"'.format(package=package), shell=True)
         p.wait()
         if p.returncode:
             raise SetupError(
                 'Could not add go package {package}'.format(
-                    **locals()))
+                    package=package))
 
 
 def checkout_repos():
@@ -408,7 +419,7 @@ def main():
         setup_user_systemd()
         setup_u2f()
         setup_pass()
-        install_cargo_packages(['ripgrep', 'sccache'], pam_env_vars)
+     #   install_cargo_packages(['ripgrep', 'sccache'], pam_env_vars)
         install_rustup_components(['rustfmt-preview'])
         install_go_packages(['mvdan.cc/sh/cmd/shfmt'])
         checkout_repos()
@@ -417,9 +428,9 @@ def main():
         generate_fish_conf()
         generate_inputrc()
     except SetupError as e:
-        print(e)
+        logging.error(e)
     except SetupFailure as e:
-        print(e)
+        logging.error(e)
         exit(1)
 
 

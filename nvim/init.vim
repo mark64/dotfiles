@@ -40,6 +40,7 @@ Plug 'vim-latex/vim-latex'
 Plug 'rust-lang/rust.vim'
 Plug 'Shougo/neco-syntax'
 Plug 'Chiel92/vim-autoformat'
+Plug 'dag/vim-fish'
 
 " completion
 if has('nvim') || (has('python3') && has('lambda') && has('timers') && has('job'))
