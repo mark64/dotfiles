@@ -22,21 +22,21 @@ Plug 'vim-airline/vim-airline'
 Plug 'edkolev/tmuxline.vim'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'KeitaNakamura/tex-conceal.vim', {'for': ['tex', 'pandoc']}
-Plug 'vim-pandoc/vim-pandoc'
 
 " file management
 Plug 'majutsushi/tagbar'
 Plug 'junegunn/fzf', {'do': './install --all --xdg'}
 
 " syntax
+Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-latex/vim-latex'
 Plug 'rust-lang/rust.vim'
 Plug 'Shougo/neco-syntax'
 Plug 'dag/vim-fish'
 
 " autoformat
-Plug 'rhysd/vim-clang-format'
-Plug 'tell-k/vim-autopep8'
+Plug 'rhysd/vim-clang-format', {'for': ['c', 'cpp']}
+Plug 'tell-k/vim-autopep8', {'for': 'python'}
 
 " completion
 if has('nvim') || (has('python3') && has('lambda') && has('timers') && has('job'))
