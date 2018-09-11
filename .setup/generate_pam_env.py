@@ -55,18 +55,24 @@ def install_apt_packages(packages, should_install: bool):
             'Need to install the following packages: {to_install_packages}'.format(
                 to_install_packages=to_install_packages))
     else:
-        logging.error('Installing packages: {to_install_packages}'.format(
+        logging.info('Installing packages: {to_install_packages}'.format(
             to_install_packages=to_install_packages))
         p = subprocess.Popen(
-            'sudo apt-get install {packages}'.format(packages=" ".join(to_install_packages)),
+            'DEBIAN_FRONTEND=noninteractive apt-get install -y {packages}'.format(
+                packages=" ".join(to_install_packages)),
             stdin=subprocess.PIPE,
             shell=True)
         p.wait()
         if p.returncode:
             if len(to_install_packages) == 1:
-                raise SetupFailure('Failed to install apt packages')
+                raise SetupFailure(
+                    'Failed to install apt package {package}'.format(
+                        package=packages[0]))
             for package in to_install_packages:
-                install_apt_packages(package, should_install)
+                try:
+                    install_apt_packages([package], should_install)
+                except SetupFailure as e:
+                    logging.error(e)
 
 
 def install_pip_packages(packages):
@@ -181,10 +187,9 @@ def setup_vim(env):
     if install_plugins:
         p = subprocess.Popen(
             env['EDITOR'] +
-            ' -i NONE -u "{XDG_CONFIG_HOME}/nvim/init.vim" -c PlugUpdate -c quitall'.format(
+            ' -i NONE -u "{XDG_CONFIG_HOME}/nvim/init.vim" -c PlugUpdate -c quitall >/dev/null'.format(
                 XDG_CONFIG_HOME=env['XDG_CONFIG_HOME']),
             shell=True)
-        logging.error(env['EDITOR'] + ' -i NONE -c PlugUpdate -c quitall')
         p.wait()
         if p.returncode:
             raise SetupFailure('Failed to install vim plugins')
@@ -337,7 +342,7 @@ APT_PACKAGES = [
     'neovim',
     'python3',
     'python3-pip',
-    'chromium',
+    'chromium-browser',
     'libu2f-host0',
     'gnupg',
     'pass',
