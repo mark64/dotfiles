@@ -42,7 +42,7 @@ Plug 'ambv/black', {'for': 'python'}
 if has('nvim') || (has('python3') && has('lambda') && has('timers') && has('job'))
 "    Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer --clang-tidy --rust-completer --java-completer --go-completer'}
 "    Plug 'Valloric/ListToggle'
-    Plug 'maralla/completer.vim'
+    Plug 'maralla/completor.vim'
 endif
 Plug 'Shougo/neco-vim'
 Plug 'vim-pandoc/vim-pandoc-syntax', {'for': 'pandoc'}
