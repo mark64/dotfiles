@@ -36,12 +36,13 @@ Plug 'dag/vim-fish'
 
 " autoformat
 Plug 'rhysd/vim-clang-format', {'for': ['c', 'cpp']}
-Plug 'tell-k/vim-autopep8', {'for': 'python'}
+Plug 'ambv/black', {'for': 'python'}
 
 " completion
 if has('nvim') || (has('python3') && has('lambda') && has('timers') && has('job'))
-    Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer --clang-tidy --rust-completer --java-completer --go-completer'}
-    Plug 'Valloric/ListToggle'
+"    Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer --clang-tidy --rust-completer --java-completer --go-completer'}
+"    Plug 'Valloric/ListToggle'
+    Plug 'maralla/completer.vim'
 endif
 Plug 'Shougo/neco-vim'
 Plug 'vim-pandoc/vim-pandoc-syntax', {'for': 'pandoc'}
@@ -49,6 +50,7 @@ Plug 'vim-pandoc/vim-pandoc-syntax', {'for': 'pandoc'}
 " makers and syntax checkers
 Plug 'davidhalter/jedi-vim', {'for': 'python'}
 Plug 'racer-rust/vim-racer', {'for': 'rust'}
+Plug 'vim-syntastic/syntastic'
 
 " deliminator and spacing helpers
 Plug 'ntpeters/vim-better-whitespace'
@@ -203,21 +205,27 @@ let g:rust_recommended_style = 1
 " jedi-vim plugin
 let g:jedi#use_splits_not_buffers = "right"
 
+" completer.vim plugin
+let g:completor_complete_options = 'menuone,noselect,preview'
+
 " YouCompleteMe plugin
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_extra_conf_globlist = ['~/repos/berkeley/*']
+let g:ycm_rust_src_path = $CARGO_HOME.'/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src'
 
 " fzf plugin
 inoremap <C-f> :FZF
 nnoremap <C-f> :FZF
 
 " syntastic plugin
-"set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
-"set statusline+=%*
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_aggregate_errors = 1
 
 " vim-pandoc plugin
 let g:pandoc#modules#disabled = ["folding"]
@@ -252,16 +260,13 @@ autocmd! FileType diff,markdown,pandoc DisableStripWhitespaceOnSave
 
 " vim-markdown-compose plugin
 let g:markdown_composer_autostart=0
-"let g:markdown_composer_external_renderer='pandoc -f markdown -t html --mathjax'
-"let g:markdown_composer_refresh_rate=400
 
 " vim-clang-format plugin
 autocmd FileType c,cpp let g:clang_format#auto_format = 1
 
-" vim-autopep8 plugin
-let g:autopep8_aggressive = 2
-let g:autopep8_disable_show_diff=1
-let g:autopep8_on_save = 1
+" Black plugin
+let g:black_virtualenv = $XDG_CACHE_HOME.'/black/venv'
+autocmd FileType python autocmd BufWritePre <buffer> execute ':Black'
 
 " writing function
 autocmd Filetype gitcommit,text,markdown,help,tex call WriterMode()
