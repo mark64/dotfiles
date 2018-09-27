@@ -40,9 +40,10 @@ Plug 'ambv/black', {'for': 'python'}
 
 " completion
 if has('nvim') || (has('python3') && has('lambda') && has('timers') && has('job'))
-"    Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer --clang-tidy --rust-completer --java-completer --go-completer'}
-"    Plug 'Valloric/ListToggle'
-    Plug 'maralla/completor.vim'
+    Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer --clang-tidy --rust-completer --java-completer --go-completer'}
+    Plug 'Valloric/ListToggle'
+    " YCM is better, except for with rust
+    Plug 'maralla/completor.vim', {'for': 'rust'}
 endif
 Plug 'Shougo/neco-vim'
 Plug 'vim-pandoc/vim-pandoc-syntax', {'for': 'pandoc'}
@@ -50,7 +51,8 @@ Plug 'vim-pandoc/vim-pandoc-syntax', {'for': 'pandoc'}
 " makers and syntax checkers
 Plug 'davidhalter/jedi-vim', {'for': 'python'}
 Plug 'racer-rust/vim-racer', {'for': 'rust'}
-Plug 'vim-syntastic/syntastic'
+" YCM doesn't have good rust or python checks
+Plug 'vim-syntastic/syntastic', {'for': ['rust', 'python']}
 
 " deliminator and spacing helpers
 Plug 'ntpeters/vim-better-whitespace'
