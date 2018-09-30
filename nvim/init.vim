@@ -219,8 +219,8 @@ let g:ycm_extra_conf_globlist = ['~/repos/berkeley/*']
 let g:ycm_rust_src_path = $CARGO_HOME.'/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src'
 
 " fzf plugin
-inoremap <C-f> :FZF
-nnoremap <C-f> :FZF
+inoremap <C-f> :FZF<CR>
+nnoremap <C-f> :FZF<CR>
 
 " syntastic plugin
 set statusline+=%#warningmsg#
