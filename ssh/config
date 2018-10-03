@@ -1,4 +1,6 @@
 AddKeysToAgent=yes
+ForwardAgent=yes
+ForwardX11=yes
 
 Host drfcx
     HostName drfcx.com

@@ -33,6 +33,7 @@ Plug 'vim-latex/vim-latex'
 Plug 'rust-lang/rust.vim'
 Plug 'Shougo/neco-syntax'
 Plug 'dag/vim-fish'
+Plug 'fatih/vim-go', {'for': 'go'}
 
 " autoformat
 Plug 'rhysd/vim-clang-format', {'for': ['c', 'cpp']}
@@ -117,6 +118,7 @@ colorscheme CandyPaper
 "colorscheme osx_like
 set background=dark
 :hi Normal guibg=Black
+:hi! link Conceal Operator
 :hi Title gui=Bold
 :hi Title guifg=White
 :hi Title cterm=Bold
@@ -125,7 +127,6 @@ set background=dark
 :hi Folded ctermbg=Black
 :hi Folded guifg=Gray
 :hi Folded ctermfg=Gray
-:hi! link Conceal Operator
 
 if has('nvim') || v:version > 800
     set breakindent
@@ -149,7 +150,6 @@ set infercase
 set wildignorecase
 set smartcase
 set showcmd
-"set showmatch
 set hidden
 set splitright
 set splitbelow
