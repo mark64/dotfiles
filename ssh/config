@@ -1,38 +1,40 @@
 AddKeysToAgent=yes
-ForwardAgent=yes
-ForwardX11=yes
 
 Host drfcx
     HostName drfcx.com
     User mark
+    ForwardAgent=yes
+    ForwardX11=yes
 
 Host soda
 	HostName soda.berkeley.edu
 	User mark64
+    ForwardAgent=yes
 
 Host services tap
 	HostName services.csua.berkeley.edu
 	User mark64
+    ForwardAgent=yes
 
 Host maersk smoothie tesla
 	HostName maersk.csua.berkeley.edu
 	User pnunez
+    ForwardAgent=yes
 
 Host latte
 	HostName maersk.csua.berkeley.edu
 	User mark64
-
-Host inst
-	HostName hive16.cs.berkeley.edu
-	User cs61c-aab
+    ForwardAgent=yes
 
 Host sodaroot
 	HostName soda.berkeley.edu
 	User pnunez
+    ForwardAgent=yes
 
 Host minifridge
     HostName 128.32.112.234
     User root
+    ForwardAgent=yes
 
 Host calsat
 	HostName 10.0.2.56
@@ -41,6 +43,8 @@ Host calsat
 Host sat
     HostName 10.65.115.79
     User mark
+    ForwardAgent=yes
+    ForwardX11=yes
 
 Host git
     HostName github.com

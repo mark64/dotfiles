@@ -19,12 +19,10 @@ call plug#begin($XDG_DATA_HOME . '/nvim/plugged')
 " appearance
 Plug 'flazz/vim-colorschemes'
 Plug 'vim-airline/vim-airline'
-Plug 'edkolev/tmuxline.vim'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'KeitaNakamura/tex-conceal.vim', {'for': ['tex', 'pandoc']}
 
 " file management
-Plug 'majutsushi/tagbar'
+"Plug 'majutsushi/tagbar'
 Plug 'junegunn/fzf', {'do': './install --all --xdg'}
 
 " syntax
@@ -32,8 +30,8 @@ Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-latex/vim-latex'
 Plug 'rust-lang/rust.vim'
 Plug 'Shougo/neco-syntax'
-Plug 'dag/vim-fish'
-Plug 'fatih/vim-go', {'for': 'go'}
+"Plug 'dag/vim-fish'
+"Plug 'fatih/vim-go', {'for': 'go'}
 
 " autoformat
 Plug 'rhysd/vim-clang-format', {'for': ['c', 'cpp']}
@@ -41,7 +39,8 @@ Plug 'ambv/black', {'for': 'python'}
 
 " completion
 if has('nvim') || (has('python3') && has('lambda') && has('timers') && has('job'))
-    Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer --clang-tidy --rust-completer --java-completer --go-completer'}
+"    Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer --clang-tidy --rust-completer --java-completer --go-completer'}
+    Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer --clang-tidy --rust-completer'}
     Plug 'Valloric/ListToggle'
     " YCM is better, except for with rust
     Plug 'maralla/completor.vim', {'for': 'rust'}
@@ -61,7 +60,6 @@ Plug 'tpope/vim-surround'
 
 " git
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-rhubarb'
 Plug 'airblade/vim-gitgutter'
 Plug 'jreybert/vimagit'
 
@@ -90,8 +88,12 @@ vnoremap k gk
 imap fd <C-y>
 inoremap jk <Esc>
 
-nnoremap Q :Bdelete<CR>
-
+if !has('nvim')
+    execute "set <M-h>=\eh"
+    execute "set <M-j>=\ej"
+    execute "set <M-k>=\ek"
+    execute "set <M-l>=\el"
+endif
 inoremap <M-h> <Esc><C-w>h
 inoremap <M-j> <Esc><C-w>j
 inoremap <M-k> <Esc><C-w>k
@@ -107,6 +109,14 @@ if has('nvim')
     tnoremap <M-l> <C-\><C-n><C-w>l
     tnoremap `` <C-\><C-n>
     autocmd BufWinEnter,WinEnter term://* startinsert
+else
+if has('terminal')
+    tnoremap `` <C-W>N
+    tnoremap <M-h> <C-w>h
+    tnoremap <M-j> <C-w>j
+    tnoremap <M-k> <C-w>k
+    tnoremap <M-l> <C-w>l
+endif
 endif
 
 set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor
@@ -169,11 +179,6 @@ set undofile
 " restore cursor position
 autocmd BufReadPost * if @% !~# '\.git[\/\\]COMMIT_EDITMSG$' && line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 
-if !exists(":DiffOrig")
-    command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-                \ | wincmd p | diffthis
-endif
-
 " set shiftwidth for C-style files
 autocmd FileType c,cpp setlocal tabstop=2 shiftwidth=2
 
@@ -184,18 +189,11 @@ autocmd FileType make setlocal tabstop=4 shiftwidth=4 noexpandtab
 cs add $CSCOPE_DB
 
 " airline plugin
-let g:airline_theme='term'
 set t_Co=256
 
 " latex plugin
 let g:tex_flavor='latex'
 let g:Imap_UsePlaceHolders = 0
-
-" tagbar plugin
-nnoremap <F9> :TagbarToggle<CR>
-
-" tmuxline plugin
-let g:tmuxline_powerline_separators = 0
 
 " vim-racer plugin
 let g:racer_cmd = $XDG_DATA_HOME.'/cargo/bin/racer'
@@ -235,26 +233,6 @@ let g:pandoc#formatting#textwidth = 100
 let g:pandoc#formatting#mode = "hA"
 let g:pandoc#formatting#smart_autoformat_on_cursormoved = 1
 
-" Goyo.vim plugin
-function! s:goyo_enter()
-    let b:quitting = 0
-    let b:quitting_bang = 0
-    autocmd QuitPre <buffer> let b:quitting = 1
-    cabbrev <buffer> q! let b:quitting_bang = 1 <bar> q!
-endfunction
-function! s:goyo_leave()
-    " Quit Vim if this is the only remaining buffer
-    if b:quitting && len(filter(range(1, bufnr('$')), 'buflisted(v:val)')) == 1
-        if b:quitting_bang
-            qa!
-        else
-            qa
-        endif
-    endif
-endfunction
-autocmd! User GoyoEnter call <SID>goyo_enter()
-autocmd! User GoyoLeave call <SID>goyo_leave()
-
 " vim better whitespace plugin
 let g:better_whitespace_filetypes_blacklist=['diff']
 autocmd FileType * EnableStripWhitespaceOnSave
@@ -268,6 +246,7 @@ autocmd FileType c,cpp let g:clang_format#auto_format = 1
 
 " Black plugin
 let g:black_virtualenv = $XDG_CACHE_HOME.'/black/venv'
+let g:black_skip_string_normalization = 1
 autocmd FileType python autocmd BufWritePre <buffer> execute ':Black'
 
 " writing function
