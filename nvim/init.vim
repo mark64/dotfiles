@@ -14,7 +14,7 @@ else
     endif
 endif
 
-" initialize Vundle
+" initialize Vim-Plug
 call plug#begin($XDG_DATA_HOME . '/nvim/plugged')
 " appearance
 Plug 'flazz/vim-colorschemes'
@@ -248,6 +248,10 @@ autocmd FileType c,cpp let g:clang_format#auto_format = 1
 let g:black_virtualenv = $XDG_CACHE_HOME.'/black/venv'
 let g:black_skip_string_normalization = 1
 autocmd FileType python autocmd BufWritePre <buffer> execute ':Black'
+
+au BufNewFile,BufRead /dev/shm/gopass.* setlocal noswapfile nobackup noundofile
+au BufNewFile,BufRead /dev/shm/pass.* setlocal noswapfile nobackup noundofile
+au BufNewFile,BufRead /var/tmp/* setlocal noswapfile nobackup noundofile
 
 " writing function
 autocmd Filetype gitcommit,text,markdown,help,tex call WriterMode()
