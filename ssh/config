@@ -49,6 +49,7 @@ Host sat
 Host git
     HostName github.com
     User git
+    IdentityFile ~/.ssh/id_ed25519
 
 Host astgit
     HostName github.com

@@ -22,7 +22,6 @@ Plug 'vim-airline/vim-airline'
 Plug 'KeitaNakamura/tex-conceal.vim', {'for': ['tex', 'pandoc']}
 
 " file management
-"Plug 'majutsushi/tagbar'
 Plug 'junegunn/fzf', {'do': './install --all --xdg'}
 
 " syntax
@@ -30,8 +29,7 @@ Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-latex/vim-latex'
 Plug 'rust-lang/rust.vim'
 Plug 'Shougo/neco-syntax'
-"Plug 'dag/vim-fish'
-"Plug 'fatih/vim-go', {'for': 'go'}
+Plug 'fatih/vim-go', {'for': 'go'}
 
 " autoformat
 Plug 'rhysd/vim-clang-format', {'for': ['c', 'cpp']}
@@ -41,7 +39,6 @@ Plug 'ambv/black', {'for': 'python'}
 if has('nvim') || (has('python3') && has('lambda') && has('timers') && has('job'))
 "    Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer --clang-tidy --rust-completer --java-completer --go-completer'}
     Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer --clang-tidy --rust-completer'}
-    Plug 'Valloric/ListToggle'
     " YCM is better, except for with rust
     Plug 'maralla/completor.vim', {'for': 'rust'}
 endif
