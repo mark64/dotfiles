@@ -18,7 +18,7 @@ command -v ssh 2>&1 > /dev/null && mkdir -p ~/.ssh \
 command -v gpg 2>&1 > /dev/null \
     && mkdir -p ~/.gnupg \
     && chmod 700 ~/.gnupg \
-    && (for FILE in $(find "$PWD/gnupg" -name '*.conf'); do ln -sf "$FILE" ~/.gnupg/; done)
+    && (for FILE in $(find "$PWD/gnupg" -name '*.conf' -o -name '*.kbx'); do ln -sf "$FILE" ~/.gnupg/; done)
 
 [ ! -f ~/.inputrc ] && ln -sf "$PWD/inputrc" ~/.inputrc
 
