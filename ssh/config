@@ -19,6 +19,7 @@ Host services tap
 	HostName services.csua.berkeley.edu
 	User mark64
     ForwardAgent=yes
+    RemoteForward /run/user/31365/gnupg/S.gpg-agent2 /run/user/1000/gnupg/S.gpg-agent.extra
 
 Host maersk smoothie tesla
 	HostName maersk.csua.berkeley.edu
