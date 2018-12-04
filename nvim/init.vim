@@ -1,4 +1,5 @@
 set nocompatible
+"colorscheme CandyPaper
 filetype off
 set encoding=utf-8
 
@@ -16,8 +17,8 @@ endif
 
 " initialize Vim-Plug
 call plug#begin($XDG_DATA_HOME . '/nvim/plugged')
+
 " appearance
-Plug 'flazz/vim-colorschemes'
 Plug 'vim-airline/vim-airline'
 Plug 'KeitaNakamura/tex-conceal.vim', {'for': ['tex', 'pandoc']}
 
@@ -72,6 +73,7 @@ function! VimMarkdownBuild(info)
     endif
 endfunction
 Plug 'euclio/vim-markdown-composer', {'do': function('VimMarkdownBuild')}
+
 call plug#end()
 
 filetype plugin indent on
@@ -120,9 +122,7 @@ set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr
 if has('nvim') || v:version > 800
     set termguicolors
 endif
-colorscheme CandyPaper
-"colorscheme desert
-"colorscheme osx_like
+colorscheme murphy
 set background=dark
 :hi Normal guibg=Black
 :hi! link Conceal Operator
