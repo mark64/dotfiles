@@ -126,6 +126,7 @@ colorscheme murphy
 set background=dark
 :hi Normal guibg=Black
 :hi! link Conceal Operator
+:hi! link Conceal Special
 :hi Title gui=Bold
 :hi Title guifg=White
 :hi Title cterm=Bold
