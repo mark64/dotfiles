@@ -122,6 +122,7 @@ set guicursor=n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr
 if has('nvim') || v:version > 800
     set termguicolors
 endif
+syntax enable
 colorscheme murphy
 set background=dark
 :hi Normal guibg=Black
@@ -140,7 +141,6 @@ if has('nvim') || v:version > 800
     set breakindent
     set display=truncate
 endif
-syntax enable
 set visualbell
 "set noerrorbells
 set pastetoggle=<F2>
