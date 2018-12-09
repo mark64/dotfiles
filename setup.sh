@@ -16,9 +16,8 @@ command -v ssh 2>&1 > /dev/null && mkdir -p ~/.ssh \
     && (for FILE in $(find "$PWD/ssh" -name authorized_keys -o -name '*.pub' -o -name 'config'); do ln -sf "$FILE" ~/.ssh/; done)
 
 command -v gpg 2>&1 > /dev/null \
-    && mkdir -p ~/.gnupg \
-    && chmod 700 ~/.gnupg \
-    && (for FILE in $(find "$PWD/gnupg" -name '*.conf' -o -name '*.kbx'); do ln -sf "$FILE" ~/.gnupg/; done)
+    && chmod 700 "$PWD/gnupg" \
+    && ln -sf "$PWD/gnupg" ~/.gnupg
 
 [ ! -f ~/.inputrc ] && ln -sf "$PWD/inputrc" ~/.inputrc
 

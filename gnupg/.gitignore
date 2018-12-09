@@ -1,0 +1,9 @@
+/private-keys-v1.d
+/openpgp-revocs.d
+*~
+*.bak
+*.status
+dirmngr.conf
+random_seed
+trustdb.gpg
+tofu.db
