@@ -24,6 +24,9 @@ command -v gpg 2>&1 > /dev/null \
 command -v tmux 2>&1 > /dev/null \
     && ln -sf "$PWD/tmux/tmux.conf" ~/.tmux.conf
 
+command -v rustup 2>&1 > /dev/null \
+    && rustup update
+
 VIM=''
 HASNVIM=$(command -v nvim 2> /dev/null)
 HASVIM=$(command -v vim 2> /dev/null)
@@ -31,6 +34,7 @@ if [ "$HASNVIM" ]; then
     VIM=nvim
 elif [ "$HASVIM" ]; then
     VIM=vim
+    ln -sf "$PWD/nvim/init.vim" ~/.vimrc
 fi
 [ "$VIM" ] && [ "$XDG_CONFIG_HOME" ] \
     && command -v git 2>&1 > /dev/null \
