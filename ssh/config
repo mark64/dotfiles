@@ -13,33 +13,22 @@ Host github
 Host soda
 	HostName soda.berkeley.edu
 	User mark64
-    ForwardAgent=yes
 
 Host services tap
 	HostName services.csua.berkeley.edu
 	User mark64
-    ForwardAgent=yes
-    RemoteForward /run/user/31365/gnupg/S.gpg-agent2 /run/user/1000/gnupg/S.gpg-agent.extra
 
 Host maersk smoothie tesla
 	HostName maersk.csua.berkeley.edu
 	User pnunez
-    ForwardAgent=yes
 
 Host latte
 	HostName maersk.csua.berkeley.edu
 	User mark64
-    ForwardAgent=yes
-
-Host sodaroot
-	HostName soda.berkeley.edu
-	User pnunez
-    ForwardAgent=yes
 
 Host minifridge
     HostName 128.32.112.234
     User root
-    ForwardAgent=yes
 
 Host sat
     HostName 10.65.115.79
