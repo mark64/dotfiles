@@ -42,7 +42,7 @@ fi
     && $VIM -i NONE -c PlugUpdate -c quitall > /dev/null
 
 SETUP_CRON_LINE="0 */6 * * * '$SETUP_FILE_PATH'"
-command -v crontab 2>&1 > /dev/null && false \
+command -v crontab 2>&1 > /dev/null \
     && (
         [ "$(crontab -l | grep "$SETUP_FILE_PATH" | wc -l)" -ne 0 ] \
         || cat <(crontab -l) <(echo "$SETUP_CRON_LINE") | crontab -
