@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -x
 # This script sets up my user environment without modifying installed packages or requiring root access.
 # It is designed to be run on nearly any UNIX computer and perform as much setup as possible, given the
 # installed packages.
