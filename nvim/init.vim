@@ -39,7 +39,7 @@ Plug 'ambv/black', {'for': 'python'}
 " completion
 if has('nvim') || (has('python3') && has('lambda') && has('timers') && has('job'))
 "    Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer --clang-tidy --rust-completer --java-completer --go-completer'}
-    Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer --clang-tidy --rust-completer --java-completer'}
+    Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer --clang-tidy'}
     " YCM is better, except for with rust
     Plug 'maralla/completor.vim', {'for': 'rust'}
 endif
@@ -60,20 +60,6 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'jreybert/vimagit'
-
-" cool real-time markdown rendering
-" vim-markdown-composer plugin
-function! VimMarkdownBuild(info)
-    if a:info.status != 'unchanged' || a:info.force
-        if has('nvim')
-            !cargo build --release
-        else
-            !cargo build --release --no-default-features --features json-rpc
-        endif
-    endif
-endfunction
-Plug 'euclio/vim-markdown-composer', {'do': function('VimMarkdownBuild')}
-
 call plug#end()
 
 filetype plugin indent on
