@@ -33,13 +33,13 @@ Plug 'Shougo/neco-syntax'
 Plug 'fatih/vim-go', {'for': 'go'}
 
 " autoformat
-Plug 'rhysd/vim-clang-format', {'for': ['c', 'cpp']}
+Plug 'rhysd/vim-clang-format', {'for': ['c', 'cpp', 'java']}
 Plug 'ambv/black', {'for': 'python'}
 
 " completion
 if has('nvim') || (has('python3') && has('lambda') && has('timers') && has('job'))
 "    Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer --clang-tidy --rust-completer --java-completer --go-completer'}
-    Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer --clang-tidy --rust-completer'}
+    Plug 'Valloric/YouCompleteMe', {'do': './install.py --clang-completer --clang-tidy --rust-completer --java-completer'}
     " YCM is better, except for with rust
     Plug 'maralla/completor.vim', {'for': 'rust'}
 endif
@@ -237,10 +237,10 @@ autocmd FileType * EnableStripWhitespaceOnSave
 autocmd! FileType diff,markdown,pandoc DisableStripWhitespaceOnSave
 
 " vim-markdown-compose plugin
-let g:markdown_composer_autostart=0
+let g:markdown_composer_autostart=1
 
 " vim-clang-format plugin
-autocmd FileType c,cpp let g:clang_format#auto_format = 1
+autocmd FileType c,cpp,java let g:clang_format#auto_format = 1
 
 " Black plugin
 let g:black_virtualenv = $XDG_CACHE_HOME.'/black/venv'

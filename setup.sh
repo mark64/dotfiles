@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -x
 # This script sets up my user environment without modifying installed packages or requiring root access.
 # It is designed to be run on nearly any UNIX computer and perform as much setup as possible, given the
 # installed packages.
@@ -16,7 +17,7 @@ command -v ssh 2>&1 > /dev/null && mkdir -p ~/.ssh \
     && (for FILE in $(find "$PWD/ssh" -name authorized_keys -o -name '*.pub' -o -name 'config'); do ln -sf "$FILE" ~/.ssh/; done)
 
 command -v gpg 2>&1 > /dev/null \
-    && [ ! -d "$PWD/gnupg" ] \
+    && [ ! -d "~/.gnupg" ] \
     && chmod 700 "$PWD/gnupg" \
     && ln -sf "$PWD/gnupg" ~/.gnupg
 
@@ -42,12 +43,12 @@ fi
     && $VIM -i NONE -c PlugUpdate -c quitall > /dev/null
 
 SETUP_CRON_LINE="0 */6 * * * '$SETUP_FILE_PATH'"
-command -v crontab 2>&1 > /dev/null \
+command -v crontab 2>&1 > /dev/null && false \
     && (
         [ "$(crontab -l | grep "$SETUP_FILE_PATH" | wc -l)" -ne 0 ] \
         || cat <(crontab -l) <(echo "$SETUP_CRON_LINE") | crontab -
     ) || (
-        grep ~/.bashrc -e './setup.sh' || cat > ~/.bashrc <<< EOF
+        grep ~/.bashrc -e './setup.sh' || cat >> ~/.bashrc <<EOF
 DIR="$PWD"
 cd $XDG_CONFIG_HOME && ./setup.sh
 cd $DIR
