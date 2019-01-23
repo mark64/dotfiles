@@ -6,7 +6,7 @@ Host drfcx
     ForwardAgent=yes
     ForwardX11=yes
 
-Host github
+Host github.com
     HostName github.com
     User git
 
@@ -35,3 +35,15 @@ Host sat
     User mark
     ForwardAgent=yes
     ForwardX11=yes
+
+Host kiev
+    HostName 10.65.115.98
+    User mark
+
+Host cube
+    HostName 10.65.115.125
+    User shared
+
+Host atl
+    HostName 172.31.23.191
+    User ec2-user
