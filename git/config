@@ -20,5 +20,3 @@
     d = diff
     r = reset
     b = branch
-#[credential]
-#	helper = /usr/local/bin/pass-git-helper

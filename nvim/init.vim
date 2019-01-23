@@ -22,7 +22,7 @@ call plug#begin($XDG_DATA_HOME . '/nvim/plugged')
 Plug 'vim-airline/vim-airline'
 Plug 'KeitaNakamura/tex-conceal.vim', {'for': ['tex', 'pandoc']}
 
-" file management
+" Better shell Ctrl-R
 Plug 'junegunn/fzf', {'do': './install --all --xdg'}
 
 " syntax
@@ -58,7 +58,6 @@ Plug 'tpope/vim-surround'
 
 " git
 Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
 Plug 'jreybert/vimagit'
 call plug#end()
 
@@ -170,7 +169,7 @@ autocmd FileType c,cpp setlocal tabstop=2 shiftwidth=2
 autocmd FileType make setlocal tabstop=4 shiftwidth=4 noexpandtab
 
 " cscope config
-cs add $CSCOPE_DB
+"cs add $CSCOPE_DB
 
 " airline plugin
 set t_Co=256
@@ -197,7 +196,7 @@ inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
 let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_extra_conf_globlist = ['~/repos/berkeley/*']
+let g:ycm_extra_conf_globlist = ['~/repos/berkeley/*', '~/repos/sw/*', '~/repos/astros2/*']
 let g:ycm_rust_src_path = $CARGO_HOME.'/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src'
 
 " fzf plugin
@@ -233,9 +232,18 @@ let g:black_virtualenv = $XDG_CACHE_HOME.'/black/venv'
 let g:black_skip_string_normalization = 1
 autocmd FileType python autocmd BufWritePre <buffer> execute ':Black'
 
+" Prevent leaking secret
 au BufNewFile,BufRead /dev/shm/gopass.* setlocal noswapfile nobackup noundofile
 au BufNewFile,BufRead /dev/shm/pass.* setlocal noswapfile nobackup noundofile
 au BufNewFile,BufRead /var/tmp/* setlocal noswapfile nobackup noundofile
+
+" Hybrid numbering from https://jeffkreeftmeijer.com/vim-number/
+:set number relativenumber
+:augroup numbertoggle
+:  autocmd!
+:  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+:  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+:augroup END
 
 " writing function
 autocmd Filetype gitcommit,text,markdown,help,tex call WriterMode()
