@@ -47,3 +47,7 @@ Host cube
 Host atl
     HostName 172.31.23.191
     User ec2-user
+
+Host gnc-master
+    HostName 172.31.20.69
+    User ubuntu

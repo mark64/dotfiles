@@ -32,6 +32,7 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 alias l='ls -CF'
 alias ll='ls -lAh'
+alias p3=python3
 if ! shopt -oq posix; then
     [ -f /usr/share/bash-completion/bash_completion ] && . /usr/share/bash-completion/bash_completion
     [ -f /etc/bash_completion ] && . /etc/bash_completion
@@ -43,7 +44,5 @@ command -v gpg-connect-agent 2>&1 >/dev/null &&
 command -v pandoc >/dev/null 2>&1 && eval "$(pandoc --bash-completion 2>/dev/null)"
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash
 [ -f /usr/share/autojump/autojump.bash ] && source /usr/share/autojump/autojump.bash
-# Added by build_setup.sh:
 export PATH=$PATH:/home/mark/tools/bin
-# Added by build_setup.sh:
 export PATH=$PATH:/home/mark/tools/arcanist/arcanist/bin
