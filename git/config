@@ -16,7 +16,7 @@
 	reviewone = !vim -p +\"tabdo Gdiff $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
     s = status
     c = checkout
-    cm = commit
+    co = commit
     d = diff
     r = reset
     b = branch
