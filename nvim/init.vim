@@ -21,6 +21,7 @@ call plug#begin($XDG_DATA_HOME . '/nvim/plugged')
 " appearance
 Plug 'vim-airline/vim-airline'
 Plug 'KeitaNakamura/tex-conceal.vim', {'for': ['tex', 'pandoc']}
+Plug 'flazz/vim-colorschemes'
 
 " Better shell Ctrl-R
 Plug 'junegunn/fzf', {'do': './install --all --xdg'}
@@ -31,6 +32,7 @@ Plug 'vim-latex/vim-latex'
 Plug 'rust-lang/rust.vim'
 Plug 'Shougo/neco-syntax'
 Plug 'fatih/vim-go', {'for': 'go'}
+Plug 'vim-scripts/cup.vim'
 
 " autoformat
 Plug 'rhysd/vim-clang-format', {'for': ['c', 'cpp', 'java']}
@@ -108,7 +110,7 @@ if has('nvim') || v:version > 800
     set termguicolors
 endif
 syntax enable
-colorscheme murphy
+"colorscheme elrond
 set background=dark
 :hi Normal guibg=Black
 :hi! link Conceal Operator
@@ -154,6 +156,8 @@ set hlsearch
 set incsearch
 set noequalalways
 nnoremap <CR> :noh<CR>:<BS>
+colorscheme molokai_dark
+colorscheme detailed
 
 " undo file
 set undodir=$XDG_DATA_HOME/nvim/undo
@@ -232,7 +236,10 @@ let g:black_virtualenv = $XDG_CACHE_HOME.'/black/venv'
 let g:black_skip_string_normalization = 1
 autocmd FileType python autocmd BufWritePre <buffer> execute ':Black'
 
-" Prevent leaking secret
+" cup.vim plugin
+au BufNewFile,BufRead *.cup setf cup
+
+" Prevent leaking secrets
 au BufNewFile,BufRead /dev/shm/gopass.* setlocal noswapfile nobackup noundofile
 au BufNewFile,BufRead /dev/shm/pass.* setlocal noswapfile nobackup noundofile
 au BufNewFile,BufRead /var/tmp/* setlocal noswapfile nobackup noundofile
