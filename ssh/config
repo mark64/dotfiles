@@ -1,20 +1,20 @@
 AddKeysToAgent=yes
 
-Host drfcx
+Host drfcx d
     HostName drfcx.com
     User mark
     ForwardAgent=yes
     ForwardX11=yes
 
-Host github.com
+Host github.com g
     HostName github.com
     User git
 
-Host soda
+Host soda so
 	HostName soda.berkeley.edu
 	User mark64
 
-Host services tap
+Host services tap t
 	HostName services.csua.berkeley.edu
 	User mark64
 
@@ -22,32 +22,36 @@ Host maersk smoothie tesla
 	HostName maersk.csua.berkeley.edu
 	User pnunez
 
-Host latte
+Host latte l
 	HostName maersk.csua.berkeley.edu
 	User mark64
 
-Host minifridge
+Host minifridge m
     HostName 128.32.112.234
     User root
 
-Host sat
+Host sat s
     HostName 10.65.115.79
     User mark
     ForwardAgent=yes
     ForwardX11=yes
 
-Host kiev
+Host kiev k
     HostName 10.65.115.98
     User mark
 
-Host cube
+Host cube c
     HostName 10.65.115.125
     User shared
 
-Host atl
+Host atl a
     HostName 172.31.23.191
     User ec2-user
 
-Host gnc-master
+Host gnc-master gnc
     HostName 172.31.20.69
     User ubuntu
+
+Host oslo o
+    HostName 10.65.115.140
+    User mark
