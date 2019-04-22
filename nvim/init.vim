@@ -170,7 +170,7 @@ set undofile
 autocmd BufReadPost * if @% !~# '\.git[\/\\]COMMIT_EDITMSG$' && line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 
 " set shiftwidth for C-style files
-autocmd FileType c,cpp setlocal tabstop=2 shiftwidth=2
+autocmd FileType c,cpp,proto setlocal tabstop=2 shiftwidth=2
 
 " set tabs for Makefiles
 autocmd FileType make setlocal tabstop=4 shiftwidth=4 noexpandtab
@@ -232,7 +232,7 @@ autocmd! FileType diff,markdown,pandoc DisableStripWhitespaceOnSave
 let g:markdown_composer_autostart=1
 
 " vim-clang-format plugin
-autocmd FileType c,cpp,java let g:clang_format#auto_format = 1
+autocmd FileType c,cpp,java ClangFormatAutoEnable
 
 " Black plugin
 let g:black_virtualenv = $XDG_CACHE_HOME.'/black/venv'
