@@ -4,7 +4,6 @@
 /monitors.xml*
 /pulse
 /spotify
-.netrwhist
 /VirtualBox
 /evolution
 /gedit
@@ -12,4 +11,9 @@
 /fish/fishd.*
 /fish/functions/fzf_key_bindings.fish
 /ranger
-mimeapps.list
+/mimeapps.list
+.netrwhist
+/nautilus
+/ibus
+/nvim/spell
+/gnome-initial-setup-done
