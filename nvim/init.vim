@@ -61,6 +61,9 @@ Plug 'tpope/vim-surround'
 " git
 Plug 'tpope/vim-fugitive'
 Plug 'jreybert/vimagit'
+
+" other
+Plug 'ciaranm/securemodelines'
 call plug#end()
 
 filetype plugin indent on
@@ -112,7 +115,6 @@ endif
 syntax enable
 "colorscheme elrond
 set background=dark
-:hi Normal guibg=Black
 :hi! link Conceal Operator
 :hi! link Conceal Special
 :hi Title gui=Bold
@@ -158,6 +160,7 @@ set noequalalways
 nnoremap <CR> :noh<CR>:<BS>
 colorscheme molokai_dark
 colorscheme detailed
+:hi Normal guibg=Black
 
 " undo file
 set undodir=$XDG_DATA_HOME/nvim/undo
@@ -251,6 +254,8 @@ au BufNewFile,BufRead /var/tmp/* setlocal noswapfile nobackup noundofile
 :  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
 :  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 :augroup END
+
+setlocal spell spelllang=en_us
 
 " writing function
 autocmd Filetype gitcommit,text,markdown,help,tex call WriterMode()
