@@ -63,3 +63,14 @@ Host bmo b
 Host router r
     HostName 10.65.115.1
     User ubnt
+
+
+# Added by Krypton
+Host *
+	IdentityAgent ~/.kr/krd-agent.sock
+	ProxyCommand /usr/bin/krssh %h %p
+	IdentityFile ~/.ssh/id_krypton
+	IdentityFile ~/.ssh/id_ed25519
+	IdentityFile ~/.ssh/id_rsa
+	IdentityFile ~/.ssh/id_ecdsa
+	IdentityFile ~/.ssh/id_dsa
