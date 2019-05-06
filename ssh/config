@@ -1,9 +1,9 @@
 AddKeysToAgent=yes
+ForwardAgent=yes
 
 Host drfcx d
     HostName drfcx.com
     User mark
-    ForwardAgent=yes
     ForwardX11=yes
 
 Host github.com g
@@ -31,9 +31,8 @@ Host minifridge m
     User root
 
 Host sat s
-    HostName 10.65.115.79
+    HostName 10.65.115.236
     User mark
-    ForwardAgent=yes
     ForwardX11=yes
 
 Host kiev k
@@ -66,7 +65,7 @@ Host router r
 
 
 # Added by Krypton
-Host *
+Host github.com
 	IdentityAgent ~/.kr/krd-agent.sock
 	ProxyCommand /usr/bin/krssh %h %p
 	IdentityFile ~/.ssh/id_krypton

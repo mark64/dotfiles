@@ -20,3 +20,5 @@
     d = diff
     r = reset
     b = branch
+[diff "gpg"]
+	textconv = gpg --no-tty --decrypt
