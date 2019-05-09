@@ -1,8 +1,8 @@
 AddKeysToAgent=yes
 ForwardAgent=yes
 
-Host drfcx d
-    HostName drfcx.com
+Host drfcx d atta a
+    HostName atta.dev
     User mark
     ForwardX11=yes
 
@@ -43,7 +43,7 @@ Host cube c
     HostName 10.65.115.125
     User shared
 
-Host atl a
+Host atl
     HostName 172.31.23.191
     User ec2-user
 
