@@ -35,7 +35,7 @@ Plug 'fatih/vim-go', {'for': 'go'}
 Plug 'vim-scripts/cup.vim'
 
 " autoformat
-Plug 'rhysd/vim-clang-format', {'for': ['c', 'cpp', 'java']}
+Plug 'rhysd/vim-clang-format', {'for': ['c', 'cpp', 'java', 'proto']}
 Plug 'ambv/black', {'for': 'python'}
 
 " completion
@@ -226,13 +226,13 @@ let g:pandoc#formatting#smart_autoformat_on_cursormoved = 1
 " vim better whitespace plugin
 let g:better_whitespace_filetypes_blacklist=['diff']
 autocmd FileType * EnableStripWhitespaceOnSave
-autocmd! FileType diff,markdown,pandoc DisableStripWhitespaceOnSave
+autocmd! FileType diff,markdown,pandoc,tex DisableStripWhitespaceOnSave
 
 " vim-markdown-compose plugin
 let g:markdown_composer_autostart=1
 
 " vim-clang-format plugin
-autocmd FileType c,cpp,java ClangFormatAutoEnable
+autocmd FileType c,cpp,java,proto ClangFormatAutoEnable
 
 " Black plugin
 let g:black_virtualenv = $XDG_CACHE_HOME.'/black/venv'
