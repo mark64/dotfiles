@@ -1,7 +1,7 @@
 [user]
 	name = Mark Hill
     email = markleehill@gmail.com
-    signingKey = "0x09FE4A39FC764E76"
+    signingKey = "0x9632406482AB028E"
 [core]
 	editor = vim
 [color]
