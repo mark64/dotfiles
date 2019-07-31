@@ -63,9 +63,6 @@ Host router r
     HostName 10.65.115.1
     User ubnt
 
-
-# Added by Krypton
-Host github.com
-	IdentityAgent ~/.kr/krd-agent.sock
-	ProxyCommand /usr/bin/krssh %h %p
-	IdentityFile ~/.ssh/id_krypton
+Host serenity
+    HostName 10.65.115.41
+    User mark

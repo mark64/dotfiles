@@ -5,6 +5,7 @@ esac
 shopt -s histappend
 shopt -s checkwinsize
 shopt -s globstar
+PROMPT_COMMAND='history -a'
 HISTCONTROL=ignoreboth
 HISTFILE="${XDG_DATA_HOME:-$HOME/.local/share}/bash/history"
 HISTSIZE=1000000000
@@ -46,3 +47,4 @@ command -v pandoc >/dev/null 2>&1 && eval "$(pandoc --bash-completion 2>/dev/nul
 [ -f /usr/share/autojump/autojump.bash ] && source /usr/share/autojump/autojump.bash
 export PATH=$PATH:/home/mark/tools/bin
 export PATH=$PATH:/home/mark/tools/arcanist/arcanist/bin
+export WIND_HOME=~/.local/share/vxworks
