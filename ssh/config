@@ -63,6 +63,40 @@ Host router r
     HostName 10.65.115.1
     User ubnt
 
+Host auth
+    HostName 10.65.115.149
+    User rancher
+
+Host ph.corp.astranis.space git.corp.astranis.com
+    User git
+
+Host filecloud
+    HostName 172.31.27.39
+    User ubuntu
+
+Host riga
+    HostName 10.65.115.33
+    User mark
+
+Host vizzyadmin
+    HostName 172.31.31.26
+    User ubuntu
+
 Host serenity
     HostName 10.65.115.41
     User mark
+
+Host quark
+    HostName 10.65.115.16
+    User sdeghuee
+
+
+# Added by Krypton
+#   Host *
+#       IdentityAgent ~/.kr/krd-agent.sock
+#       ProxyCommand /usr/bin/krssh %h %p
+#       IdentityFile ~/.ssh/id_krypton
+#       IdentityFile ~/.ssh/id_ed25519
+#       IdentityFile ~/.ssh/id_rsa
+#       IdentityFile ~/.ssh/id_ecdsa
+#       IdentityFile ~/.ssh/id_dsa

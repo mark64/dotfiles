@@ -1,6 +1,7 @@
-/.netrwhist
+/cef_user_data
 /chromium
 /dconf
+/evince/print-settings
 /evolution
 /fish/fishd.*
 /fish/functions/fzf_key_bindings.fish
@@ -11,12 +12,17 @@
 /libreoffice
 /libvirt
 /google-chrome
+/menus
 /mimeapps.list
 /monitors.xml*
 /nautilus
+/nvim/.netrwhist
 /nvim/spell
 /pulse
+/QtProject.conf
 /ranger
 /spotify
 /unity3d
+/vlc
 /VirtualBox
+/wireshark

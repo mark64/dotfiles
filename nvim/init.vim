@@ -33,6 +33,7 @@ Plug 'rust-lang/rust.vim'
 Plug 'Shougo/neco-syntax'
 Plug 'fatih/vim-go', {'for': 'go'}
 Plug 'vim-scripts/cup.vim'
+Plug 'chiphogg/vim-prototxt'
 
 " autoformat
 Plug 'rhysd/vim-clang-format', {'for': ['c', 'cpp', 'java', 'proto']}
@@ -157,6 +158,8 @@ let c_comment_strings=1
 set hlsearch
 set incsearch
 set noequalalways
+set ttyfast
+set lazyredraw
 nnoremap <CR> :noh<CR>:<BS>
 colorscheme molokai_dark
 colorscheme detailed
@@ -203,7 +206,7 @@ inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
 let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_extra_conf_globlist = ['~/repos/berkeley/*', '~/repos/sw/*', '~/repos/astros2/*']
+let g:ycm_extra_conf_globlist = ['~/repos/berkeley/*', '~/repos/sw/*', '~/repos/astros2/*', '~/repos/vxworks-system/*']
 let g:ycm_rust_src_path = $CARGO_HOME.'/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src'
 
 " fzf plugin
@@ -237,7 +240,7 @@ autocmd FileType c,cpp,java,proto ClangFormatAutoEnable
 " Black plugin
 let g:black_virtualenv = $XDG_CACHE_HOME.'/black/venv'
 let g:black_skip_string_normalization = 1
-autocmd FileType python autocmd BufWritePre <buffer> execute ':Black'
+"autocmd FileType python autocmd BufWritePre <buffer> execute ':Black'
 
 " cup.vim plugin
 au BufNewFile,BufRead *.cup setf cup
