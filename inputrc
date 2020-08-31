@@ -13,4 +13,6 @@ TAB: menu-complete
 "\e[Z": menu-complete-backward
 set show-all-if-ambiguous on
 set menu-complete-display-prefix on
+# if you up-arrow and edit a line, but then don't run it, the edit will be reverted.
+set revert-all-at-newline on
 $endif
