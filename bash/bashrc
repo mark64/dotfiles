@@ -51,3 +51,4 @@ command -v pandoc >/dev/null 2>&1 && eval "$(pandoc --bash-completion 2>/dev/nul
 export PATH=$PATH:/home/mark/tools/bin
 export PATH=$PATH:/home/mark/tools/arcanist/arcanist/bin
 export WIND_HOME=~/.local/share/vxworks
+alias gpg-new-yubikey="gpg-connect-agent 'scd serialno' 'learn --force' /bye"

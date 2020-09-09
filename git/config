@@ -13,6 +13,7 @@
     s = status
     c = checkout
     co = commit
+    cp = cherry-pick
     d = diff
     r = reset
     b = branch
@@ -24,3 +25,5 @@
 	ui = auto
 [diff "gpg"]
 	textconv = gpg --no-tty --decrypt
+[pull]
+	rebase = false
