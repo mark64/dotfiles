@@ -1,5 +1,4 @@
 set nocompatible
-"colorscheme CandyPaper
 filetype off
 set encoding=utf-8
 
@@ -32,12 +31,10 @@ Plug 'vim-latex/vim-latex'
 Plug 'rust-lang/rust.vim'
 Plug 'Shougo/neco-syntax'
 Plug 'fatih/vim-go', {'for': 'go'}
-Plug 'vim-scripts/cup.vim'
 Plug 'chiphogg/vim-prototxt'
 
 " autoformat
 Plug 'rhysd/vim-clang-format', {'for': ['c', 'cpp', 'java', 'proto']}
-Plug 'ambv/black', {'for': 'python'}
 
 " completion
 if has('nvim') || (has('python3') && has('lambda') && has('timers') && has('job'))
@@ -75,7 +72,6 @@ nnoremap j gj
 nnoremap k gk
 vnoremap j gj
 vnoremap k gk
-imap fd <C-y>
 inoremap jk <Esc>
 
 if !has('nvim')
@@ -178,9 +174,6 @@ autocmd FileType c,cpp,proto setlocal tabstop=2 shiftwidth=2
 " set tabs for Makefiles
 autocmd FileType make setlocal tabstop=4 shiftwidth=4 noexpandtab
 
-" cscope config
-"cs add $CSCOPE_DB
-
 " airline plugin
 set t_Co=256
 
@@ -206,7 +199,7 @@ inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "\<C-y>\<cr>" : "\<cr>"
 let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_extra_conf_globlist = ['~/repos/berkeley/*', '~/repos/sw/*', '~/repos/astros2/*', '~/repos/vxworks-system/*']
+let g:ycm_extra_conf_globlist = ['~/repos/berkeley/*', '~/repos/sw/*', '~/repos/astros2/*', '~/repos/vxworks-system/*', '~/repos/monorepo/*']
 let g:ycm_rust_src_path = $CARGO_HOME.'/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src'
 
 " fzf plugin
@@ -236,14 +229,6 @@ let g:markdown_composer_autostart=1
 
 " vim-clang-format plugin
 autocmd FileType c,cpp,java,proto ClangFormatAutoEnable
-
-" Black plugin
-let g:black_virtualenv = $XDG_CACHE_HOME.'/black/venv'
-let g:black_skip_string_normalization = 1
-"autocmd FileType python autocmd BufWritePre <buffer> execute ':Black'
-
-" cup.vim plugin
-au BufNewFile,BufRead *.cup setf cup
 
 " Prevent leaking secrets
 au BufNewFile,BufRead /dev/shm/gopass.* setlocal noswapfile nobackup noundofile
