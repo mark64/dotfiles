@@ -47,12 +47,6 @@ endif
 Plug 'Shougo/neco-vim'
 Plug 'vim-pandoc/vim-pandoc-syntax', {'for': 'pandoc'}
 
-" makers and syntax checkers
-Plug 'davidhalter/jedi-vim', {'for': 'python'}
-Plug 'racer-rust/vim-racer', {'for': 'rust'}
-" YCM doesn't have good rust or python checks
-Plug 'vim-syntastic/syntastic', {'for': ['rust', 'python']}
-
 " deliminator and spacing helpers
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'tpope/vim-surround'

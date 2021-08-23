@@ -44,7 +44,7 @@ fi
 command -v gpg-connect-agent 2>&1 >/dev/null &&
     export GPG_TTY=$(tty) &&
     gpg-connect-agent UPDATESTARTUPTTY /bye >/dev/null &&
-    export SSH_AUTH_SOCK=${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/gnupg/S.gpg-agent.ssh
+    export SSH_AUTH_SOCK=${SSH_AUTH_SOCK:-${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/gnupg/S.gpg-agent.ssh}
 command -v pandoc >/dev/null 2>&1 && eval "$(pandoc --bash-completion 2>/dev/null)"
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash
 [ -f /usr/share/autojump/autojump.bash ] && source /usr/share/autojump/autojump.bash
@@ -54,4 +54,6 @@ export WIND_HOME=~/WindRiver
 alias gpg-new-yubikey="gpg-connect-agent 'scd serialno' 'learn --force' /bye"
 # Added by build_setup.sh:
 export PATH=/home/mark/tools/nvm/current:$PATH
-source "$HOME/.cargo/env"
+if [ -e "$HOME/.cargo/env" ]
+    source "$HOME/.cargo/env"
+fi
