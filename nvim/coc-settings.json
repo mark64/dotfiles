@@ -11,6 +11,7 @@
             "rootPatterns": [
                 ".ccls",
                 "compile_commands.json",
+                ".compiledb",
                 ".vim/",
                 ".git/",
                 ".hg/"
@@ -18,7 +19,8 @@
             "initializationOptions": {
                 "cache": {
                     "directory": "/tmp/ccls"
-                }
+                },
+                "compilationDatabaseDirectory": ".compiledb/"
             }
         }
     },
