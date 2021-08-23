@@ -1,10 +1,14 @@
 /cef_user_data
 /chromium
+/coc/extensions/db.json
+/coc/extensions/node_modules
+/configstore
 /dconf
 /evince/print-settings
 /evolution
 /fish/fishd.*
 /fish/functions/fzf_key_bindings.fish
+/freerdp
 /fzf
 /gedit
 /gnome-initial-setup-done
@@ -21,6 +25,7 @@
 /pulse
 /QtProject.conf
 /ranger
+/remmina
 /spotify
 /unity3d
 /vlc
