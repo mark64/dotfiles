@@ -1,7 +1,6 @@
 /cef_user_data
 /chromium
-/coc/extensions/db.json
-/coc/extensions/node_modules
+/coc/extensions
 /configstore
 /dconf
 /evince/print-settings
