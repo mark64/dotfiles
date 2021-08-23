@@ -56,3 +56,4 @@ alias gpg-new-yubikey="gpg-connect-agent 'scd serialno' 'learn --force' /bye"
 export PATH=/home/mark/tools/nvm/current:$PATH
 # Added by build_setup.sh:
 source /home/mark/repos/software-dev/misc/bazel-complete.bash
+source "$HOME/.cargo/env"

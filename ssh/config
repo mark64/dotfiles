@@ -59,10 +59,6 @@ Host bmo b
     HostName 10.65.115.243
     User mark
 
-Host router r
-    HostName 10.65.115.1
-    User ubnt
-
 Host auth
     HostName 10.65.115.149
     User rancher
