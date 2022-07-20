@@ -1,91 +1,14 @@
 AddKeysToAgent=yes
-ForwardAgent=yes
 
-Host drfcx d atta a
+Host atta a
     HostName atta.dev
     User mark
     ForwardX11=yes
+    ForwardAgent=yes
 
 Host github.com g
     HostName github.com
     User git
-
-Host soda so
-	HostName soda.berkeley.edu
-	User mark64
-
-Host services tap t
-	HostName services.csua.berkeley.edu
-	User mark64
-
-Host maersk smoothie tesla
-	HostName maersk.csua.berkeley.edu
-	User pnunez
-
-Host latte l
-	HostName maersk.csua.berkeley.edu
-	User mark64
-
-Host minifridge m
-    HostName 128.32.112.234
-    User root
-
-Host sat s
-    HostName 10.65.115.236
-    User mark
-    ForwardX11=yes
-
-Host kiev k
-    HostName 10.65.115.98
-    User mark
-
-Host cube c
-    HostName 10.65.115.125
-    User shared
-
-Host atl
-    HostName 172.31.23.191
-    User ec2-user
-
-Host gnc-master gnc
-    HostName 172.31.20.69
-    User ubuntu
-
-Host oslo o
-    HostName 10.65.115.140
-    User mark
-
-Host bmo b
-    HostName 10.65.115.243
-    User mark
-
-Host auth
-    HostName 10.65.115.149
-    User rancher
-
-Host ph.corp.astranis.space git.corp.astranis.com
-    User git
-
-Host filecloud
-    HostName 172.31.27.39
-    User ubuntu
-
-Host riga
-    HostName 10.65.115.33
-    User mark
-
-Host vizzyadmin
-    HostName 172.31.31.26
-    User ubuntu
-
-Host serenity
-    HostName 10.65.115.41
-    User mark
-
-Host quark
-    HostName 10.65.114.232
-    User sdeghuee
-
 
 # Added by Krypton
 #   Host *
