@@ -14,7 +14,10 @@ HISTFILESIZE=2000000000
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
-PS1='${debian_chroot:+($debian_chroot)}\[[01;32m\]\h\[[00m\]:\[[01;34m\]\w\[[00m\]($?)\$ '
+get_branch() {
+    git status --porcelain --branch 2>/dev/null | head -n1 | sed -r 's,## (\w+).*, \1 ,'
+}
+PS1='${debian_chroot:+($debian_chroot)}\[[01;32m\]\h\[[00m\]:\[[01;34m\]\w\[[00m\]($?)$(get_branch)\$ '
 case "$TERM" in
 xterm* | rxvt*)
     PS1="\[]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\]$PS1"
