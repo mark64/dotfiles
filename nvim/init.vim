@@ -41,7 +41,7 @@ if has('nvim') || (has('python3') && has('lambda') && has('timers') && has('job'
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
     Plug 'm-pilia/vim-ccls'
     let g:coc_global_extensions = ['coc-cmake', 'coc-git', 'coc-highlight',
-                \ 'coc-jedi', 'coc-markdownlint', 'coc-pyright', 'coc-rls',
+                \ 'coc-jedi', 'coc-markdownlint', 'coc-pyright', 'coc-rust-analyzer',
                 \ 'coc-rust-analyzer', 'coc-sh', 'coc-vimlsp', 'coc-yaml']
 endif
 Plug 'Shougo/neco-vim'
@@ -62,6 +62,7 @@ call plug#end()
 filetype plugin indent on
 set nu
 
+set mouse=
 nnoremap ; :
 nnoremap j gj
 nnoremap k gk
