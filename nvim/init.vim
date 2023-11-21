@@ -41,14 +41,13 @@ if has('nvim') || (has('python3') && has('lambda') && has('timers') && has('job'
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
     Plug 'm-pilia/vim-ccls'
     let g:coc_global_extensions = ['coc-cmake', 'coc-git', 'coc-highlight',
-                \ 'coc-jedi', 'coc-markdownlint', 'coc-pyright', 'coc-rust-analyzer',
+                \ 'coc-jedi', 'coc-markdownlint', 'coc-pyright',
                 \ 'coc-rust-analyzer', 'coc-sh', 'coc-vimlsp', 'coc-yaml']
 endif
 Plug 'Shougo/neco-vim'
 Plug 'vim-pandoc/vim-pandoc-syntax', {'for': 'pandoc'}
 
 " deliminator and spacing helpers
-Plug 'ntpeters/vim-better-whitespace'
 Plug 'tpope/vim-surround'
 
 " git
@@ -336,11 +335,6 @@ let g:pandoc#modules#disabled = ["folding"]
 let g:pandoc#formatting#textwidth = 100
 let g:pandoc#formatting#mode = "hA"
 let g:pandoc#formatting#smart_autoformat_on_cursormoved = 1
-
-" vim better whitespace plugin
-let g:better_whitespace_filetypes_blacklist=['diff']
-autocmd FileType * EnableStripWhitespaceOnSave
-autocmd! FileType diff,markdown,pandoc,tex DisableStripWhitespaceOnSave
 
 " vim-markdown-compose plugin
 let g:markdown_composer_autostart=1
