@@ -53,3 +53,7 @@ cd $XDG_CONFIG_HOME && ./setup.sh
 cd $DIR
 EOF
     )
+
+
+# XXX redo this file
+# XXX cargo install rg, sad, fd

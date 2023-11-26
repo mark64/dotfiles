@@ -11,11 +11,13 @@ HISTCONTROL=ignoreboth
 HISTFILE="${XDG_DATA_HOME:-$HOME/.local/share}/bash/history"
 HISTSIZE=1000000000
 HISTFILESIZE=2000000000
+# XXX what?
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
 get_branch() {
+    # XXX can't you avoid status?
     git status --porcelain --branch 2>/dev/null | head -n1 | sed -r 's,## (\w+).*, \1 ,'
 }
 PS1='${debian_chroot:+($debian_chroot)}\[[01;32m\]\h\[[00m\]:\[[01;34m\]\w\[[00m\]($?)$(get_branch)\$ '
@@ -25,6 +27,7 @@ xterm* | rxvt*)
     ;;
 *) ;;
 esac
+# XXX is this needed?
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
@@ -37,6 +40,7 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 alias l='ls -CF'
 alias ll='ls -lAh'
+# XXX ipython
 alias p3=python3
 if command -v nvim 2>&1 > /dev/null; then
     alias vim=nvim
@@ -45,6 +49,7 @@ if ! shopt -oq posix; then
     [ -f /usr/share/bash-completion/bash_completion ] && . /usr/share/bash-completion/bash_completion
     [ -f /etc/bash_completion ] && . /etc/bash_completion
 fi
+# XXX do we still need gpg agent?
 command -v gpg-connect-agent 2>&1 >/dev/null &&
     export GPG_TTY=$(tty) &&
     gpg-connect-agent UPDATESTARTUPTTY /bye >/dev/null &&
@@ -53,8 +58,8 @@ command -v pandoc >/dev/null 2>&1 && eval "$(pandoc --bash-completion 2>/dev/nul
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash
 [ -f /usr/share/autojump/autojump.bash ] && source /usr/share/autojump/autojump.bash
 alias gpg-new-yubikey="gpg-connect-agent 'scd serialno' 'learn --force' /bye"
-# Added by build_setup.sh:
-export PATH=/home/mark/tools/nvm/current:$PATH
 if [ -e "$HOME/.cargo/env" ]; then
     source "$HOME/.cargo/env"
 fi
+# XXX
+alias nvim="nvim -u /home/mark/repos/dotfiles/nvim/init.lua"
