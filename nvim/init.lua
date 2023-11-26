@@ -38,9 +38,7 @@ vim.opt.undofile = true
 
 -- Appearance
 --
--- Enable a nice cursor and nicer colors.
-vim.opt.guicursor =
-"n-v-c:block-Cursor/lCursor-blinkon0,i-ci:ver25-Cursor/lCursor,r-cr:hor20-Cursor/lCursor"
+-- Enable nicer colors.
 vim.opt.termguicolors = true
 -- Enable the combined line number and sign column.
 vim.opt.signcolumn = "number"
@@ -158,7 +156,9 @@ require("lazy").setup({
     -- Helpful icon support.
     {'nvim-tree/nvim-web-devicons'},
     -- Improve the status line appearance.
-    {'vim-airline/vim-airline'},
+    {'nvim-lualine/lualine.nvim',
+     config = {},
+     dependencies = { "nvim-tree/nvim-web-devicons" }},
     -- Lua utilities for plugins.
     {'nvim-lua/plenary.nvim'},
     -- Tree-sitter: provide language-aware features like highlighting and searching.
@@ -187,11 +187,62 @@ require("lazy").setup({
     },
     -- Restore the last cursor position when re-opening a file.
     {'vladdoster/remember.nvim', config = {}},
-    --
+    -- When opening new files in nested terminals, replace the terminal buffer
+    -- with a vim file buffer instead of making a nested neovim.
     {"willothy/flatten.nvim", config = {},
      -- Ensure that it runs first to minimize delay when opening file from terminal
      lazy = false,
      priority = 1001},
+    -- A nice, dark colorscheme written in Lua with all the fancy neovim features
+    -- (tree-sitter, LSP, etc.)
+    {"bluz71/vim-moonfly-colors", name = "moonfly", lazy = false, priority = 1000,
+     init = function()
+         vim.cmd('colorscheme moonfly')
+     end},
+    -- LSP (language-server-protocol) plugins. Mason manages installing third-party
+    -- language servers.
+    {"williamboman/mason.nvim", config = {}},
+    {"williamboman/mason-lspconfig.nvim", config = {
+        ensure_installed = {
+            'ansible_ls',
+            'asmfmt',
+            'asm_lsp',
+            'bash-language-server',
+            'bufls',
+            'buildifier',
+            'bzl',
+            'clang-format',
+            'clangd',
+            'dockerfile-language-server',
+            'docker_compose_language_service',
+            'flake8',
+            'flux_lsp',
+            'gh',
+            'golangci_lint_ls',
+            'gopls',
+            'html',
+            'htmx',
+            'jsonlint',
+            'json-language-server',
+            'ltex',
+            'texlab',
+            'lua_ls',
+            'remark_ls',
+            'jedi_language_server',
+            'pyright',
+            'pylsp',
+            'rust_analyzer@nightly',
+            'rustfmt',
+            'sqlls',
+            'taplo',
+            'vimls',
+            'yamllint',
+            'yaml-language-server',
+            'yapf',
+        },
+        automatic_installation = true,
+    }},
+    {"neovim/nvim-lspconfig"},
 })
 -- XXX a font
 

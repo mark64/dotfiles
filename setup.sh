@@ -15,6 +15,7 @@ command -v bash 2>&1 > /dev/null && ln -sf "$PWD/bash/bashrc" ~/.bashrc && mkdir
 command -v ssh 2>&1 > /dev/null && mkdir -p ~/.ssh \
     && (for FILE in $(find "$PWD/ssh" -name authorized_keys -o -name '*.pub' -o -name 'config'); do ln -sf "$FILE" ~/.ssh/; done)
 
+# XXX replace with ssh key signing, get rid of GPG!
 command -v gpg 2>&1 > /dev/null \
     && [ ! -d "$HOME/.gnupg" ] \
     && chmod 700 "$PWD/gnupg" \
@@ -22,24 +23,14 @@ command -v gpg 2>&1 > /dev/null \
 
 [ ! -f ~/.inputrc ] && ln -sf "$PWD/inputrc" ~/.inputrc
 
-command -v tmux 2>&1 > /dev/null \
-    && ln -sf "$PWD/tmux/tmux.conf" ~/.tmux.conf
-
 command -v rustup 2>&1 > /dev/null \
     && rustup update
 
-VIM=''
 HASNVIM=$(command -v nvim 2> /dev/null)
-HASVIM=$(command -v vim 2> /dev/null)
-if [ "$HASNVIM" ]; then
-    VIM=nvim
-elif [ "$HASVIM" ]; then
-    VIM=vim
-    ln -sf "$PWD/nvim/init.vim" ~/.vimrc
-fi
-[ "$VIM" ] && [ "$XDG_CONFIG_HOME" ] \
+# XXX replace with lazy.nvim update and mason/LSP update
+[ "$HASNVIM" ] && [ "$XDG_CONFIG_HOME" ] \
     && command -v git 2>&1 > /dev/null \
-    && $VIM -i NONE -c PlugUpdate -c quitall > /dev/null
+    && nvim -i NONE -c PlugUpdate -c quitall > /dev/null
 
 SETUP_CRON_LINE="0 */6 * * * '$SETUP_FILE_PATH'"
 command -v crontab 2>&1 > /dev/null \
@@ -56,4 +47,4 @@ EOF
 
 
 # XXX redo this file
-# XXX cargo install rg, sad, fd
+# XXX cargo install rg, sad, fd, htop, ranger
