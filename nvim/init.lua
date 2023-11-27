@@ -145,19 +145,25 @@ require("lazy").setup({
     {'nvim-lualine/lualine.nvim',
      config = {
          sections = {
-            -- Use filename and parent directory for active buffers.
             lualine_c = {
+                -- Use filename and parent directory for active buffers.
                 {'filename', path = 4},
+                -- Add LSP status.
+                -- XXX require('lsp-progress').progress,
             },
          },
          inactive_sections = {
-            -- Use relative path, not just filename, for inactive buffers.
             lualine_c = {
+                -- Use relative path, not just filename, for inactive buffers.
                 {'filename', path = 1},
             },
          },
      },
-     dependencies = { "nvim-tree/nvim-web-devicons" }},
+     dependencies = {
+         "nvim-tree/nvim-web-devicons",
+         "linrongbin16/lsp-progress.nvim",
+     }
+    },
     -- Lua utilities for plugins.
     {'nvim-lua/plenary.nvim'},
     -- Tree-sitter: provide language-aware features like highlighting and searching.
@@ -169,6 +175,15 @@ require("lazy").setup({
      config = {
          highlight = { enable = true },
      },
+     init = function ()
+         -- Enable code folding.
+         vim.opt.foldmethod = 'expr'
+         vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+         vim.opt.foldenable = false
+         -- Save code fold state and restore when re-opening files.
+         vim.api.nvim_create_autocmd('BufWinLeave', {pattern = '*', command = 'silent! mkview'})
+         vim.api.nvim_create_autocmd('BufWinEnter', {pattern = '*', command = 'silent! loadview'})
+     end
     },
     -- Fuzzy file finding and live grep in neovim.
     {'nvim-telescope/telescope.nvim', branch = '0.1.x',
@@ -193,7 +208,7 @@ require("lazy").setup({
      lazy = false,
      priority = 1001},
     -- A nice, dark colorscheme written in Lua with all the fancy neovim features
-    -- (tree-sitter, LSP, etc.)
+    -- (treesitter, LSP, etc.)
     {"bluz71/vim-moonfly-colors", name = "moonfly", lazy = false, priority = 1000,
      init = function()
          vim.cmd('colorscheme moonfly')
@@ -239,7 +254,6 @@ require("lazy").setup({
          },
          automatic_installation = true,
      },
-     -- XXX
      init = function()
         require('mason-lspconfig').setup_handlers {
             -- The first entry (without a key) will be the default handler
@@ -258,7 +272,6 @@ require("lazy").setup({
      end
     },
     -- Linting and autoformatting.
-    -- XXX
     -- TODO/XXX comments
     -- asmfmt
     -- clang-format
@@ -278,6 +291,28 @@ require("lazy").setup({
     {'hrsh7th/nvim-cmp'},
     {'saadparwaiz1/cmp_luasnip'},
     {'L3MON4D3/LuaSnip'},
+    -- Autocomplete for neovim Lua API.
+    {'hrsh7th/cmp-nvim-lua',
+     init = function()
+        require('cmp').setup {sources = {{name = 'nvim_lua'}}}
+     end},
+    -- Add a progress bar with LSP status to lualine.
+    {'linrongbin16/lsp-progress.nvim',
+     dependencies = { 'nvim-tree/nvim-web-devicons' },
+     config = function()
+         require('lsp-progress').setup()
+     end},
+    -- Plugin for viewing git diffs.
+    {'sindrets/diffview.nvim'},
+    -- Github integration for reviews, branches, and issues.
+    {'NeogitOrg/neogit',
+     dependencies = {
+       "nvim-lua/plenary.nvim",
+       "nvim-telescope/telescope.nvim",
+       "sindrets/diffview.nvim",
+     },
+     config = {},
+    },
 })
 
 -- XXX testing
