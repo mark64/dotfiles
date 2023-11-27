@@ -99,20 +99,6 @@ vim.opt.wildignorecase = true
 -- Infer case when doing completion in insert mode.
 vim.opt.infercase = true
 
--- XXX file types:
--- - bazel BUILD
--- - python
--- - C
--- - C++
--- - Make
--- - Rust
--- - Latex
--- - Markdown
--- - golang
--- - prototxt
--- - lua
--- - vim files
-
 -- Setup plugin manager.
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -157,7 +143,20 @@ require("lazy").setup({
     {'nvim-tree/nvim-web-devicons'},
     -- Improve the status line appearance.
     {'nvim-lualine/lualine.nvim',
-     config = {},
+     config = {
+         sections = {
+            -- Use filename and parent directory for active buffers.
+            lualine_c = {
+                {'filename', path = 4},
+            },
+         },
+         inactive_sections = {
+            -- Use relative path, not just filename, for inactive buffers.
+            lualine_c = {
+                {'filename', path = 1},
+            },
+         },
+     },
      dependencies = { "nvim-tree/nvim-web-devicons" }},
     -- Lua utilities for plugins.
     {'nvim-lua/plenary.nvim'},
@@ -199,60 +198,133 @@ require("lazy").setup({
      init = function()
          vim.cmd('colorscheme moonfly')
      end},
+    -- Markdown preview in a browser.
+    {"iamcco/markdown-preview.nvim",
+     cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+     ft = { "markdown" },
+     build = function() vim.fn["mkdp#util#install"]() end,
+    },
     -- LSP (language-server-protocol) plugins. Mason manages installing third-party
     -- language servers.
-    {"williamboman/mason.nvim", config = {}},
-    {"williamboman/mason-lspconfig.nvim", config = {
-        ensure_installed = {
-            'ansible_ls',
-            'asmfmt',
-            'asm_lsp',
-            'bash-language-server',
-            'bufls',
-            'buildifier',
-            'bzl',
-            'clang-format',
-            'clangd',
-            'dockerfile-language-server',
-            'docker_compose_language_service',
-            'flake8',
-            'flux_lsp',
-            'gh',
-            'golangci_lint_ls',
-            'gopls',
-            'html',
-            'htmx',
-            'jsonlint',
-            'json-language-server',
-            'ltex',
-            'texlab',
-            'lua_ls',
-            'remark_ls',
-            'jedi_language_server',
-            'pyright',
-            'pylsp',
-            'rust_analyzer@nightly',
-            'rustfmt',
-            'sqlls',
-            'taplo',
-            'vimls',
-            'yamllint',
-            'yaml-language-server',
-            'yapf',
-        },
-        automatic_installation = true,
-    }},
     {"neovim/nvim-lspconfig"},
+    {"williamboman/mason.nvim", config = {}},
+    {"williamboman/mason-lspconfig.nvim",
+     config = {
+         ensure_installed = {
+             'ansiblels',
+             'asm_lsp',
+             'bashls',
+             'bufls',
+             'clangd',
+             'dockerls',
+             'docker_compose_language_service',
+             'flux_lsp',
+             'golangci_lint_ls',
+             'gopls',
+             'html',
+             'htmx',
+             'jsonls',
+             'ltex',
+             'texlab',
+             'lua_ls',
+             'remark_ls',
+             'jedi_language_server',
+             'pyright',
+             'pylsp',
+             'rust_analyzer@nightly',
+             'sqlls',
+             'taplo',
+             'vimls',
+             'yamlls',
+         },
+         automatic_installation = true,
+     },
+     -- XXX
+     init = function()
+        require('mason-lspconfig').setup_handlers {
+            -- The first entry (without a key) will be the default handler
+            -- and will be called for each installed server that doesn't have
+            -- a dedicated handler.
+            function (server_name) -- default handler (optional)
+                require("lspconfig")[server_name].setup {}
+            end,
+            -- XXX vim global in init.lua
+            -- Next, you can provide a dedicated handler for specific servers.
+            -- For example, a handler override for the `rust_analyzer`:
+            -- XXX ["rust_analyzer"] = function ()
+            -- XXX     require("rust-tools").setup {}
+            -- XXX end
+        }
+     end
+    },
+    -- Linting and autoformatting.
+    -- XXX
+    -- TODO/XXX comments
+    -- asmfmt
+    -- clang-format
+    -- yapf
+    -- rustfmt
+    -- flake8
+    -- black for non-monorepo stuff
+    -- yamllint
+    -- jsonlint
+    -- buildifier
+
+    -- Autocomplete plugins.
+    {'hrsh7th/cmp-nvim-lsp'},
+    {'hrsh7th/cmp-buffer'},
+    {'hrsh7th/cmp-path'},
+    {'hrsh7th/cmp-cmdline'},
+    {'hrsh7th/nvim-cmp'},
+    {'saadparwaiz1/cmp_luasnip'},
+    {'L3MON4D3/LuaSnip'},
 })
--- XXX a font
 
 -- XXX testing
 -- Plug('emileferreira/nvim-strict')
--- XXX test out at home Plug('iamcco/markdown-preview.nvim')
 
--- vim-airline.
-vim.g['airline#extensions#tabline#enabled'] = 1
+-- XXX work with snippets
+-- luasnip setup
+local luasnip = require 'luasnip'
 
--- XXX testing
--- require('strict').setup()
--- vim.fn["mkdp#util#install"]()
+-- nvim-cmp setup
+local cmp = require 'cmp'
+cmp.setup {
+  snippet = {
+    expand = function(args)
+      luasnip.lsp_expand(args.body)
+    end,
+  },
+  mapping = cmp.mapping.preset.insert({
+    ['<C-u>'] = cmp.mapping.scroll_docs(-4), -- Up
+    ['<C-d>'] = cmp.mapping.scroll_docs(4), -- Down
+    -- C-b (back) C-f (forward) for snippet placeholder navigation.
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<CR>'] = cmp.mapping.confirm {
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    },
+    ['<Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
+    ['<S-Tab>'] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
+      end
+    end, { 'i', 's' }),
+  }),
+  sources = {
+    { name = 'nvim_lsp' },
+    { name = 'luasnip' },
+  },
+}

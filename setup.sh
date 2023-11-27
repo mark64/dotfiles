@@ -46,5 +46,5 @@ EOF
     )
 
 
-# XXX redo this file
 # XXX cargo install rg, sad, fd, htop, ranger
+# XXX patched font: ttf-sourcecodepro-nerd
