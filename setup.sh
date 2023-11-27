@@ -48,3 +48,4 @@ EOF
 
 # XXX cargo install rg, sad, fd, htop, ranger
 # XXX patched font: ttf-sourcecodepro-nerd
+# XXX gh client

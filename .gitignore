@@ -1,4 +1,5 @@
 /1Password
+/BraveSoftware/
 /cef_user_data
 /chromium
 /coc/
@@ -17,6 +18,7 @@
 /kicad
 /libreoffice
 /libvirt
+/microsoft-edge-dev/
 /google-chrome
 /google-chrome-beta
 /google-chrome-unstable
@@ -32,6 +34,8 @@
 /remmina
 /spotify
 /unity3d
-/vlc
+/vivaldi/
+/vivaldi-snapshot/
 /VirtualBox
+/vlc
 /wireshark

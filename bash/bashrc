@@ -3,22 +3,26 @@ case $- in
 *i*) ;;
 *) return ;;
 esac
+
 shopt -s histappend
 shopt -s checkwinsize
 shopt -s globstar
+
 PROMPT_COMMAND='history -a'
 HISTCONTROL=ignoreboth
 HISTFILE="${XDG_DATA_HOME:-$HOME/.local/share}/bash/history"
 HISTSIZE=1000000000
 HISTFILESIZE=2000000000
-# XXX what?
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
     debian_chroot=$(cat /etc/debian_chroot)
 fi
 get_branch() {
-    # XXX can't you avoid status?
-    git status --porcelain --branch 2>/dev/null | head -n1 | sed -r 's,## (\w+).*, \1 ,'
+    branch=$(git branch --show-current 2>/dev/null)
+    # Add spaces before and after the branch name if set.
+    if [ "${branch}" != "" ]; then
+        printf " ${branch} "
+    fi
 }
 PS1='${debian_chroot:+($debian_chroot)}\[[01;32m\]\h\[[00m\]:\[[01;34m\]\w\[[00m\]($?)$(get_branch)\$ '
 case "$TERM" in
@@ -27,7 +31,8 @@ xterm* | rxvt*)
     ;;
 *) ;;
 esac
-# XXX is this needed?
+
+# Color mode is not the default in a terminal, enable it!
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
@@ -38,28 +43,41 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
     alias ip='ip -c'
 fi
-alias l='ls -CF'
-alias ll='ls -lAh'
+# Alias for listing metadata with files.
+alias ll='ls -lAFh'
+
 # XXX ipython
 alias p3=python3
+
+# Use neovim!
 if command -v nvim 2>&1 > /dev/null; then
     alias vim=nvim
+    alias n=nvim
 fi
+
+# Enable bash autocompletion.
 if ! shopt -oq posix; then
     [ -f /usr/share/bash-completion/bash_completion ] && . /usr/share/bash-completion/bash_completion
     [ -f /etc/bash_completion ] && . /etc/bash_completion
 fi
+command -v pandoc >/dev/null 2>&1 && eval "$(pandoc --bash-completion 2>/dev/null)"
+
 # XXX do we still need gpg agent?
 command -v gpg-connect-agent 2>&1 >/dev/null &&
     export GPG_TTY=$(tty) &&
     gpg-connect-agent UPDATESTARTUPTTY /bye >/dev/null &&
     export SSH_AUTH_SOCK=${SSH_AUTH_SOCK:-${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/gnupg/S.gpg-agent.ssh}
-command -v pandoc >/dev/null 2>&1 && eval "$(pandoc --bash-completion 2>/dev/null)"
-[ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash
-[ -f /usr/share/autojump/autojump.bash ] && source /usr/share/autojump/autojump.bash
 alias gpg-new-yubikey="gpg-connect-agent 'scd serialno' 'learn --force' /bye"
+
+[ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.bash
+
+[ -f /usr/share/autojump/autojump.bash ] && source /usr/share/autojump/autojump.bash
+
 if [ -e "$HOME/.cargo/env" ]; then
     source "$HOME/.cargo/env"
 fi
 # XXX
 alias nvim="nvim -u /home/mark/repos/dotfiles/nvim/init.lua"
+
+# 1password integration.
+ONEPASS_CONFIG="${XDG_CONFIG_HOME}"/op/plugins.sh; [ -f "${ONEPASS_CONFIG}" ] && source "${ONEPASS_CONFIG}"
