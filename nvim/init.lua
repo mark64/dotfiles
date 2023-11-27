@@ -333,9 +333,7 @@ require("lazy").setup({
     -- Add a progress bar with LSP status to lualine.
     {'linrongbin16/lsp-progress.nvim',
      dependencies = { 'nvim-tree/nvim-web-devicons' },
-     config = function()
-         require('lsp-progress').setup()
-     end},
+     config = {}},
     -- Plugin for viewing git diffs.
     {'sindrets/diffview.nvim'},
     -- Github integration for reviews, branches, and issues.
@@ -345,7 +343,17 @@ require("lazy").setup({
        "nvim-telescope/telescope.nvim",
        "sindrets/diffview.nvim",
      },
-     config = {},
+     cmd = {
+        'Neogit',
+        'NeogitResetState',
+     },
+     config = {
+         kind = 'vsplit',
+         integrations = {
+            telescope = true,
+            diffview = true,
+         },
+     },
     },
 })
 
