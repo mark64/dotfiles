@@ -120,16 +120,6 @@ require("lazy").setup({
         os.execute('./install --all --xdg')
       end
     },
-    -- Dim inactive windows.
-    {'sunjon/shade.nvim', config = {
-      overlay_opacity = 66,
-      opacity_step = 1,
-      keys = {
-        brightness_up    = '<C-Up>',
-        brightness_down  = '<C-Down>',
-        toggle           = '<Leader>s',
-      }
-    }},
     -- Edit directories in a vim-like buffer e.g. rename by editing a line and
     -- saving.
     {'stevearc/oil.nvim',
@@ -262,7 +252,6 @@ require("lazy").setup({
             function (server_name) -- default handler (optional)
                 require("lspconfig")[server_name].setup {}
             end,
-            -- XXX vim global in init.lua
             -- Next, you can provide a dedicated handler for specific servers.
             -- For example, a handler override for the `rust_analyzer`:
             -- XXX ["rust_analyzer"] = function ()
@@ -288,7 +277,52 @@ require("lazy").setup({
     {'hrsh7th/cmp-buffer'},
     {'hrsh7th/cmp-path'},
     {'hrsh7th/cmp-cmdline'},
-    {'hrsh7th/nvim-cmp'},
+    {'hrsh7th/nvim-cmp',
+     dependencies = {'saadparwaiz1/cmp_luasnip'},
+     init = function ()
+         local luasnip = require('luasnip')
+         local cmp = require('cmp')
+         cmp.setup {
+             snippet = {
+               expand = function(args)
+                 luasnip.lsp_expand(args.body)
+               end,
+             },
+             mapping = cmp.mapping.preset.insert({
+               ['<C-u>'] = cmp.mapping.scroll_docs(-4), -- Up
+               ['<C-d>'] = cmp.mapping.scroll_docs(4), -- Down
+               -- C-b (back) C-f (forward) for snippet placeholder navigation.
+               ['<C-Space>'] = cmp.mapping.complete(),
+               ['<CR>'] = cmp.mapping.confirm {
+                 behavior = cmp.ConfirmBehavior.Replace,
+                 select = true,
+               },
+               ['<Tab>'] = cmp.mapping(function(fallback)
+                 if cmp.visible() then
+                   cmp.select_next_item()
+                 elseif luasnip.expand_or_jumpable() then
+                   luasnip.expand_or_jump()
+                 else
+                   fallback()
+                 end
+               end, { 'i', 's' }),
+               ['<S-Tab>'] = cmp.mapping(function(fallback)
+                 if cmp.visible() then
+                   cmp.select_prev_item()
+                 elseif luasnip.jumpable(-1) then
+                   luasnip.jump(-1)
+                 else
+                   fallback()
+                 end
+               end, { 'i', 's' }),
+             }),
+             sources = {
+               { name = 'nvim_lsp' },
+               { name = 'luasnip' },
+             },
+         }
+    -- XXX learn snippets
+     end},
     {'saadparwaiz1/cmp_luasnip'},
     {'L3MON4D3/LuaSnip'},
     -- Autocomplete for neovim Lua API.
@@ -317,49 +351,3 @@ require("lazy").setup({
 
 -- XXX testing
 -- Plug('emileferreira/nvim-strict')
-
--- XXX work with snippets
--- luasnip setup
-local luasnip = require 'luasnip'
-
--- nvim-cmp setup
-local cmp = require 'cmp'
-cmp.setup {
-  snippet = {
-    expand = function(args)
-      luasnip.lsp_expand(args.body)
-    end,
-  },
-  mapping = cmp.mapping.preset.insert({
-    ['<C-u>'] = cmp.mapping.scroll_docs(-4), -- Up
-    ['<C-d>'] = cmp.mapping.scroll_docs(4), -- Down
-    -- C-b (back) C-f (forward) for snippet placeholder navigation.
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<CR>'] = cmp.mapping.confirm {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = true,
-    },
-    ['<Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      elseif luasnip.expand_or_jumpable() then
-        luasnip.expand_or_jump()
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
-    ['<S-Tab>'] = cmp.mapping(function(fallback)
-      if cmp.visible() then
-        cmp.select_prev_item()
-      elseif luasnip.jumpable(-1) then
-        luasnip.jump(-1)
-      else
-        fallback()
-      end
-    end, { 'i', 's' }),
-  }),
-  sources = {
-    { name = 'nvim_lsp' },
-    { name = 'luasnip' },
-  },
-}
