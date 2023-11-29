@@ -1,21 +1,15 @@
 AddKeysToAgent=yes
 
+# 1password SSH integration.
+Host *
+    # Disabled until I can get it to properly work.
+    #IdentityAgent ~/.1password/agent.sock
+
 Host atta a
     HostName atta.dev
+    Port 2222
     User mark
-    ForwardX11=yes
-    ForwardAgent=yes
 
 Host github.com g
     HostName github.com
     User git
-
-# Added by Krypton
-#   Host *
-#       IdentityAgent ~/.kr/krd-agent.sock
-#       ProxyCommand /usr/bin/krssh %h %p
-#       IdentityFile ~/.ssh/id_krypton
-#       IdentityFile ~/.ssh/id_ed25519
-#       IdentityFile ~/.ssh/id_rsa
-#       IdentityFile ~/.ssh/id_ecdsa
-#       IdentityFile ~/.ssh/id_dsa
