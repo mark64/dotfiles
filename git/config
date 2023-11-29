@@ -1,15 +1,12 @@
 [user]
 	name = Mark Hill
 	email = mark@astranis.com
-    signingKey = "0x9632406482AB028E"
 [alias]
-	lg = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
+	lg = lg1
 	lg1 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
 	lg2 = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' --all
 	files = !git diff --name-only $(git merge-base HEAD \"$REVIEW_BASE\")
 	stat = !git diff --stat $(git merge-base HEAD \"$REVIEW_BASE\")
-	review = !vim -p $(git files) +\"tabdo Gdiff $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
-	reviewone = !vim -p +\"tabdo Gdiff $REVIEW_BASE\" +\"let g:gitgutter_diff_base = '$REVIEW_BASE'\"
     s = status
     c = checkout
     co = commit
@@ -19,15 +16,26 @@
     cp = cherry-pick
 [branch]
 	sort = -authordate
-[core]
-	editor = vim
 [color]
 	ui = auto
+[commit]
+    gpgsign = true
+[core]
+	editor = nvim
 [diff "gpg"]
 	textconv = gpg --no-tty --decrypt
+[init]
+    defaultBranch = main
 [pull]
 	rebase = false
 [rerere]
     enabled = true
-[init]
-    defaultBranch = main
+
+# On machines where I have 1password access and for repos that I need signed, I add the following to .git/config
+# [user]
+#     # Key in 1password.
+#     signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJm1mnwpA3vRWsxVQP/ltMxQVpikvVkrEdZFFc763LH6
+# [gpg]
+#     format = ssh
+# [gpg "ssh"]
+#     program = "/opt/1Password/op-ssh-sign"
