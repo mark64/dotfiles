@@ -10,6 +10,7 @@ export RUSTUP_HOME="${XDG_DATA_HOME}/cargo"
 export GOPATH="${HOME}/repos/go"
 for path in "$GOPATH/bin" "$CARGO_HOME/bin" "$XDG_BIN_HOME"; do
     if [ -d "$path" ]; then
+        # XXX avoid double-prepending stuff to PATH
         export PATH="$PATH:$path"
     fi
 done

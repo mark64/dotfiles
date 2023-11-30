@@ -13,5 +13,3 @@ apt-get -y full-upgrade
 apt-get -y install neovim git build-essential cmake clang clang-tidy clang-format gnupg scdaemon gnupg-agent \
     tmux curl openssh-client openssh-server python3-dev python-dev autojump bash-completion sudo \
     unattended-upgrades openvpn cron autojump
-
-curl https://sh.rustup.rs -sSf | sh

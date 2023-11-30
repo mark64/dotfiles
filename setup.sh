@@ -6,11 +6,16 @@
 SETUP_FILE_PATH=$(realpath $0)
 cd "$(dirname "$SETUP_FILE_PATH")"
 
-sed "s,export XDG_CONFIG_HOME=.*,export XDG_CONFIG_HOME=\"$(dirname "$SETUP_FILE_PATH")\"," profile > ~/.profile
+command -v git 2>&1 > /dev/null && (git pull | tail -n +2)  # XXX if there's updates, re-exec
 
-command -v git 2>&1 > /dev/null && (git pull | tail -n +2)
+sed "s,export XDG_CONFIG_HOME=.*,export XDG_CONFIG_HOME=\"$(dirname "$SETUP_FILE_PATH")\"," profile > ~/.profile
+# Make sure we have the latest profile settings sourced.
+source ~/.profile
 
 command -v bash 2>&1 > /dev/null && ln -sf "$PWD/bash/bashrc" ~/.bashrc && mkdir -p ${XDG_DATA_HOME:-~/.local/share}/bash
+command -v bash 2>&1 > /dev/null && ln -sf "$PWD/bash/bash_profile.bash" ~/.bash_profile
+# Load any new bashrc settings.
+source ~/.bashrc
 
 command -v ssh 2>&1 > /dev/null && mkdir -p ~/.ssh \
     && (for FILE in $(find "$PWD/ssh" -name authorized_keys -o -name '*.pub' -o -name 'config'); do ln -sf "$FILE" ~/.ssh/; done)
@@ -23,14 +28,19 @@ command -v gpg 2>&1 > /dev/null \
 
 [ ! -f ~/.inputrc ] && ln -sf "$PWD/inputrc" ~/.inputrc
 
-command -v rustup 2>&1 > /dev/null \
-    && rustup update
+# XXX if needed:
+# curl https://sh.rustup.rs -sSf | sh
+command -v rustup 2>&1 > /dev/null && rustup update
+command -v cargo 2>&1 > /dev/null && cargo install \
+    ripgrep \
+    fd-find \
 
 HASNVIM=$(command -v nvim 2> /dev/null)
-[ "$HASNVIM" ] && [ "$XDG_CONFIG_HOME" ] \
-    && command -v git 2>&1 > /dev/null \
-    && nvim --headless -c 'autocmd User Lazy update' -c 'quitall' > /dev/null
-    && nvim --headless -c 'autocmd User MasonUpdateAllComplete quitall' > /dev/null
+# XXX I want to view the change logs
+# [ "$HASNVIM" ] && [ "$XDG_CONFIG_HOME" ] \
+#     && command -v git 2>&1 > /dev/null \
+#     && nvim --headless -c 'autocmd User Lazy update quitall' -c 'quitall' > /dev/null \
+#     && nvim --headless -c 'autocmd User MasonUpdateAll quitall' -c 'quitall' > /dev/null
 
 SETUP_CRON_LINE="0 */6 * * * '$SETUP_FILE_PATH'"
 command -v crontab 2>&1 > /dev/null \
@@ -56,6 +66,9 @@ EOF
 # - git
 # - gzip
 # - patched font: ttf-sourcecodepro-nerd
+# - zsync
+# - fuse2
+# - openssh
 
 # XXX user-local packages:
 # - neovim
@@ -63,15 +76,14 @@ EOF
 # - python3-neovim (maybe self-contain in nvim?)
 # - python3-pip
 # - python3-venv
+# - npm
 # - tmux
 # - bazelisk
+# - autojump
 # - google-chrome
 # - graphviz/dot maybe?
 # - buildessential/gcc/clang/cmake/make
-# - rustup
-# - ripgrep
 # - sad XXX do I need?
-# - fd
 # - htop
 # - ranger
 # - gh client

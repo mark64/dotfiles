@@ -73,11 +73,9 @@ alias gpg-new-yubikey="gpg-connect-agent 'scd serialno' 'learn --force' /bye"
 
 [ -f /usr/share/autojump/autojump.bash ] && source /usr/share/autojump/autojump.bash
 
-if [ -e "$HOME/.cargo/env" ]; then
-    source "$HOME/.cargo/env"
+if [ -e "${CARGO_HOME}/env" ]; then
+    source "${CARGO_HOME}/env"
 fi
-# XXX
-alias nvim="nvim -u /home/mark/repos/dotfiles/nvim/init.lua"
 
 # 1password integration.
 ONEPASS_CONFIG="${XDG_CONFIG_HOME}"/op/plugins.sh; [ -f "${ONEPASS_CONFIG}" ] && source "${ONEPASS_CONFIG}"
