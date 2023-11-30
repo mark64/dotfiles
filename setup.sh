@@ -27,10 +27,10 @@ command -v rustup 2>&1 > /dev/null \
     && rustup update
 
 HASNVIM=$(command -v nvim 2> /dev/null)
-# XXX replace with lazy.nvim update and mason/LSP update
 [ "$HASNVIM" ] && [ "$XDG_CONFIG_HOME" ] \
     && command -v git 2>&1 > /dev/null \
-    && nvim -i NONE -c PlugUpdate -c quitall > /dev/null
+    && nvim --headless -c 'autocmd User Lazy update' -c 'quitall' > /dev/null
+    && nvim --headless -c 'autocmd User MasonUpdateAllComplete quitall' > /dev/null
 
 SETUP_CRON_LINE="0 */6 * * * '$SETUP_FILE_PATH'"
 command -v crontab 2>&1 > /dev/null \
@@ -46,7 +46,36 @@ EOF
     )
 
 
-# XXX cargo install rg, sad, fd, htop, ranger
-# XXX patched font: ttf-sourcecodepro-nerd
-# XXX gh client
-# XXX packages: neovim, python-neovim
+# XXX system packages:
+# - openvpn
+# - curl
+# - wget
+# - zip
+# - tar
+# - lzma
+# - git
+# - gzip
+# - patched font: ttf-sourcecodepro-nerd
+
+# XXX user-local packages:
+# - neovim
+# - python3
+# - python3-neovim (maybe self-contain in nvim?)
+# - python3-pip
+# - python3-venv
+# - tmux
+# - bazelisk
+# - google-chrome
+# - graphviz/dot maybe?
+# - buildessential/gcc/clang/cmake/make
+# - rustup
+# - ripgrep
+# - sad XXX do I need?
+# - fd
+# - htop
+# - ranger
+# - gh client
+# - op client
+# - 1pass desktop
+
+# XXX 1pass as SSH agent?

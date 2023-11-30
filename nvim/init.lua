@@ -117,6 +117,9 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- Autocommand group used by formatting plugins.
+local formatting_augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+
 -- Setup plugins.
 require("lazy").setup({
     -- Better Ctrl-R in shells, fuzzy search for files in vim.
@@ -204,8 +207,11 @@ require("lazy").setup({
             },
         },
         init = function()
+            -- Use the natively-compiled FZF searcher.
+            require('telescope').load_extension('fzf')
             -- Use telelscope for vim selection.
             require('telescope').load_extension('ui-select')
+
             local builtin = require('telescope.builtin')
             vim.keymap.set('n', '<leader>f', builtin.find_files, {})
             vim.keymap.set('n', '<leader>g', builtin.live_grep, {})
@@ -214,8 +220,10 @@ require("lazy").setup({
             vim.keymap.set('n', '<leader>s', builtin.current_buffer_fuzzy_find, {})
         end,
     },
+    -- Speed up fuzzy finding by using a native binary instead of lua.
+    { 'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' },
     -- Restore the last cursor position when re-opening a file.
-    { 'vladdoster/remember.nvim', opts = {} },
+    { 'vladdoster/remember.nvim',                 opts = {} },
     -- When opening new files in nested terminals, replace the terminal buffer
     -- with a vim file buffer instead of making a nested neovim.
     {
@@ -245,8 +253,9 @@ require("lazy").setup({
     },
     -- LSP (language-server-protocol) plugins. Mason manages installing third-party
     -- language servers.
-    { "neovim/nvim-lspconfig" }, -- XXX with nvim 10 opts = {inlay_hints = {enabled = true}}
+    { "neovim/nvim-lspconfig" },
     { "williamboman/mason.nvim", opts = {} },
+    { 'RubixDev/mason-update-all', opts = {} },
     {
         "williamboman/mason-lspconfig.nvim",
         opts = {
@@ -277,7 +286,7 @@ require("lazy").setup({
                 'vimls',
                 'yamlls',
             },
-            automatic_installation = true,
+            automatic_installation = false,
         },
         init = function()
             require('mason-lspconfig').setup_handlers {
@@ -291,32 +300,76 @@ require("lazy").setup({
                 -- Per https://github.com/mrcjkb/rustaceanvim, we should not
                 -- call the rust-analyzer setup, instead letting rustaceanvim
                 -- handle that.
-                -- XXX ["rust_analyzer"] = function()
-                -- XXX     --require("rust-tools").setup {}
-                -- XXX end
+                ["rust_analyzer"] = function()
+                    -- Do nothing.
+                end
             }
         end
     },
+    -- LSP linters and formatters.
+    {
+        'jay-babu/mason-null-ls.nvim',
+        opts = {
+            ensure_installed = {
+                'asmfmt',
+                'buildifier',
+                'clang-format',
+                'flake8',
+                'jsonlint',
+                'rustfmt',
+                'yamllint',
+                'yapf',
+            },
+            automatic_installation = false,
+            handlers = {},
+        }
+    },
+    {
+        'nvimtools/none-ls.nvim',
+        opts = {
+            on_attach = function(client, bufnr)
+                if client.supports_method("textDocument/formatting") then
+                    vim.api.nvim_clear_autocmds({ group = formatting_augroup, buffer = bufnr })
+                    vim.api.nvim_create_autocmd("BufWritePre", {
+                        group = formatting_augroup,
+                        buffer = bufnr,
+                        callback = function()
+                            vim.lsp.buf.format({ async = false })
+                        end,
+                    })
+                end
+            end,
+        }
+    },
     -- Additional Rust LSP tooling.
-    -- XXX { 'mrcjkb/rustaceanvim', ft = { 'rust' } },
-    -- Linting and autoformatting.
-    -- TODO/XXX comments
-    -- asmfmt
-    -- clang-format
-    -- yapf
-    -- rustfmt
-    -- flake8
-    -- black for non-monorepo stuff
-    -- yamllint
-    -- jsonlint
-    -- buildifier
+    { 'mrcjkb/rustaceanvim',                ft = { 'rust' } },
+    -- Display inlay hints when LSPs provide it. Usually this comes in the form of type annotations
+    -- on function parameters and return values.
+    {
+        'lvimuser/lsp-inlayhints.nvim',
+        opts = {},
+        init = function()
+            vim.api.nvim_create_augroup("LspAttach_inlayhints", {})
+            vim.api.nvim_create_autocmd("LspAttach", {
+                group = "LspAttach_inlayhints",
+                callback = function(args)
+                    if not (args.data and args.data.client_id) then
+                        return
+                    end
 
+                    local bufnr = args.buf
+                    local client = vim.lsp.get_client_by_id(args.data.client_id)
+                    require("lsp-inlayhints").on_attach(client, bufnr)
+                end,
+            })
+        end
+    },
     -- Autocomplete plugins.
     { 'hrsh7th/cmp-nvim-lsp' },
     { 'hrsh7th/cmp-buffer' },
     { 'hrsh7th/cmp-path' },
     { 'hrsh7th/cmp-cmdline' },
-    { 'hrsh7th/cmp-nvim-lsp-signature-help'},
+    { 'hrsh7th/cmp-nvim-lsp-signature-help' },
     {
         'petertriho/cmp-git',
         dependencies = { 'nvim-lua/plenary.nvim' },
@@ -329,6 +382,7 @@ require("lazy").setup({
         dependencies = { 'saadparwaiz1/cmp_luasnip' },
         init = function()
             local luasnip = require('luasnip')
+            local cmp_buffer = require('cmp_buffer')
             local cmp = require('cmp')
             cmp.setup {
                 snippet = {
@@ -368,33 +422,40 @@ require("lazy").setup({
                     { name = 'nvim_lsp' },
                     { name = 'luasnip' },
                     -- Require at least the first character be typed before showing completion.
-                    { name = 'buffer', keyword_length = 1},
+                    { name = 'buffer',                 keyword_length = 1 },
                     { name = 'path' },
                     { name = 'git' },
                     { name = 'nvim_lsp_signature_help' },
                     { name = 'nvim_lua' },
                 },
+                sorting = {
+                    comparators = {
+                        -- Prefer completion results for items that are physically close
+                        -- to the cursor.
+                        function(...) return cmp_buffer:compare_locality(...) end,
+                    }
+                }
             }
             -- Completion for / search.
             cmp.setup.cmdline('/', {
-              mapping = cmp.mapping.preset.cmdline(),
-              sources = {
-                { name = 'buffer' }
-              }
+                mapping = cmp.mapping.preset.cmdline(),
+                sources = {
+                    { name = 'buffer' }
+                }
             })
             -- `:` vim cmdline completion.
             cmp.setup.cmdline(':', {
-              mapping = cmp.mapping.preset.cmdline(),
-              sources = cmp.config.sources({
-                { name = 'path' }
-              }, {
-                {
-                  name = 'cmdline',
-                  option = {
-                    ignore_cmds = { 'Man', '!' }
-                  }
-                }
-              })
+                mapping = cmp.mapping.preset.cmdline(),
+                sources = cmp.config.sources({
+                    { name = 'path' }
+                }, {
+                    {
+                        name = 'cmdline',
+                        option = {
+                            ignore_cmds = { 'Man', '!' }
+                        }
+                    }
+                })
             })
             -- XXX learn snippets
         end
@@ -421,17 +482,29 @@ require("lazy").setup({
             })
         end
     },
-    -- Add a floating menu to show and apply available code actions like quickfixes.
-    { 'weilbith/nvim-code-action-menu', cmd = 'CodeActionMenu' },
+    -- Navigator provides super useful LSP functionality, like floating definition/declaration windows.
+    {
+        'ray-x/navigator.lua',
+        dependencies = {
+            {
+                'ray-x/guihua.lua',
+                build = function()
+                    os.execute('cd lua/fzy && make')
+                end
+            },
+            { 'neovim/nvim-lspconfig' },
+        },
+        opts = { mason = true }
+    },
     -- Trouble is a nice quickfix UI for displaying and jumping to issues.
-    -- XXX {
-    -- XXX     'folke/trouble.nvim',
-    -- XXX     dependencies = { 'nvim-tree/nvim-web-devicons' },
-    -- XXX     opts = {
-    -- XXX         -- Open trouble automatically when issues show up.
-    -- XXX         auto_open = true,
-    -- XXX     }
-    -- XXX },
+    {
+        'folke/trouble.nvim',
+        dependencies = { 'nvim-tree/nvim-web-devicons' },
+        opts = {
+            -- Open trouble automatically when issues show up.
+            auto_open = true,
+        }
+    },
     -- Plugin for viewing git diffs.
     { 'sindrets/diffview.nvim' },
     -- Git integration.
@@ -447,7 +520,7 @@ require("lazy").setup({
             'NeogitResetState',
         },
         opts = {
-            kind = 'vsplit',
+            kind = 'tab',
             integrations = {
                 telescope = true,
                 diffview = true,
@@ -479,22 +552,6 @@ require("lazy").setup({
     },
     -- Add a tool to generate github links from nvim.
     { 'vincent178/nvim-github-linker', opts = {} },
-
-    -- XXX
-    -- XXX {
-    -- XXX     'ray-x/navigator.lua',
-    -- XXX     dependencies = {
-    -- XXX         {
-    -- XXX             'ray-x/guihua.lua',
-    -- XXX             build = function()
-    -- XXX                 os.execute('cd lua/fzy && make')
-    -- XXX             end
-    -- XXX         },
-    -- XXX         { 'neovim/nvim-lspconfig' },
-    -- XXX     },
-    -- XXX     opts = { mason = true }
-    -- XXX },
-
 })
 
 -- Source work-specific settings that I don't want public.
