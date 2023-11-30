@@ -7,37 +7,37 @@ vim.opt.mouse = ''
 -- Set the leader as <space>.
 vim.g.mapleader = ' '
 -- Remap common keys to save typing and shift keys.
-vim.keymap.set("n", ";", ":", { noremap = true })
-vim.keymap.set({ "n", "v" }, "j", "gj", { noremap = true })
-vim.keymap.set({ "n", "v" }, "k", "gk", { noremap = true })
+vim.keymap.set('n', ";", ":", { noremap = true })
+vim.keymap.set({ 'n', 'v' }, 'j', 'gj', { noremap = true })
+vim.keymap.set({ 'n', 'v' }, 'k', 'gk', { noremap = true })
 -- Remap jk -> Esc.
-vim.keymap.set("i", "jk", "<Esc>", { noremap = true })
+vim.keymap.set('i', 'jk', "<Esc>", { noremap = true })
 -- Use Alt-hjkl to move between splits.
-local movement_keys = { "h", "j", "k", "l" }
+local movement_keys = { 'h', 'j', 'k', 'l' }
 for key_index = 1, #movement_keys do
     vim.keymap.set(
-        { "", "i" },
+        { "", 'i' },
         string.format("<M-%s>", movement_keys[key_index]),
         string.format("<Esc><C-w>%s", movement_keys[key_index]),
         { noremap = true }
     )
     vim.keymap.set(
-        "t",
+        't',
         string.format("<M-%s>", movement_keys[key_index]),
         string.format("<C-\\><C-n><C-w>%s", movement_keys[key_index]),
         { noremap = true }
     )
 end
 -- Remap `` so that it enters normal mode in neovim terminals.
-vim.keymap.set("t", "``", "<C-\\><C-n>", { noremap = true })
+vim.keymap.set('t', "``", "<C-\\><C-n>", { noremap = true })
 -- Enter insert mode when entering a terminal window.
-vim.api.nvim_create_autocmd({ "BufEnter", "TermOpen" }, {
+vim.api.nvim_create_autocmd({ 'BufEnter', 'TermOpen' }, {
     pattern = "term://*",
-    command = "startinsert"
+    command = 'startinsert'
 })
 
 -- Enable persistent undo tracking.
-vim.opt.undodir = vim.fn.stdpath("data") .. 'undo'
+vim.opt.undodir = vim.fn.stdpath('data') .. 'undo'
 vim.opt.undofile = true
 
 -- Appearance
@@ -45,7 +45,7 @@ vim.opt.undofile = true
 -- Enable nicer colors.
 vim.opt.termguicolors = true
 -- Enable the combined line number and sign column.
-vim.opt.signcolumn = "number"
+vim.opt.signcolumn = 'number'
 -- Show the line and column position at the bottom of the buffer.
 vim.opt.ruler = true
 -- Tell nvim that the background for the terminal is dark.
@@ -60,7 +60,7 @@ vim.opt.number = true
 -- When switching to errors with quickfixes, consider open buffers, then
 -- fallback to making
 -- a vertical split.
-vim.opt.switchbuf = { "useopen", "vsplit" }
+vim.opt.switchbuf = { 'useopen', 'vsplit' }
 -- Switch to the new split rather than staying in the existing buffer.
 vim.opt.splitright = true
 vim.opt.splitbelow = true
@@ -92,7 +92,7 @@ vim.opt.breakindent = true
 vim.opt.hlsearch = true
 vim.opt.incsearch = true
 -- Press enter in normal mode to clear highlighted text.
-vim.keymap.set("n", "<CR>", ":noh<CR>:<BS>", { noremap = true })
+vim.keymap.set('n', "<CR>", ":noh<CR>:<BS>", { noremap = true })
 -- Do case-insenstive searches unless the search contains upper-case characters.
 vim.opt.smartcase = true
 
@@ -104,11 +104,11 @@ vim.opt.wildignorecase = true
 vim.opt.infercase = true
 
 -- Setup plugin manager.
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local lazypath = vim.fn.stdpath('data') .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
     vim.fn.system({
-        "git",
-        "clone",
+        'git',
+        'clone',
         "--filter=blob:none",
         "https://github.com/folke/lazy.nvim.git",
         "--branch=stable", -- latest stable release
@@ -118,10 +118,10 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 -- Autocommand group used by formatting plugins.
-local formatting_augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+local formatting_augroup = vim.api.nvim_create_augroup('LspFormatting', {})
 
 -- Setup plugins.
-require("lazy").setup({
+require('lazy').setup({
     -- Better Ctrl-R in shells, fuzzy search for files in vim.
     {
         'junegunn/fzf',
@@ -136,7 +136,7 @@ require("lazy").setup({
         -- Don't lazy-load this plugin.
         lazy = false,
         opts = {},
-        dependencies = { "nvim-tree/nvim-web-devicons" }
+        dependencies = { 'nvim-tree/nvim-web-devicons' }
     },
     -- Trim whitespace on save.
     { 'cappyzawa/trim.nvim',        opts = {} },
@@ -164,7 +164,7 @@ require("lazy").setup({
             })
         end,
         dependencies = {
-            "nvim-tree/nvim-web-devicons",
+            'nvim-tree/nvim-web-devicons',
             "linrongbin16/lsp-progress.nvim",
         }
     },
@@ -236,8 +236,8 @@ require("lazy").setup({
     -- A nice, dark colorscheme written in Lua with all the fancy neovim features
     -- (treesitter, LSP, etc.)
     {
-        "bluz71/vim-moonfly-colors",
-        name = "moonfly",
+        'bluz71/vim-moonfly-colors',
+        name = 'moonfly',
         lazy = false,
         priority = 1000,
         init = function()
@@ -247,14 +247,14 @@ require("lazy").setup({
     -- Markdown preview in a browser.
     {
         "iamcco/markdown-preview.nvim",
-        cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-        ft = { "markdown" },
+        cmd = { 'MarkdownPreviewToggle', 'MarkdownPreview', 'MarkdownPreviewStop' },
+        ft = { 'markdown' },
         build = function() vim.fn["mkdp#util#install"]() end,
     },
     -- LSP (language-server-protocol) plugins. Mason manages installing third-party
     -- language servers.
-    { "neovim/nvim-lspconfig" },
-    { "williamboman/mason.nvim", opts = {} },
+    { 'neovim/nvim-lspconfig' },
+    { "williamboman/mason.nvim",   opts = {} },
     { 'RubixDev/mason-update-all', opts = {} },
     {
         "williamboman/mason-lspconfig.nvim",
@@ -294,13 +294,13 @@ require("lazy").setup({
                 -- and will be called for each installed server that doesn't have
                 -- a dedicated handler.
                 function(server_name) -- default handler
-                    require("lspconfig")[server_name].setup {}
+                    require('lspconfig')[server_name].setup {}
                 end,
                 -- Override the rust_analyzer setup function.
                 -- Per https://github.com/mrcjkb/rustaceanvim, we should not
                 -- call the rust-analyzer setup, instead letting rustaceanvim
                 -- handle that.
-                ["rust_analyzer"] = function()
+                ['rust_analyzer'] = function()
                     -- Do nothing.
                 end
             }
@@ -328,9 +328,9 @@ require("lazy").setup({
         'nvimtools/none-ls.nvim',
         opts = {
             on_attach = function(client, bufnr)
-                if client.supports_method("textDocument/formatting") then
+                if client.supports_method('textDocument/formatting') then
                     vim.api.nvim_clear_autocmds({ group = formatting_augroup, buffer = bufnr })
-                    vim.api.nvim_create_autocmd("BufWritePre", {
+                    vim.api.nvim_create_autocmd('BufWritePre', {
                         group = formatting_augroup,
                         buffer = bufnr,
                         callback = function()
@@ -349,9 +349,9 @@ require("lazy").setup({
         'lvimuser/lsp-inlayhints.nvim',
         opts = {},
         init = function()
-            vim.api.nvim_create_augroup("LspAttach_inlayhints", {})
-            vim.api.nvim_create_autocmd("LspAttach", {
-                group = "LspAttach_inlayhints",
+            vim.api.nvim_create_augroup('LspAttach_inlayhints', {})
+            vim.api.nvim_create_autocmd('LspAttach', {
+                group = 'LspAttach_inlayhints',
                 callback = function(args)
                     if not (args.data and args.data.client_id) then
                         return
@@ -359,7 +359,7 @@ require("lazy").setup({
 
                     local bufnr = args.buf
                     local client = vim.lsp.get_client_by_id(args.data.client_id)
-                    require("lsp-inlayhints").on_attach(client, bufnr)
+                    require('lsp-inlayhints').on_attach(client, bufnr)
                 end,
             })
         end
@@ -474,11 +474,11 @@ require("lazy").setup({
             require('lsp-progress').setup()
         end,
         init = function()
-            vim.api.nvim_create_augroup("lualine_augroup", { clear = true })
-            vim.api.nvim_create_autocmd("User", {
-                group = "lualine_augroup",
-                pattern = "LspProgressStatusUpdated",
-                callback = require("lualine").refresh,
+            vim.api.nvim_create_augroup('lualine_augroup', { clear = true })
+            vim.api.nvim_create_autocmd('User', {
+                group = 'lualine_augroup',
+                pattern = 'LspProgressStatusUpdated',
+                callback = require('lualine').refresh,
             })
         end
     },
@@ -552,6 +552,9 @@ require("lazy").setup({
     },
     -- Add a tool to generate github links from nvim.
     { 'vincent178/nvim-github-linker', opts = {} },
+    -- Add a tool for search and replace across files.
+    { 'nvim-pack/nvim-spectre',
+        opts = {}, cmd = 'Spectre', }
 })
 
 -- Source work-specific settings that I don't want public.
