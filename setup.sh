@@ -34,6 +34,7 @@ command -v rustup 2>&1 > /dev/null && rustup update
 command -v cargo 2>&1 > /dev/null && cargo install \
     ripgrep \
     fd-find \
+    paru \
 
 HASNVIM=$(command -v nvim 2> /dev/null)
 # XXX I want to view the change logs

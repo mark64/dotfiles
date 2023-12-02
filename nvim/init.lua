@@ -37,7 +37,7 @@ vim.api.nvim_create_autocmd({ 'BufEnter', 'TermOpen' }, {
 })
 
 -- Enable persistent undo tracking.
-vim.opt.undodir = vim.fn.stdpath('data') .. 'undo'
+vim.opt.undodir = vim.fn.stdpath('data') .. '/undo'
 vim.opt.undofile = true
 
 -- Appearance
@@ -79,7 +79,7 @@ vim.opt.tabstop = 4
 vim.opt.softtabstop = 0
 -- Number of spaces for each auto-indent.
 vim.opt.shiftwidth = 4
--- Copy current indendation when making a new line.
+-- Copy current indentation when making a new line.
 vim.opt.copyindent = true
 -- Perform smart indenting based on file language.
 vim.opt.smartindent = true
@@ -93,7 +93,7 @@ vim.opt.hlsearch = true
 vim.opt.incsearch = true
 -- Press enter in normal mode to clear highlighted text.
 vim.keymap.set('n', "<CR>", ":noh<CR>:<BS>", { noremap = true })
--- Do case-insenstive searches unless the search contains upper-case characters.
+-- Do case-insensitive searches unless the search contains upper-case characters.
 vim.opt.smartcase = true
 
 -- Completion
@@ -102,6 +102,10 @@ vim.opt.smartcase = true
 vim.opt.wildignorecase = true
 -- Infer case when doing completion in insert mode.
 vim.opt.infercase = true
+
+-- Enable spell checking
+vim.opt.spell = true
+vim.opt.spelllang = 'en_us'
 
 -- Setup plugin manager.
 local lazypath = vim.fn.stdpath('data') .. "/lazy/lazy.nvim"
@@ -302,6 +306,27 @@ require('lazy').setup({
                 -- handle that.
                 ['rust_analyzer'] = function()
                     -- Do nothing.
+                end,
+                -- Pyright is incredibly slow on large repos.
+                -- Have it just analyze open files.
+                ['pyright'] = function()
+                    require('lspconfig')['pyright'].setup {
+                        settings = {
+                            python = {
+                                analysis = {
+                                    -- XXX
+                                    diagnosticMode = 'openFilesOnly',
+                                    useLibraryCodeForTypes = false,
+                                }
+                            }
+                        }
+                    }
+                end,
+                ['clangd'] = function()
+                    require('lspconfig')['clangd'].setup {
+                        -- Remove proto from the list of supported files, it just causes errors.
+                        filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda' },
+                    }
                 end
             }
         end
@@ -457,11 +482,13 @@ require('lazy').setup({
                     }
                 })
             })
-            -- XXX learn snippets
         end
     },
     { 'saadparwaiz1/cmp_luasnip' },
-    { 'L3MON4D3/LuaSnip' },
+    {
+        'L3MON4D3/LuaSnip',
+        build = "make install_jsregexp",
+    },
     -- Autocomplete for neovim Lua API.
     {
         'hrsh7th/cmp-nvim-lua',
@@ -497,14 +524,15 @@ require('lazy').setup({
         opts = { mason = true }
     },
     -- Trouble is a nice quickfix UI for displaying and jumping to issues.
-    {
-        'folke/trouble.nvim',
-        dependencies = { 'nvim-tree/nvim-web-devicons' },
-        opts = {
-            -- Open trouble automatically when issues show up.
-            auto_open = true,
-        }
-    },
+    -- XXX disabled for now
+    -- {
+    --     'folke/trouble.nvim',
+    --     dependencies = { 'nvim-tree/nvim-web-devicons' },
+    --     opts = {
+    --         -- Open trouble automatically when issues show up.
+    --         auto_open = true,
+    --     }
+    -- },
     -- Plugin for viewing git diffs.
     { 'sindrets/diffview.nvim' },
     -- Git integration.
@@ -551,35 +579,30 @@ require('lazy').setup({
         cmd = { 'Octo' },
     },
     -- Add a tool to generate github links from nvim.
+    -- XXX use https://github.com/ruifm/gitlinker.nvim
     { 'vincent178/nvim-github-linker', opts = {} },
     -- Add a tool for search and replace across files.
-    { 'nvim-pack/nvim-spectre',
-        opts = {}, cmd = 'Spectre', }
+    {
+        'nvim-pack/nvim-spectre',
+        opts = {},
+        cmd = 'Spectre',
+    }
 })
 
 -- Source work-specific settings that I don't want public.
 require('work')
 
--- XXX to port
--- Plug 'KeitaNakamura/tex-conceal.vim', {'for': ['tex', 'pandoc']}
--- https://github.com/vim-pandoc/vim-pandoc
+-- XXX fix
+-- prune down list of completion entries
+-- figure out key combo for snippet advance to next arg
+
+-- https://github.com/mfussenegger/nvim-dap
+-- https://github.com/rcarriga/nvim-dap-ui
 --
 -- " set shiftwidth for C-style files
 -- autocmd FileType c,cpp,proto setlocal tabstop=2 shiftwidth=2
 -- autocmd FileType make setlocal tabstop=4 shiftwidth=4 noexpandtab
---
 -- " Prevent leaking secrets
 -- au BufNewFile,BufRead /dev/shm/pass.* setlocal noswapfile nobackup noundofile
--- au BufNewFile,BufRead /var/tmp/* setlocal noswapfile nobackup noundofile
---
--- setlocal spell spelllang=en_us
 -- " writing function
--- autocmd Filetype gitcommit,text,markdown,help,tex call WriterMode()
--- function! WriterMode()
---     setlocal spell spelllang=en_us
---     setlocal formatprg=par
---     setlocal complete+=s
---     setlocal complete+=k
---     setlocal wrap
--- endfunction
--- com! WM call WriterMode()
+-- autocmd Filetype gitcommit,text,markdown,help,tex setlocal complete+=s complete+=k
