@@ -85,6 +85,22 @@ vim.opt.copyindent = true
 vim.opt.smartindent = true
 -- Wrapped lines will be indented to match the original line.
 vim.opt.breakindent = true
+-- Set the correct tab behavior for non-default files.
+vim.api.nvim_create_autocmd('FileType', {
+    pattern = { 'c', 'cpp', 'proto', },
+    callback = function()
+        vim.opt.tabstop = 2
+        vim.opt.shiftwidth = 2
+    end,
+})
+vim.api.nvim_create_autocmd('FileType', {
+    pattern = { 'make', },
+    callback = function()
+        vim.opt.tabstop = 4
+        vim.opt.shiftwidth = 4
+        vim.opt.expandtab = false
+    end,
+})
 
 -- Searching
 --
@@ -106,6 +122,17 @@ vim.opt.infercase = true
 -- Enable spell checking
 vim.opt.spell = true
 vim.opt.spelllang = 'en_us'
+
+-- Don't leak secrets in undofiles.
+vim.api.nvim_create_autocmd({ 'BufEnter' }, {
+    -- Files for password-store password manager and sudoedit files.
+    pattern = {'/dev/shm/pass*', '/var/tmp/*' },
+    callback = function()
+        vim.opt_local.swapfile = false
+        vim.opt_local.backup = false
+        vim.opt_local.undofile = false
+    end,
+})
 
 -- Setup plugin manager.
 local lazypath = vim.fn.stdpath('data') .. "/lazy/lazy.nvim"
@@ -488,6 +515,13 @@ require('lazy').setup({
     {
         'L3MON4D3/LuaSnip',
         build = "make install_jsregexp",
+        init = function ()
+            -- Ctrl-L will go to the next snippet item, like the next function arg.
+            -- Ctrl-H will go to the previous item.
+            local luasnip = require('luasnip')
+            vim.keymap.set({"i", "s"}, "<C-L>", function() luasnip.jump( 1) end, {silent = true})
+            vim.keymap.set({"i", "s"}, "<C-H>", function() luasnip.jump(-1) end, {silent = true})
+        end
     },
     -- Autocomplete for neovim Lua API.
     {
@@ -520,6 +554,7 @@ require('lazy').setup({
                 end
             },
             { 'neovim/nvim-lspconfig' },
+            { 'nvim-treesitter/nvim-treesitter' },
         },
         opts = { mason = true }
     },
@@ -579,14 +614,18 @@ require('lazy').setup({
         cmd = { 'Octo' },
     },
     -- Add a tool to generate github links from nvim.
-    -- XXX use https://github.com/ruifm/gitlinker.nvim
     { 'vincent178/nvim-github-linker', opts = {} },
+    {
+        'ruifm/gitlinker.nvim',
+        dependencies = { 'nvim-lua/plenary.nvim' },
+        opts = {},
+    },
     -- Add a tool for search and replace across files.
     {
         'nvim-pack/nvim-spectre',
         opts = {},
         cmd = 'Spectre',
-    }
+    },
 })
 
 -- Source work-specific settings that I don't want public.
@@ -594,15 +633,5 @@ require('work')
 
 -- XXX fix
 -- prune down list of completion entries
--- figure out key combo for snippet advance to next arg
-
 -- https://github.com/mfussenegger/nvim-dap
 -- https://github.com/rcarriga/nvim-dap-ui
---
--- " set shiftwidth for C-style files
--- autocmd FileType c,cpp,proto setlocal tabstop=2 shiftwidth=2
--- autocmd FileType make setlocal tabstop=4 shiftwidth=4 noexpandtab
--- " Prevent leaking secrets
--- au BufNewFile,BufRead /dev/shm/pass.* setlocal noswapfile nobackup noundofile
--- " writing function
--- autocmd Filetype gitcommit,text,markdown,help,tex setlocal complete+=s complete+=k

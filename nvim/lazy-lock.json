@@ -11,6 +11,7 @@
   "diffview.nvim": { "branch": "main", "commit": "3dc498c9777fe79156f3d32dddd483b8b3dbd95f" },
   "flatten.nvim": { "branch": "main", "commit": "51dd9a0a83138aee3bd9fc402ce79f9db50af7fa" },
   "fzf": { "branch": "master", "commit": "cd6788a2bbb37622979c147225593e9badd5b48c" },
+  "gitlinker.nvim": { "branch": "master", "commit": "cc59f732f3d043b626c8702cb725c82e54d35c25" },
   "guihua.lua": { "branch": "master", "commit": "cd68996069abedffcd677ca7eee3a660b79e5b32" },
   "lazy.nvim": { "branch": "main", "commit": "96584866b9c5e998cbae300594d0ccfd0c464627" },
   "lsp-inlayhints.nvim": { "branch": "main", "commit": "d981f65c9ae0b6062176f0accb9c151daeda6f16" },
@@ -39,6 +40,5 @@
   "telescope-fzf-native.nvim": { "branch": "main", "commit": "6c921ca12321edaa773e324ef64ea301a1d0da62" },
   "telescope-ui-select.nvim": { "branch": "master", "commit": "c261d903a78c2cda47a5e44488621f10f9dd7fcf" },
   "telescope.nvim": { "branch": "0.1.x", "commit": "d90956833d7c27e73c621a61f20b29fdb7122709" },
-  "trim.nvim": { "branch": "master", "commit": "629b96a303a3a0bb5fd050e6cd9d627ca7831cc7" },
-  "trouble.nvim": { "branch": "main", "commit": "f1168feada93c0154ede4d1fe9183bf69bac54ea" }
+  "trim.nvim": { "branch": "master", "commit": "629b96a303a3a0bb5fd050e6cd9d627ca7831cc7" }
 }
