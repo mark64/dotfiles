@@ -1,10 +1,5 @@
 AddKeysToAgent=yes
 
-# 1password SSH integration.
-Host *
-    # Disabled until I can get it to properly work.
-    #IdentityAgent ~/.1password/agent.sock
-
 Host atta a
     HostName atta.dev
     Port 2222

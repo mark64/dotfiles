@@ -20,28 +20,21 @@ source ~/.bashrc
 command -v ssh 2>&1 > /dev/null && mkdir -p ~/.ssh \
     && (for FILE in $(find "$PWD/ssh" -name authorized_keys -o -name '*.pub' -o -name 'config'); do ln -sf "$FILE" ~/.ssh/; done)
 
-# XXX replace with ssh key signing, get rid of GPG!
-command -v gpg 2>&1 > /dev/null \
-    && [ ! -d "$HOME/.gnupg" ] \
-    && chmod 700 "$PWD/gnupg" \
-    && ln -sf "$PWD/gnupg" ~/.gnupg
-
 [ ! -f ~/.inputrc ] && ln -sf "$PWD/inputrc" ~/.inputrc
 
-# XXX if needed:
-# curl https://sh.rustup.rs -sSf | sh
-command -v rustup 2>&1 > /dev/null && rustup update
+(command -v rustup 2>&1 > /dev/null && rustup update) || \
+    (curl https://sh.rustup.rs -sSf | sh)
 command -v cargo 2>&1 > /dev/null && cargo install \
     ripgrep \
     fd-find \
     paru \
 
 HASNVIM=$(command -v nvim 2> /dev/null)
-# XXX I want to view the change logs
-# [ "$HASNVIM" ] && [ "$XDG_CONFIG_HOME" ] \
-#     && command -v git 2>&1 > /dev/null \
+[ "$HASNVIM" ] && [ "$XDG_CONFIG_HOME" ] \
+    && command -v git 2>&1 > /dev/null \
+    && nvim --headless -c 'autocmd User MasonUpdateAll quitall' -c 'quitall' > /dev/null
+# XXX I want to view the change logs, maybe have them be emailed?
 #     && nvim --headless -c 'autocmd User Lazy update quitall' -c 'quitall' > /dev/null \
-#     && nvim --headless -c 'autocmd User MasonUpdateAll quitall' -c 'quitall' > /dev/null
 
 SETUP_CRON_LINE="0 */6 * * * '$SETUP_FILE_PATH'"
 command -v crontab 2>&1 > /dev/null \
@@ -90,5 +83,3 @@ EOF
 # - gh client
 # - op client
 # - 1pass desktop
-
-# XXX 1pass as SSH agent?

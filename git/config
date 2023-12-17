@@ -18,8 +18,6 @@
 	sort = -authordate
 [color]
 	ui = auto
-[commit]
-    gpgsign = true
 [core]
 	editor = nvim
 [diff "gpg"]
@@ -39,3 +37,5 @@
 #     format = ssh
 # [gpg "ssh"]
 #     program = "/opt/1Password/op-ssh-sign"
+# [commit]
+#     gpgsign = true

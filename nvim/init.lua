@@ -126,7 +126,7 @@ vim.opt.spelllang = 'en_us'
 -- Don't leak secrets in undofiles.
 vim.api.nvim_create_autocmd({ 'BufEnter' }, {
     -- Files for password-store password manager and sudoedit files.
-    pattern = {'/dev/shm/pass*', '/var/tmp/*' },
+    pattern = { '/dev/shm/pass*', '/var/tmp/*' },
     callback = function()
         vim.opt_local.swapfile = false
         vim.opt_local.backup = false
@@ -308,9 +308,7 @@ require('lazy').setup({
                 'texlab',
                 'lua_ls',
                 'marksman',
-                'jedi_language_server',
                 'pyright',
-                'pylsp',
                 'rust_analyzer@nightly',
                 'sqlls',
                 'taplo',
@@ -341,9 +339,9 @@ require('lazy').setup({
                         settings = {
                             python = {
                                 analysis = {
-                                    -- XXX
+                                    -- Don't run against all files in the workspace,
+                                    -- just the files that are open.
                                     diagnosticMode = 'openFilesOnly',
-                                    useLibraryCodeForTypes = false,
                                 }
                             }
                         }
@@ -370,7 +368,7 @@ require('lazy').setup({
                 'jsonlint',
                 'rustfmt',
                 'yamllint',
-                'yapf',
+                -- XXX 'yapf',
             },
             automatic_installation = false,
             handlers = {},
@@ -515,12 +513,12 @@ require('lazy').setup({
     {
         'L3MON4D3/LuaSnip',
         build = "make install_jsregexp",
-        init = function ()
+        init = function()
             -- Ctrl-L will go to the next snippet item, like the next function arg.
             -- Ctrl-H will go to the previous item.
             local luasnip = require('luasnip')
-            vim.keymap.set({"i", "s"}, "<C-L>", function() luasnip.jump( 1) end, {silent = true})
-            vim.keymap.set({"i", "s"}, "<C-H>", function() luasnip.jump(-1) end, {silent = true})
+            vim.keymap.set({ "i", "s" }, "<C-L>", function() luasnip.jump(1) end, { silent = true })
+            vim.keymap.set({ "i", "s" }, "<C-H>", function() luasnip.jump(-1) end, { silent = true })
         end
     },
     -- Autocomplete for neovim Lua API.
@@ -556,7 +554,26 @@ require('lazy').setup({
             { 'neovim/nvim-lspconfig' },
             { 'nvim-treesitter/nvim-treesitter' },
         },
-        opts = { mason = true }
+        opts = {
+            mason = true,
+            lsp = {
+                disable_lsp = 'all',
+            },
+        },
+        init = function()
+            vim.api.nvim_create_augroup('LspAttach_navigator', {})
+            vim.api.nvim_create_autocmd('LspAttach', {
+                group = 'LspAttach_navigator',
+                callback = function(args)
+                    if not (args.data and args.data.client_id) then
+                        return
+                    end
+                    local bufnr = args.buf
+                    local client = vim.lsp.get_client_by_id(args.data.client_id)
+                    require('navigator.lspclient.mapping').setup({ bufnr = bufnr, client = client })
+                end,
+            })
+        end
     },
     -- Trouble is a nice quickfix UI for displaying and jumping to issues.
     -- XXX disabled for now
@@ -626,6 +643,9 @@ require('lazy').setup({
         opts = {},
         cmd = 'Spectre',
     },
+    -- Plugin to enable transparent background.
+    -- Doesn't work with all terminals though, but lets me easily enable a black background on those there it doesn't work.
+    { 'xiyaowong/transparent.nvim' },
 })
 
 -- Source work-specific settings that I don't want public.

@@ -46,7 +46,6 @@ fi
 # Alias for listing metadata with files.
 alias ll='ls -lAFh'
 
-# XXX ipython
 alias p3=python3
 
 # Use neovim!
@@ -62,7 +61,11 @@ if ! shopt -oq posix; then
 fi
 command -v pandoc >/dev/null 2>&1 && eval "$(pandoc --bash-completion 2>/dev/null)"
 
-# XXX do we still need gpg agent?
+# Prefer 1password SSH agent.
+command -v 1password >/dev/null && export SSH_AUTH_SOCK=${SSH_AUTH_SOCK:-~/.1password/agent.sock}
+
+# If we have gpg agent and not 1password, use that agent.
+# I still need this for old servers that I haven't published my new 1pass SSH key to.
 command -v gpg-connect-agent 2>&1 >/dev/null &&
     export GPG_TTY=$(tty) &&
     gpg-connect-agent UPDATESTARTUPTTY /bye >/dev/null &&
