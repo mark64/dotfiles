@@ -646,6 +646,23 @@ require('lazy').setup({
     -- Plugin to enable transparent background.
     -- Doesn't work with all terminals though, but lets me easily enable a black background on those there it doesn't work.
     { 'xiyaowong/transparent.nvim' },
+    -- This shows an interactive file browser tree on the left of the screen.
+    { 'nvim-tree/nvim-tree.lua',       opts = { view = { width = 50 } }, },
+    -- XXX
+    {
+        "David-Kunz/gen.nvim",
+        opts = {
+            -- options:
+            -- - dolphin2.2-mistral
+            -- - dilphin-mixtral
+            -- - codellama:13b-python
+            -- - codellama:13b
+            model = "codellama:34b", -- The default model to use.
+            show_prompt = true,      -- Shows the Prompt submitted to Ollama.
+            show_model = true,       -- Displays which model you are using at the beginning of your chat session.
+            no_auto_close = false,   -- Never closes the window automatically.
+        }
+    },
 })
 
 -- Source work-specific settings that I don't want public.

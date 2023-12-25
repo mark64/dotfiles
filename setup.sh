@@ -27,7 +27,8 @@ command -v ssh 2>&1 > /dev/null && mkdir -p ~/.ssh \
 command -v cargo 2>&1 > /dev/null && cargo install \
     ripgrep \
     fd-find \
-    paru \
+    paru
+# XXX paru only on arch
 
 HASNVIM=$(command -v nvim 2> /dev/null)
 [ "$HASNVIM" ] && [ "$XDG_CONFIG_HOME" ] \
@@ -63,6 +64,12 @@ EOF
 # - zsync
 # - fuse2
 # - openssh
+# - distrobox (distrobox-git on arch)
+# - git-lfs
+# - build-essential
+# - snapper and autosnapshots
+# - nvidia
+# - cuda
 
 # XXX user-local packages:
 # - neovim
