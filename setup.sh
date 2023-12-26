@@ -70,6 +70,7 @@ EOF
 # - snapper and autosnapshots
 # - nvidia
 # - cuda
+# - waypipe
 
 # XXX user-local packages:
 # - neovim
