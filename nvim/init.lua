@@ -14,6 +14,7 @@ vim.keymap.set({ 'n', 'v' }, 'k', 'gk', { noremap = true })
 vim.keymap.set('i', 'jk', "<Esc>", { noremap = true })
 -- Use Alt-hjkl to move between splits.
 local movement_keys = { 'h', 'j', 'k', 'l' }
+local mac_option_keys = { '˙', '∆', '˚', '¬' }
 for key_index = 1, #movement_keys do
     vim.keymap.set(
         { "", 'i' },
@@ -27,7 +28,20 @@ for key_index = 1, #movement_keys do
         string.format("<C-\\><C-n><C-w>%s", movement_keys[key_index]),
         { noremap = true }
     )
+    vim.keymap.set(
+        { "", 'i' },
+        mac_option_keys[key_index],
+        string.format("<Esc><C-w>%s", movement_keys[key_index]),
+        { noremap = true }
+    )
+    vim.keymap.set(
+        't',
+        mac_option_keys[key_index],
+        string.format("<C-\\><C-n><C-w>%s", movement_keys[key_index]),
+        { noremap = true }
+    )
 end
+
 -- Remap `` so that it enters normal mode in neovim terminals.
 vim.keymap.set('t', "``", "<C-\\><C-n>", { noremap = true })
 -- Enter insert mode when entering a terminal window.
@@ -259,7 +273,11 @@ require('lazy').setup({
     -- with a vim file buffer instead of making a nested neovim.
     {
         'willothy/flatten.nvim',
-        opts = {},
+        opts = {
+            window = {
+                open = "split",
+            },
+        },
         -- Ensure that it runs first to minimize delay when opening file from terminal
         lazy = false,
         priority = 1001
@@ -295,6 +313,7 @@ require('lazy').setup({
                 'asm_lsp',
                 'bashls',
                 'bufls',
+                'bzl',
                 'clangd',
                 'dockerls',
                 'docker_compose_language_service',
@@ -368,7 +387,7 @@ require('lazy').setup({
                 'jsonlint',
                 'rustfmt',
                 'yamllint',
-                -- XXX 'yapf',
+                'yapf',
             },
             automatic_installation = false,
             handlers = {},
@@ -429,12 +448,16 @@ require('lazy').setup({
     },
     {
         'hrsh7th/nvim-cmp',
-        dependencies = { 'saadparwaiz1/cmp_luasnip' },
+        dependencies = { 'saadparwaiz1/cmp_luasnip', 'onsails/lspkind.nvim', },
         init = function()
-            local luasnip = require('luasnip')
             local cmp_buffer = require('cmp_buffer')
+            local luasnip = require('luasnip')
+            local lspkind = require('lspkind')
             local cmp = require('cmp')
             cmp.setup {
+                experimental = {
+                    ghost_text = true,
+                },
                 snippet = {
                     expand = function(args)
                         luasnip.lsp_expand(args.body)
@@ -467,15 +490,28 @@ require('lazy').setup({
                             fallback()
                         end
                     end, { 'i', 's' }),
+                    -- Add a mapping to trigger AI completion.
+                    ['<C-x>'] = cmp.mapping(
+                        cmp.mapping.complete({
+                            config = {
+                                sources = cmp.config.sources({
+                                    { name = 'cmp_ai' },
+                                }),
+                            },
+                        }),
+                        { 'i' }
+                    ),
                 }),
                 sources = {
+                    -- Place AI completions first.
+                    { name = 'cmp_ai' },
                     { name = 'nvim_lsp' },
+                    { name = 'nvim_lsp_signature_help' },
                     { name = 'luasnip' },
                     -- Require at least the first character be typed before showing completion.
                     { name = 'buffer',                 keyword_length = 1 },
                     { name = 'path' },
                     { name = 'git' },
-                    { name = 'nvim_lsp_signature_help' },
                     { name = 'nvim_lua' },
                 },
                 sorting = {
@@ -484,7 +520,33 @@ require('lazy').setup({
                         -- to the cursor.
                         function(...) return cmp_buffer:compare_locality(...) end,
                     }
-                }
+                },
+                formatting = {
+                    format = lspkind.cmp_format({
+                        mode = 'symbol_text', -- show the symbol and the kind name.
+                        maxwidth = 50,        -- limit output to 50 characters per line.
+                        -- when popup menu exceed maxwidth, the truncated part would show
+                        -- ellipsis_char instead (must define maxwidth first)
+                        ellipsis_char = '...',
+                        before = function(entry, vim_item)
+                            -- Format completion entries from cmp_ai correctly, instead of just as "Text".
+                            if entry.source.name == 'cmp_ai' then
+                                local detail = (entry.completion_item.labelDetails or {}).detail
+                                vim_item.kind = ''
+                                if detail and detail:find('.*%%.*') then
+                                    vim_item.kind = vim_item.kind .. ' ' .. detail
+                                end
+
+                                if (entry.completion_item.data or {}).multiline then
+                                    vim_item.kind = vim_item.kind .. ' ' .. '[ML]'
+                                end
+                                -- Limit to 40 chars.
+                                vim_item.abbr = string.sub(vim_item.abbr, 1, 40)
+                            end
+                            return vim_item
+                        end
+                    })
+                },
             }
             -- Completion for / search.
             cmp.setup.cmdline('/', {
@@ -575,6 +637,8 @@ require('lazy').setup({
             })
         end
     },
+    -- Plugin to display what kind of item a completion represents (e.g. function, struct name, module, etc.).
+    { 'onsails/lspkind.nvim' },
     -- Trouble is a nice quickfix UI for displaying and jumping to issues.
     -- XXX disabled for now
     -- {
@@ -648,20 +712,48 @@ require('lazy').setup({
     { 'xiyaowong/transparent.nvim' },
     -- This shows an interactive file browser tree on the left of the screen.
     { 'nvim-tree/nvim-tree.lua',       opts = { view = { width = 50 } }, },
-    -- XXX
+    -- This is a plugin to do AI codegen on command with nvim.
     {
-        "David-Kunz/gen.nvim",
+        'David-Kunz/gen.nvim',
         opts = {
             -- options:
             -- - dolphin2.2-mistral
             -- - dilphin-mixtral
             -- - codellama:13b-python
             -- - codellama:13b
-            model = "codellama:34b", -- The default model to use.
+            model = 'codellama:34b', -- The default model to use.
             show_prompt = true,      -- Shows the Prompt submitted to Ollama.
             show_model = true,       -- Displays which model you are using at the beginning of your chat session.
             no_auto_close = false,   -- Never closes the window automatically.
         }
+    },
+    -- This is a completion source that will pull completions from a self-hosted ollama server.
+    {
+        'tzachar/cmp-ai',
+        dependencies = 'nvim-lua/plenary.nvim',
+        init = function()
+            local cmp_ai = require('cmp_ai.config')
+            cmp_ai:setup({
+                max_lines = 100,
+                provider = 'Ollama',
+                provider_options = {
+                    model = 'codellama:13b-code',
+                    options = {
+                        temperature = 0.5,
+                    },
+                },
+                notify = false,
+                notify_callback = function(msg)
+                    vim.notify(msg)
+                end,
+                run_on_every_keystroke = true,
+                ignored_file_types = {
+                    -- default is not to ignore
+                    -- uncomment to ignore in lua:
+                    -- lua = true
+                },
+            })
+        end
     },
 })
 

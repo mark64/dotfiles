@@ -29,3 +29,6 @@ quickfixes
 bytecode
 lua
 neovim
+SRAM
+MCPU
+bootloader

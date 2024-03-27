@@ -38,17 +38,18 @@ HASNVIM=$(command -v nvim 2> /dev/null)
 #     && nvim --headless -c 'autocmd User Lazy update quitall' -c 'quitall' > /dev/null \
 
 SETUP_CRON_LINE="0 */6 * * * '$SETUP_FILE_PATH'"
-command -v crontab 2>&1 > /dev/null \
-    && (
-        [ "$(crontab -l | grep "$SETUP_FILE_PATH" | wc -l)" -ne 0 ] \
-        || cat <(crontab -l) <(echo "$SETUP_CRON_LINE") | crontab -
-    ) || (
-        grep ~/.bashrc -e './setup.sh' || cat >> ~/.bashrc <<EOF
-DIR="$PWD"
-cd $XDG_CONFIG_HOME && ./setup.sh
-cd $DIR
-EOF
-    )
+# XXX use systemd timers
+# command -v crontab 2>&1 > /dev/null \
+#     && (
+#         [ "$(crontab -l | grep "$SETUP_FILE_PATH" | wc -l)" -ne 0 ] \
+#         || cat <(crontab -l) <(echo "$SETUP_CRON_LINE") | crontab -
+#     ) || (
+#         grep ~/.bashrc -e './setup.sh' || cat >> ~/.bashrc <<EOF
+# DIR="$PWD"
+# cd $XDG_CONFIG_HOME && ./setup.sh
+# cd $DIR
+# EOF
+#     )
 
 
 # XXX system packages:
