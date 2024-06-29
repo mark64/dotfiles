@@ -639,16 +639,6 @@ require('lazy').setup({
     },
     -- Plugin to display what kind of item a completion represents (e.g. function, struct name, module, etc.).
     { 'onsails/lspkind.nvim' },
-    -- Trouble is a nice quickfix UI for displaying and jumping to issues.
-    -- XXX disabled for now
-    -- {
-    --     'folke/trouble.nvim',
-    --     dependencies = { 'nvim-tree/nvim-web-devicons' },
-    --     opts = {
-    --         -- Open trouble automatically when issues show up.
-    --         auto_open = true,
-    --     }
-    -- },
     -- Plugin for viewing git diffs.
     { 'sindrets/diffview.nvim' },
     -- Git integration.
