@@ -454,7 +454,7 @@ require('lazy').setup({
                 },
                 mapping = cmp.mapping.preset.insert({
                     ['<C-u>'] = cmp.mapping.scroll_docs(-4), -- Up
-                    ['<C-d>'] = cmp.mapping.scroll_docs(4), -- Down
+                    ['<C-d>'] = cmp.mapping.scroll_docs(4),  -- Down
                     -- C-b (back) C-f (forward) for snippet placeholder navigation.
                     ['<C-Space>'] = cmp.mapping.complete(),
                     ['<CR>'] = cmp.mapping.confirm {
@@ -513,7 +513,7 @@ require('lazy').setup({
                 formatting = {
                     format = lspkind.cmp_format({
                         mode = 'symbol_text', -- show the symbol and the kind name.
-                        maxwidth = 50, -- limit output to 50 characters per line.
+                        maxwidth = 50,        -- limit output to 50 characters per line.
                         -- when popup menu exceed maxwidth, the truncated part would show
                         -- ellipsis_char instead (must define maxwidth first)
                         ellipsis_char = '...',
@@ -701,38 +701,10 @@ require('lazy').setup({
             -- - codellama:13b-python
             -- - codellama:13b
             model = 'codellama:34b', -- The default model to use.
-            show_prompt = true, -- Shows the Prompt submitted to Ollama.
-            show_model = true, -- Displays which model you are using at the beginning of your chat session.
-            no_auto_close = false, -- Never closes the window automatically.
+            show_prompt = true,      -- Shows the Prompt submitted to Ollama.
+            show_model = true,       -- Displays which model you are using at the beginning of your chat session.
+            no_auto_close = false,   -- Never closes the window automatically.
         }
-    },
-    -- This is a completion source that will pull completions from a self-hosted ollama server.
-    {
-        'tzachar/cmp-ai',
-        dependencies = 'nvim-lua/plenary.nvim',
-        init = function()
-            local cmp_ai = require('cmp_ai.config')
-            cmp_ai:setup({
-                max_lines = 100,
-                provider = 'Ollama',
-                provider_options = {
-                    model = 'codellama:13b-code',
-                    options = {
-                        temperature = 0.5,
-                    },
-                },
-                notify = false,
-                notify_callback = function(msg)
-                    vim.notify(msg)
-                end,
-                run_on_every_keystroke = true,
-                ignored_file_types = {
-                    -- default is not to ignore
-                    -- uncomment to ignore in lua:
-                    -- lua = true
-                },
-            })
-        end
     },
 })
 
