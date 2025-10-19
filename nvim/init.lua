@@ -328,8 +328,6 @@ require('lazy').setup({
                 'dockerls',
                 'docker_compose_language_service',
                 'flux_lsp',
-                'golangci_lint_ls',
-                'gopls',
                 'html',
                 'htmx',
                 'jsonls',
@@ -479,21 +477,9 @@ require('lazy').setup({
                             fallback()
                         end
                     end, { 'i', 's' }),
-                    -- Add a mapping to trigger AI completion.
-                    ['<C-x>'] = cmp.mapping(
-                        cmp.mapping.complete({
-                            config = {
-                                sources = cmp.config.sources({
-                                    { name = 'cmp_ai' },
-                                }),
-                            },
-                        }),
-                        { 'i' }
-                    ),
                 }),
                 sources = {
                     -- Place AI completions first.
-                    { name = 'cmp_ai' },
                     { name = 'nvim_lsp' },
                     { name = 'nvim_lsp_signature_help' },
                     { name = 'luasnip' },
