@@ -17,11 +17,11 @@
 /.gsd-keyboard.settings-ported
 /gedit
 /go/telemetry
-# Don't include accounts secrets.
-/goa-1.0/accounts.conf
 /gh
 /gnome-initial-setup-done
 /GNU\ Radio
+# Don't include accounts secrets.
+/goa-1.0/accounts.conf
 # HTOP configs across different versions have caused me issues in the past so I exclude them.
 /htop
 /ibus
