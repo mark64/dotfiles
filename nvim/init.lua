@@ -148,6 +148,17 @@ vim.api.nvim_create_autocmd({ 'BufEnter' }, {
     end,
 })
 
+-- Enable inlay hints when LSPs start.
+vim.api.nvim_create_autocmd("LspAttach", {
+    group = vim.api.nvim_create_augroup("UserLspInlayHints", {}),
+    callback = function(args)
+        local client = vim.lsp.get_client_by_id(args.data.client_id)
+        if client and client.server_capabilities.inlayHintProvider then
+            vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
+        end
+    end,
+})
+
 -- Setup plugin manager.
 local lazypath = vim.fn.stdpath('data') .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -258,11 +269,11 @@ require('lazy').setup({
             require('telescope').load_extension('ui-select')
 
             local builtin = require('telescope.builtin')
-            vim.keymap.set('n', '<leader>f', builtin.find_files, {})
-            vim.keymap.set('n', '<leader>g', builtin.live_grep, {})
+            vim.keymap.set('n', '<leader>s', builtin.find_files, { nowait = true })
+            vim.keymap.set('n', '<leader>a', builtin.live_grep, { nowait = true })
             vim.keymap.set('n', '<leader>h', builtin.help_tags, {})
             -- Search just the open file.
-            vim.keymap.set('n', '<leader>s', builtin.current_buffer_fuzzy_find, {})
+            vim.keymap.set('n', '<leader>b', builtin.current_buffer_fuzzy_find, { nowait = true })
         end,
     },
     -- Speed up fuzzy finding by using a native binary instead of lua.
@@ -312,7 +323,6 @@ require('lazy').setup({
                 'ansiblels',
                 'asm_lsp',
                 'bashls',
-                'bufls',
                 'bzl',
                 'clangd',
                 'dockerls',
@@ -337,42 +347,42 @@ require('lazy').setup({
             automatic_installation = false,
         },
         init = function()
-            require('mason-lspconfig').setup_handlers {
-                -- The first entry (without a key) will be the default handler
-                -- and will be called for each installed server that doesn't have
-                -- a dedicated handler.
-                function(server_name) -- default handler
-                    require('lspconfig')[server_name].setup {}
-                end,
-                -- Override the rust_analyzer setup function.
-                -- Per https://github.com/mrcjkb/rustaceanvim, we should not
-                -- call the rust-analyzer setup, instead letting rustaceanvim
-                -- handle that.
-                ['rust_analyzer'] = function()
-                    -- Do nothing.
-                end,
-                -- Pyright is incredibly slow on large repos.
-                -- Have it just analyze open files.
-                ['pyright'] = function()
-                    require('lspconfig')['pyright'].setup {
-                        settings = {
-                            python = {
-                                analysis = {
-                                    -- Don't run against all files in the workspace,
-                                    -- just the files that are open.
-                                    diagnosticMode = 'openFilesOnly',
-                                }
-                            }
-                        }
-                    }
-                end,
-                ['clangd'] = function()
-                    require('lspconfig')['clangd'].setup {
-                        -- Remove proto from the list of supported files, it just causes errors.
-                        filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda' },
-                    }
-                end
-            }
+            -- XXX require('mason-lspconfig').setup_handlers {
+            -- XXX     -- The first entry (without a key) will be the default handler
+            -- XXX     -- and will be called for each installed server that doesn't have
+            -- XXX     -- a dedicated handler.
+            -- XXX     function(server_name) -- default handler
+            -- XXX         require('lspconfig')[server_name].setup {}
+            -- XXX     end,
+            -- XXX     -- Override the rust_analyzer setup function.
+            -- XXX     -- Per https://github.com/mrcjkb/rustaceanvim, we should not
+            -- XXX     -- call the rust-analyzer setup, instead letting rustaceanvim
+            -- XXX     -- handle that.
+            -- XXX     ['rust_analyzer'] = function()
+            -- XXX         -- Do nothing.
+            -- XXX     end,
+            -- XXX     -- Pyright is incredibly slow on large repos.
+            -- XXX     -- Have it just analyze open files.
+            -- XXX     ['pyright'] = function()
+            -- XXX         require('lspconfig')['pyright'].setup {
+            -- XXX             settings = {
+            -- XXX                 python = {
+            -- XXX                     analysis = {
+            -- XXX                         -- Don't run against all files in the workspace,
+            -- XXX                         -- just the files that are open.
+            -- XXX                         diagnosticMode = 'openFilesOnly',
+            -- XXX                     }
+            -- XXX                 }
+            -- XXX             }
+            -- XXX         }
+            -- XXX     end,
+            -- XXX     ['clangd'] = function()
+            -- XXX         require('lspconfig')['clangd'].setup {
+            -- XXX             -- Remove proto from the list of supported files, it just causes errors.
+            -- XXX             filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda' },
+            -- XXX         }
+            -- XXX     end
+            -- XXX }
         end
     },
     -- LSP linters and formatters.
@@ -412,27 +422,6 @@ require('lazy').setup({
     },
     -- Additional Rust LSP tooling.
     { 'mrcjkb/rustaceanvim',                ft = { 'rust' } },
-    -- Display inlay hints when LSPs provide it. Usually this comes in the form of type annotations
-    -- on function parameters and return values.
-    {
-        'lvimuser/lsp-inlayhints.nvim',
-        opts = {},
-        init = function()
-            vim.api.nvim_create_augroup('LspAttach_inlayhints', {})
-            vim.api.nvim_create_autocmd('LspAttach', {
-                group = 'LspAttach_inlayhints',
-                callback = function(args)
-                    if not (args.data and args.data.client_id) then
-                        return
-                    end
-
-                    local bufnr = args.buf
-                    local client = vim.lsp.get_client_by_id(args.data.client_id)
-                    require('lsp-inlayhints').on_attach(client, bufnr)
-                end,
-            })
-        end
-    },
     -- Autocomplete plugins.
     { 'hrsh7th/cmp-nvim-lsp' },
     { 'hrsh7th/cmp-buffer' },
@@ -465,7 +454,7 @@ require('lazy').setup({
                 },
                 mapping = cmp.mapping.preset.insert({
                     ['<C-u>'] = cmp.mapping.scroll_docs(-4), -- Up
-                    ['<C-d>'] = cmp.mapping.scroll_docs(4),  -- Down
+                    ['<C-d>'] = cmp.mapping.scroll_docs(4), -- Down
                     -- C-b (back) C-f (forward) for snippet placeholder navigation.
                     ['<C-Space>'] = cmp.mapping.complete(),
                     ['<CR>'] = cmp.mapping.confirm {
@@ -524,7 +513,7 @@ require('lazy').setup({
                 formatting = {
                     format = lspkind.cmp_format({
                         mode = 'symbol_text', -- show the symbol and the kind name.
-                        maxwidth = 50,        -- limit output to 50 characters per line.
+                        maxwidth = 50, -- limit output to 50 characters per line.
                         -- when popup menu exceed maxwidth, the truncated part would show
                         -- ellipsis_char instead (must define maxwidth first)
                         ellipsis_char = '...',
@@ -712,9 +701,9 @@ require('lazy').setup({
             -- - codellama:13b-python
             -- - codellama:13b
             model = 'codellama:34b', -- The default model to use.
-            show_prompt = true,      -- Shows the Prompt submitted to Ollama.
-            show_model = true,       -- Displays which model you are using at the beginning of your chat session.
-            no_auto_close = false,   -- Never closes the window automatically.
+            show_prompt = true, -- Shows the Prompt submitted to Ollama.
+            show_model = true, -- Displays which model you are using at the beginning of your chat session.
+            no_auto_close = false, -- Never closes the window automatically.
         }
     },
     -- This is a completion source that will pull completions from a self-hosted ollama server.

@@ -4,7 +4,10 @@
 /chromium
 /coc/
 /configstore
+/Cursor
+/connections.db
 /dconf
+/ddns-update-daemon
 /evince/print-settings
 /evolution
 /fish/fishd.*
@@ -13,6 +16,7 @@
 /fzf
 /.gsd-keyboard.settings-ported
 /gedit
+/go/telemetry
 /gh
 /gnome-initial-setup-done
 /GNU\ Radio
@@ -35,7 +39,9 @@
 /QtProject.conf
 /ranger
 /remmina
+/simple-scan
 /spotify
+/systemd/user/default.target.wants/
 /unity3d
 /vivaldi/
 /vivaldi-snapshot/

@@ -61,8 +61,8 @@ if ! shopt -oq posix; then
 fi
 command -v pandoc >/dev/null 2>&1 && eval "$(pandoc --bash-completion 2>/dev/null)"
 
-# Prefer 1password SSH agent.
-command -v 1password >/dev/null && export SSH_AUTH_SOCK=${SSH_AUTH_SOCK:-~/.1password/agent.sock}
+# Prefer 1password SSH agent when not a pure-tty session (i.e. use 1password on desktop GUI sessions).
+command -v 1password >/dev/null && [ "$XDG_SESSION_TYPE" != "tty" ] && export SSH_AUTH_SOCK=~/.1password/agent.sock
 
 # If we have gpg agent and not 1password, use that agent.
 # I still need this for old servers that I haven't published my new 1pass SSH key to.
@@ -82,3 +82,6 @@ fi
 
 # 1password integration.
 ONEPASS_CONFIG="${XDG_CONFIG_HOME}"/op/plugins.sh; [ -f "${ONEPASS_CONFIG}" ] && source "${ONEPASS_CONFIG}"
+
+# Set the last status code to 0 so sessions don't start with errors if `plugins.sh` above doesn't exist.
+true

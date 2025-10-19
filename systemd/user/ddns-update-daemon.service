@@ -1,0 +1,12 @@
+[Unit]
+# See: https://crates.io/crates/ddns-update-daemon
+Description=DDNS Update Daemon
+
+[Service]
+Type=simple
+ExecStart=/bin/bash -lc 'ddns-update-daemon "${XDG_CONFIG_HOME}/ddns-update-daemon/config.toml"'
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=default.target

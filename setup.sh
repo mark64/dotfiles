@@ -25,8 +25,9 @@ command -v ssh 2>&1 > /dev/null && mkdir -p ~/.ssh \
 (command -v rustup 2>&1 > /dev/null && rustup update) || \
     (curl https://sh.rustup.rs -sSf | sh)
 command -v cargo 2>&1 > /dev/null && cargo install \
-    ripgrep \
+    ddns-update-daemon \
     fd-find \
+    ripgrep \
     paru
 # XXX paru only on arch
 
